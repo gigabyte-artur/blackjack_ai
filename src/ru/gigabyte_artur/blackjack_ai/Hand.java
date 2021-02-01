@@ -1,6 +1,8 @@
 package ru.gigabyte_artur.blackjack_ai;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import ru.gigabyte_artur.blackjack_ai.Card;
 
 public class Hand
@@ -59,4 +61,33 @@ public class Hand
         }
     }
 
+    // Инициалихзирует текущую руку стандартной колодой.
+    public void InitDeck()
+    {
+        for (int i = 2; i <= 11; i++)
+        {
+            // Червы.
+            Card new_card_hearts = new Card();
+            new_card_hearts.Set(Card.Suite_Hearts(), i);
+            this.AddCard(new_card_hearts);
+            // Буби.
+            Card new_card_diamonds = new Card();
+            new_card_diamonds.Set(Card.Suite_Diamonds(), i);
+            this.AddCard(new_card_diamonds);
+            // Трефы.
+            Card new_card_clubs = new Card();
+            new_card_clubs.Set(Card.Suite_Clubs(), i);
+            this.AddCard(new_card_clubs);
+            // Пики.
+            Card new_card_spades = new Card();
+            new_card_spades.Set(Card.Suite_Spades(), i);
+            this.AddCard(new_card_spades);
+        }
+    }
+
+    //
+    public void Shuffle()
+    {
+        Collections.shuffle(this.Cards);
+    }
 }
