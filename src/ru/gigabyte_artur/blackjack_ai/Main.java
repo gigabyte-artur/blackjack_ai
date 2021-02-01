@@ -10,7 +10,7 @@ public class Main
     {
 //        Hand hand1 = new Hand();
 //        Hand hand2 = new Hand();
-//        Card card1 = new Card();
+        Card card1 = new Card();
 //        card1.Set(Card.Suite_Spades(), 9);
 //        Card card2 = new Card();
 //        card2.Set(Card.Suite_Diamonds(), 8);
@@ -30,10 +30,17 @@ public class Main
 //        hand2.Show();
 //        System.out.println();
         Hand deck = new Hand();
+        Hand hand1 = new Hand();
         deck.InitDeck();
         deck.Show();
         System.out.println("------");
         deck.Shuffle();
+        deck.Show();
+        System.out.println("------");
+        deck.PullCard(0, hand1);
+        deck.PullCard(0, hand1);
+        hand1.Show();
+        System.out.println("------");
         deck.Show();
     }
 }

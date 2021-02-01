@@ -4,29 +4,10 @@ public class Card {
     private int suite;      // Масть.
     private int value;      // Значение.
 
-    // Значение масти Червы.
-    public static int Suite_Hearts()
-    {
-        return 1;
-    }
-
-    // Значение масти Буби.
-    public static int Suite_Diamonds()
-    {
-        return 2;
-    }
-
-    // Значение масти Трефы.
-    public static int Suite_Clubs()
-    {
-        return 3;
-    }
-
-    // Значение масти Пики.
-    public static int Suite_Spades()
-    {
-        return 4;
-    }
+    public static final int Suite_Hearts = 1;     // Значение масти Червы.
+    public static final int Suite_Diamonds = 2;     // Значение масти Буби.
+    public static final int Suite_Clubs = 3;     // Значение масти Трефы.
+    public static final int Suite_Spades = 4;     // Значение масти Пики.
 
     // Выводит карту на экран.
     public void Show()
@@ -68,6 +49,5 @@ public class Card {
         }
         return rez;
     }
-
 
 }
