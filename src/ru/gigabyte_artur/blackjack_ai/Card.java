@@ -29,4 +29,21 @@ public class Card {
         return this.value;
     }
 
+    // Переопределение оперции сравнения.
+    public boolean equals(Card card_in)
+    {
+        boolean rez = false;
+        if (card_in == null)
+            rez = false;
+        else
+        {
+            boolean equals_suite, equals_value;
+            equals_suite = (card_in.GetSuite() == this.GetSuite());
+            equals_value = (card_in.GetValue() == this.GetValue());
+            rez = ((equals_suite) && (equals_value));
+        }
+        return rez;
+    }
+
+
 }
