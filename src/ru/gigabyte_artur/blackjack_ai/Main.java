@@ -11,11 +11,11 @@ public class Main
         Hand hand1 = new Hand();
         Hand hand2 = new Hand();
         Card card1 = new Card();
-        card1.Set(4, 9);
+        card1.Set(Card.Suite_Spades(), 9);
         Card card2 = new Card();
-        card2.Set(2, 8);
+        card2.Set(Card.Suite_Diamonds(), 8);
         Card card3 = new Card();
-        card3.Set(1, 7);
+        card3.Set(Card.Suite_Hearts(), 7);
         hand1.Clear();
         hand1.AddCard(card1);
         hand1.AddCard(card2);
