@@ -23,6 +23,7 @@ public class Hand
             curr_card.Show();
             System.out.print(", ");
         }
+        System.out.println();
     }
 
     // Очищает содержимое руки.
