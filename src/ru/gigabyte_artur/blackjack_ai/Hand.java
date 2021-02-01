@@ -110,4 +110,19 @@ public class Hand
         this.MoveCard(card1, hand_chng);
     }
 
+    // Подсчитывает сумму очков карт на руках.
+    public int SummHand()
+    {
+        int rez = 0;
+        int summ = 0;
+        for (Card curr_card : this.Cards)
+        {
+            summ = summ + curr_card.GetValue();
+        }
+        if (summ > 21)
+            rez = 0;
+        else
+            rez = summ;
+        return rez;
+    }
 }

@@ -39,8 +39,12 @@ public class Main
         System.out.println("------");
         deck.PullCard(0, hand1);
         deck.PullCard(0, hand1);
+        deck.PullCard(0, hand1);
         hand1.Show();
         System.out.println("------");
         deck.Show();
+        System.out.println("------");
+        System.out.println(hand1.SummHand());
+
     }
 }
