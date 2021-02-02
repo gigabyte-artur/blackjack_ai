@@ -27,7 +27,7 @@ public class Layer
     // Выводит значения нейронов текущего слоя.
     public void ShowLayer()
     {
-        int curr_signal;
+        double curr_signal;
         for (Neuron curr_neuron: Neurons)
         {
             curr_signal = curr_neuron.GetSignal();

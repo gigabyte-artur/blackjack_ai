@@ -2,10 +2,10 @@ package ru.gigabyte_artur.blackjack_ai;
 
 public class Neuron
 {
-    private int signal;
+    private double signal;
 
     // Получает сигнал нейрона.
-    public int GetSignal()
+    public double GetSignal()
     {
         return this.signal;
     }
