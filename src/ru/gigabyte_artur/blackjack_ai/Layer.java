@@ -12,9 +12,10 @@ public class Layer
     public void AddNeuron(Neuron neuron_in)
     {
         Neurons.add(neuron_in);
+        neuron_in.SetParentLayer(this);
     }
 
-    // ДОбавляет в текущий слой count_in нейронов.
+    // Добавляет в текущий слой count_in нейронов.
     public void GenerateLayer(int count_in)
     {
         for (int i = 0; i < count_in; i++)
