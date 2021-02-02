@@ -35,4 +35,10 @@ public class Layer
         }
         System.out.println();
     }
+
+    // Возвращает количество нейронов в слое.
+    public int GetSize()
+    {
+        return this.Neurons.size();
+    }
 }
