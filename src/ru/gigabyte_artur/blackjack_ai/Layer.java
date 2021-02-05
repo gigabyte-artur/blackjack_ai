@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Layer
 {
     private ArrayList<Neuron> Neurons = new ArrayList<>();
+    private NeuroNet parent_neuro_net;
 
     // Добавляет в текущий слой нейрон neuron_in.
     public void AddNeuron(Neuron neuron_in)
@@ -41,5 +42,23 @@ public class Layer
     public int GetSize()
     {
         return this.Neurons.size();
+    }
+
+    // Возвращает родительскую нейронную сеть.
+    public NeuroNet GetParentNeuroNet()
+    {
+       return this.parent_neuro_net;
+    }
+
+    // Устанавливает родительскую нейронную сеть в parent_neuro_net_in.
+    public void SetParentNeuroNet(NeuroNet parent_neuro_net_in)
+    {
+        this.parent_neuro_net = parent_neuro_net_in;
+    }
+
+    // Возвращает все нейроны слоя.
+    public ArrayList<Neuron> GetNeurons()
+    {
+        return Neurons;
     }
 }

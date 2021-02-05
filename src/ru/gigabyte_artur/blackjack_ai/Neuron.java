@@ -46,4 +46,5 @@ public class Neuron
     {
         this.parent_layer = parent_layer_in;
     }
+
 }

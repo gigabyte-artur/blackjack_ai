@@ -13,5 +13,6 @@ public class Main
         my_net.GenerateAddLayer(54);
         my_net.GenerateAddLayer(1);
         my_net.Show();
+        my_net.Compile();
     }
 }
