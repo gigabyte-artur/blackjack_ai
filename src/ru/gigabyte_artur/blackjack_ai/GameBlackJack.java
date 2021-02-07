@@ -8,28 +8,26 @@ public class GameBlackJack
     public int Play()
     {
         int rez = -1;
-        int summ1, summ2;
         Hand deck = new Hand();
-        Hand hand1 = new Hand();
-        Hand hand2 = new Hand();
+        NeuroNet model = new NeuroNet();
         deck.InitDeck();
         deck.Shuffle();
-        deck.Show();
-        deck.PullCard(0, hand1);
-        deck.PullCard(0, hand1);
-        deck.PullCard(0, hand1);
-        hand1.Show();
-        deck.PullCard(0, hand2);
-        deck.PullCard(0, hand2);
-        deck.PullCard(0, hand2);
-        hand2.Show();
-        summ1 = hand1.SummHand();
-        summ2 = hand2.SummHand();
-        System.out.println(summ1 + " " + summ2);
-        if (summ1 > summ2)
-            rez = 1;
-        else
-            rez = 2;
+        model = GameBlackJack.GenerateModel();
+        Player player1 = new Player();
+        player1.NewGame(model);
         return rez;
     }
+
+    // Возвращает пустую нейронную сеть для новой игры.
+    public static NeuroNet GenerateModel()
+    {
+        NeuroNet rez = new NeuroNet();
+        rez.GenerateAddLayer(54);
+        rez.GenerateAddLayer(54);
+        rez.GenerateAddLayer(54);
+        rez.GenerateAddLayer(1);
+        rez.Compile();
+        return rez;
+    }
+
 }

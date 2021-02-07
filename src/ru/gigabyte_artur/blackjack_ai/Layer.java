@@ -61,4 +61,13 @@ public class Layer
     {
         return Neurons;
     }
+
+    // Обнуляет сигналы во всех нейронах слоя.
+    public void EmptySignals()
+    {
+        for (Neuron curr_neuron:Neurons)
+        {
+            curr_neuron.SetSignal(0);
+        }
+    }
 }

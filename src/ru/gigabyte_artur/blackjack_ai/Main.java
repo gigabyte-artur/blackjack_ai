@@ -7,12 +7,7 @@ public class Main
 
     public static void main(String[] args)
     {
-        NeuroNet my_net = new NeuroNet();
-        my_net.GenerateAddLayer(54);
-        my_net.GenerateAddLayer(54);
-        my_net.GenerateAddLayer(54);
-        my_net.GenerateAddLayer(1);
-        my_net.Show();
-        my_net.Compile();
+        GameBlackJack game1 = new GameBlackJack();
+        game1.Play();
     }
 }

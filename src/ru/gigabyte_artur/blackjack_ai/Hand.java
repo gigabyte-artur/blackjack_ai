@@ -126,4 +126,10 @@ public class Hand
             rez = summ;
         return rez;
     }
+
+    // Очищает текущую руку.
+    public void Empty()
+    {
+        this.Cards.clear();
+    }
 }

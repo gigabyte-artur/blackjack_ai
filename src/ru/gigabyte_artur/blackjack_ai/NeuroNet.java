@@ -7,8 +7,6 @@ public class NeuroNet
 {
     private ArrayList<Layer> Layers = new ArrayList<>();
 
-    //private List<ArrayList<Integer>> Weights = new ArrayList<ArrayList<Integer>>();
-
     // Добавляет в модель слой layer_in.
     public void AddLayer(Layer layer_in)
     {
@@ -74,4 +72,23 @@ public class NeuroNet
             }
         }
     }
+
+    // Обнуляет сигналы во всех слоях текущей сети.
+    public void EmptySignals()
+    {
+        for (Layer curr_layer:Layers)
+        {
+            curr_layer:EmptySignals();
+        }
+    }
+
+    // Копирует модель из нейросети neuro_net_in.
+    public NeuroNet CopyModel(NeuroNet neuro_net_in)
+    {
+        NeuroNet rez = new NeuroNet();
+        // TODO: Написать контруктор копирования.
+        rez = neuro_net_in;
+        return rez;
+    }
+
 }
