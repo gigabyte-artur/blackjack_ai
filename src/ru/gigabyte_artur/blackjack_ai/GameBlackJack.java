@@ -18,6 +18,7 @@ public class GameBlackJack
         player1.DrawCard(deck);
         player1.DrawCard(deck);
         player1.ShowHand();
+        player1.HandToInputSignals();
         return rez;
     }
 

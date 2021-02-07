@@ -16,7 +16,7 @@ public class Neuron
     }
 
     // Устанавливает сигнал нейрона в signal_in.
-    public void SetSignal(int signal_in)
+    public void SetSignal(double signal_in)
     {
         this.signal = signal_in;
     }

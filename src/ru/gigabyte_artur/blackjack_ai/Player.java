@@ -9,17 +9,24 @@ public class Player
     public void NewGame(NeuroNet neuro_net_in)
     {
         this.hand.Empty();
-        this.neuro_net.CopyModel(neuro_net_in);
+        // TODO: Написать контруктор копирования.
+//        this.neuro_net.CopyModel(neuro_net_in);
+        this.neuro_net = neuro_net_in;
     }
 
     // Переосит руку в сигналы входных нейронов.
     public void HandToInputSignals()
     {
-        int hand_size;
+        int hand_size, points_multiplication, curr_suite, curr_value;
+        Card card1 = new Card();
         hand_size = this.hand.Size();
         for (int i = 0; i < hand_size; i++)
         {
-            hand.GetCardById(i);
+            card1 = hand.GetCardById(i);
+            curr_suite = card1.GetSuite();
+            curr_value = card1.GetValue();
+            points_multiplication = (curr_suite - 1)*Card.MAX_VALUE + curr_value;
+            this.neuro_net.SetInputSignal(points_multiplication, 1);
         }
     }
 

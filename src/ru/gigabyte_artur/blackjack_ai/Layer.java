@@ -70,4 +70,19 @@ public class Layer
             curr_neuron.SetSignal(0);
         }
     }
+
+    // Устанавливает нейрону с номером neuron_id_in сигнал signal_in.
+    public void SetSignalToNeuron(int neuron_id_in, double signal_in)
+    {
+        Neuron neuron_chng;
+        if (this.Neurons.size() >= neuron_id_in)
+        {
+            neuron_chng = this.Neurons.get(neuron_id_in);
+            neuron_chng.SetSignal(signal_in);
+        }
+        else
+        {
+            System.out.println("Недостаточно нейронов для установки сигнала");
+        }
+    }
 }

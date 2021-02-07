@@ -65,7 +65,7 @@ public class Hand
     // Инициалихзирует текущую руку стандартной колодой.
     public void InitDeck()
     {
-        for (int i = 2; i <= 11; i++)
+        for (int i = 2; i <= Card.MAX_VALUE; i++)
         {
             // Червы.
             Card new_card_hearts = new Card();

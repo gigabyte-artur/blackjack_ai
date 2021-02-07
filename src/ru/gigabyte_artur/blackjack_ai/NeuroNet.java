@@ -83,12 +83,27 @@ public class NeuroNet
     }
 
     // Копирует модель из нейросети neuro_net_in.
-    public NeuroNet CopyModel(NeuroNet neuro_net_in)
+    public void CopyModel(NeuroNet neuro_net_in)
     {
-        NeuroNet rez = new NeuroNet();
+//        NeuroNet rez = new NeuroNet();
+//        rez = neuro_net_in;
+//        return rez;
         // TODO: Написать контруктор копирования.
-        rez = neuro_net_in;
-        return rez;
+//        this = neuro_net_in;
     }
 
+    // Устанавливает во входном нейроне neuron_id_in значение сигнала signal_in.
+    public void SetInputSignal(int neuron_id_in, double signal_in)
+    {
+        Layer input_layer;
+        if (this.Layers.size() != 0)
+        {
+            input_layer = this.Layers.get(0);
+            input_layer.SetSignalToNeuron(neuron_id_in, signal_in);
+        }
+        else
+        {
+            System.out.println("В нейронной сети недосточно слоёв для установки начального сигнала");
+        }
+    }
 }

@@ -4,10 +4,11 @@ public class Card {
     private int suite;      // Масть.
     private int value;      // Значение.
 
-    public static final int Suite_Hearts = 1;     // Значение масти Червы.
+    public static final int Suite_Hearts = 1;       // Значение масти Червы.
     public static final int Suite_Diamonds = 2;     // Значение масти Буби.
-    public static final int Suite_Clubs = 3;     // Значение масти Трефы.
-    public static final int Suite_Spades = 4;     // Значение масти Пики.
+    public static final int Suite_Clubs = 3;        // Значение масти Трефы.
+    public static final int Suite_Spades = 4;       // Значение масти Пики.
+    public static final int MAX_VALUE = 11;         // Максимальное значение карты.
 
     // Выводит карту на экран.
     public void Show()
