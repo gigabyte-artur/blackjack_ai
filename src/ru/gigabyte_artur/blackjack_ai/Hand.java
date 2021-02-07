@@ -111,6 +111,19 @@ public class Hand
         this.MoveCard(card1, hand_chng);
     }
 
+    // Тянет в текущую руку верхнюю карту из колоды hand_chng.
+    public void DrawCard(Hand hand_chng)
+    {
+        if (hand_chng.Size() > 0)
+        {
+            hand_chng.PullCard(0, this);
+        }
+        else
+        {
+            System.out.println("В колоде недостаточно карт");
+        }
+    }
+
     // Подсчитывает сумму очков карт на руках.
     public int SummHand()
     {
@@ -131,5 +144,12 @@ public class Hand
     public void Empty()
     {
         this.Cards.clear();
+    }
+
+    // Возвращает количество карт в руке.
+    public int Size()
+    {
+        int rez = this.Cards.size();
+        return Cards.size();
     }
 }

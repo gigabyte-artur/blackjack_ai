@@ -15,6 +15,9 @@ public class GameBlackJack
         model = GameBlackJack.GenerateModel();
         Player player1 = new Player();
         player1.NewGame(model);
+        player1.DrawCard(deck);
+        player1.DrawCard(deck);
+        player1.ShowHand();
         return rez;
     }
 
@@ -29,5 +32,6 @@ public class GameBlackJack
         rez.Compile();
         return rez;
     }
+
 
 }
