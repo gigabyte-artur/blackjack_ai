@@ -24,6 +24,7 @@ public class GameBlackJack
         player_net = player1.GetNeuroNet();
         player_net.RandomSignals();
         decision = player1.Decide();
+        player1.GetNeuroNet().Show();
         System.out.println(decision);
         return rez;
     }
@@ -32,10 +33,10 @@ public class GameBlackJack
     public static NeuroNet GenerateModel()
     {
         NeuroNet rez = new NeuroNet();
-        rez.GenerateAddLayer(54);
-        rez.GenerateAddLayer(54);
-        rez.GenerateAddLayer(54);
-        rez.GenerateAddLayer(1);
+        rez.GenerateAddLayer(54, true, false);
+        rez.GenerateAddLayer(54, false, false);
+        rez.GenerateAddLayer(54, false, false);
+        rez.GenerateAddLayer(1, false, true);
         rez.Compile();
         return rez;
     }

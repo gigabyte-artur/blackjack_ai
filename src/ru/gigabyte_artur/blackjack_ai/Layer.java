@@ -2,12 +2,15 @@ package ru.gigabyte_artur.blackjack_ai;
 
 import ru.gigabyte_artur.blackjack_ai.Neuron;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 public class Layer
 {
     private ArrayList<Neuron> Neurons = new ArrayList<>();
     private NeuroNet parent_neuro_net;
+    boolean is_input;
+    boolean is_output;
 
     // Добавляет в текущий слой нейрон neuron_in.
     public void AddNeuron(Neuron neuron_in)
@@ -17,13 +20,15 @@ public class Layer
     }
 
     // Добавляет в текущий слой count_in нейронов.
-    public void GenerateLayer(int count_in)
+    public void GenerateLayer(int count_in, boolean is_input_in, boolean is_output_in)
     {
         for (int i = 0; i < count_in; i++)
         {
             Neuron new_neuron = new Neuron();
             this.AddNeuron(new_neuron);
         }
+        this.is_input = is_input_in;
+        this.is_output = is_output_in;
     }
 
     // Выводит значения нейронов текущего слоя.
@@ -85,4 +90,67 @@ public class Layer
             System.out.println("Недостаточно нейронов для установки сигнала");
         }
     }
+
+    // Возвращает, является ли текущий слой выходным.
+    public boolean IsOutput()
+    {
+        return this.is_output;
+    }
+
+    // Возвращает, является ли текущий слой входным.
+    public boolean IsInput()
+    {
+        return this.is_input;
+    }
+
+    // Возвращает максимальный сигнал в слое.
+    private double MaxSignal()
+    {
+        ArrayList<Neuron> TargetNeurons;
+        double rez = 0, curr_signal;
+        TargetNeurons = this.GetNeurons();
+        for (Neuron curr_target_neurons : TargetNeurons)
+        {
+            curr_signal = curr_target_neurons.GetSignal();
+            if (curr_signal > rez)
+                rez = curr_signal;
+        }
+        return rez;
+    }
+
+    // Номализует текущий слой.
+    public void Normalize()
+    {
+        ArrayList<Neuron> TargetNeurons, OutputNeurons;
+        double curr_signal, max_signal, new_signal;
+        Neuron OutputNeuron;
+        TargetNeurons = this.GetNeurons();
+        if (!this.IsOutput())
+        {
+            max_signal = this.MaxSignal();
+            if (max_signal != 0) {
+                for (Neuron curr_target_neurons : TargetNeurons)
+                {
+                    curr_signal = curr_target_neurons.GetSignal();
+                    new_signal = curr_signal / max_signal;
+                    curr_target_neurons.SetSignal(new_signal);
+                }
+            }
+            else
+            {
+                // Нулевой максимум. Пропускаем.
+            }
+        }
+        else
+        {
+            if (this.GetSize() > 0)
+            {
+                OutputNeurons = this.GetNeurons();
+                OutputNeuron = OutputNeurons.get(0);
+                curr_signal = OutputNeuron.GetSignal();
+                OutputNeuron.SetSignal(curr_signal / 54);       // TODO: делить на количество предыдущих.
+            }
+        }
+    }
+
 }

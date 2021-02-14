@@ -1,8 +1,6 @@
 package ru.gigabyte_artur.blackjack_ai;
 
-import javax.xml.transform.Source;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class NeuroNet
@@ -17,10 +15,10 @@ public class NeuroNet
     }
 
     // Генерирует слой с размером count_in и добавляет его в модель.
-    public void GenerateAddLayer(int count_in)
+    public void GenerateAddLayer(int count_in, boolean is_input_in, boolean is_output_in)
     {
         Layer new_layer = new Layer();
-        new_layer.GenerateLayer(count_in);
+        new_layer.GenerateLayer(count_in, is_input_in, is_output_in);
         this.AddLayer(new_layer);
     }
 
@@ -57,7 +55,7 @@ public class NeuroNet
     public void Compile()
     {
         Layer next_layer;
-        ArrayList <Neuron> target_neurons = new ArrayList<>();
+        ArrayList <Neuron> target_neurons;
         ArrayList <Neuron> source_neurons = new ArrayList<>();
         for (Layer curr_layer:this.Layers)
         {
@@ -75,14 +73,14 @@ public class NeuroNet
         }
     }
 
-    // Обнуляет сигналы во всех слоях текущей сети.
-    public void EmptySignals()
-    {
-        for (Layer curr_layer:Layers)
-        {
-            curr_layer:EmptySignals();
-        }
-    }
+//    // Обнуляет сигналы во всех слоях текущей сети.
+//    public void EmptySignals()
+//    {
+//        for (Layer curr_layer:Layers)
+//        {
+//            curr_layer:EmptySignals();
+//        }
+//    }
 
     // Копирует модель из нейросети neuro_net_in.
     public void CopyModel(NeuroNet neuro_net_in)
@@ -112,21 +110,22 @@ public class NeuroNet
     // Вычисляет сигналы в текущей нейронной сети по слоям.
     public void CalcSignals()
     {
-        ArrayList<Neuron> TargetNeurons = new ArrayList<>();
+        ArrayList<Neuron> TargetNeurons;
         ArrayList<Axon> SourceAxons = new ArrayList<>();
         double sum_signal, curr_weight, curr_signal;
-        boolean is_source_layer;
-        Neuron source_neuron;
-        is_source_layer = true;
+        Neuron source_neuron, OutputNeuron;
         for (Layer curr_layer: Layers)
         {
-            if (!is_source_layer)
+            if (!curr_layer.IsInput())
             {
+                // Вычисление сигналов.
                 TargetNeurons = curr_layer.GetNeurons();
-                for (Neuron curr_target_neurons : TargetNeurons) {
+                for (Neuron curr_target_neurons : TargetNeurons)
+                {
                     SourceAxons = curr_target_neurons.GetAxons();
                     sum_signal = 0;
-                    for (Axon curr_source_axons : SourceAxons) {
+                    for (Axon curr_source_axons : SourceAxons)
+                    {
                         curr_weight = curr_source_axons.GetWeight();
                         source_neuron = curr_source_axons.GetSource();
                         curr_signal = source_neuron.GetSignal();
@@ -134,10 +133,12 @@ public class NeuroNet
                     }
                     curr_target_neurons.SetSignal(sum_signal);
                 }
+                // Нормализация.
+                curr_layer.Normalize();
             }
             else
             {
-                is_source_layer = false;
+                // Попускаем входной слой.
             }
         }
     }
@@ -145,7 +146,8 @@ public class NeuroNet
     // Возвращает сигнал последнего нейрона.
     public double GetOutputSignal()
     {
-        double rez = 0;
+        double rez;
+        rez = 0;
         int layers_size;
         Neuron first_neuron;
         ArrayList<Neuron> last_last_neurons = new ArrayList<>();
