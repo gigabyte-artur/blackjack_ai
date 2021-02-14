@@ -25,4 +25,10 @@ public class Axon
     {
         return this.weight;
     }
+
+    // Устанавливает вес связи в weight_in.
+    public void SetWeight(double weight_in)
+    {
+        this.weight = weight_in;
+    }
 }

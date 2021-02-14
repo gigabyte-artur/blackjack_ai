@@ -52,5 +52,11 @@ public class Player
         rez = (output_signal >= 0.5);
         return rez;
     }
+
+    // Возвращает нейронную сеть текущего игрока.
+    public NeuroNet GetNeuroNet()
+    {
+        return neuro_net;
+    }
 }
 

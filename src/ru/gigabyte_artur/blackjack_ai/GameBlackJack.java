@@ -11,6 +11,7 @@ public class GameBlackJack
         boolean decision;
         Hand deck = new Hand();
         NeuroNet model = new NeuroNet();
+        NeuroNet player_net;
         deck.InitDeck();
         deck.Shuffle();
         model = GameBlackJack.GenerateModel();
@@ -20,7 +21,10 @@ public class GameBlackJack
         player1.DrawCard(deck);
         player1.ShowHand();
         player1.HandToInputSignals();
+        player_net = player1.GetNeuroNet();
+        player_net.RandomSignals();
         decision = player1.Decide();
+        System.out.println(decision);
         return rez;
     }
 
@@ -35,6 +39,5 @@ public class GameBlackJack
         rez.Compile();
         return rez;
     }
-
 
 }

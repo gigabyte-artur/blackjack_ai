@@ -3,6 +3,7 @@ package ru.gigabyte_artur.blackjack_ai;
 import javax.xml.transform.Source;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class NeuroNet
 {
@@ -164,4 +165,21 @@ public class NeuroNet
         return rez;
     }
 
+    // Устанавливает во все веса случайные значения.
+    public void RandomSignals()
+    {
+        double new_signal;
+        final Random random = new Random();
+        for (Layer curr_layer:this.Layers)
+        {
+            for (Neuron curr_neuron: curr_layer.GetNeurons())
+            {
+                for (Axon curr_axon: curr_neuron.GetAxons())
+                {
+                    new_signal = random.nextDouble();
+                    curr_axon.SetWeight(new_signal);
+                }
+            }
+        }
+    }
 }
