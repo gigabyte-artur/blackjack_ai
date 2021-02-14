@@ -41,5 +41,16 @@ public class Player
     {
         this.hand.Show();
     }
+
+    // Решает, нужно ли взять карту.
+    public boolean Decide()
+    {
+        boolean rez = false;
+        double output_signal;
+        neuro_net.CalcSignals();
+        output_signal = neuro_net.GetOutputSignal();
+        rez = (output_signal >= 0.5);
+        return rez;
+    }
 }
 

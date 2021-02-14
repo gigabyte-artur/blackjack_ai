@@ -8,6 +8,7 @@ public class GameBlackJack
     public int Play()
     {
         int rez = -1;
+        boolean decision;
         Hand deck = new Hand();
         NeuroNet model = new NeuroNet();
         deck.InitDeck();
@@ -19,6 +20,7 @@ public class GameBlackJack
         player1.DrawCard(deck);
         player1.ShowHand();
         player1.HandToInputSignals();
+        decision = player1.Decide();
         return rez;
     }
 

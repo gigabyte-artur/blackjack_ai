@@ -47,5 +47,9 @@ public class Neuron
         this.parent_layer = parent_layer_in;
     }
 
-
+    // Возвращает все нейроны слоя.
+    public ArrayList<Axon> GetAxons()
+    {
+        return Axons;
+    }
 }

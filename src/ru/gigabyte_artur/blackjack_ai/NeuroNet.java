@@ -1,5 +1,6 @@
 package ru.gigabyte_artur.blackjack_ai;
 
+import javax.xml.transform.Source;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,4 +107,61 @@ public class NeuroNet
             System.out.println("В нейронной сети недосточно слоёв для установки начального сигнала");
         }
     }
+
+    // Вычисляет сигналы в текущей нейронной сети по слоям.
+    public void CalcSignals()
+    {
+        ArrayList<Neuron> TargetNeurons = new ArrayList<>();
+        ArrayList<Axon> SourceAxons = new ArrayList<>();
+        double sum_signal, curr_weight, curr_signal;
+        boolean is_source_layer;
+        Neuron source_neuron;
+        is_source_layer = true;
+        for (Layer curr_layer: Layers)
+        {
+            if (!is_source_layer)
+            {
+                TargetNeurons = curr_layer.GetNeurons();
+                for (Neuron curr_target_neurons : TargetNeurons) {
+                    SourceAxons = curr_target_neurons.GetAxons();
+                    sum_signal = 0;
+                    for (Axon curr_source_axons : SourceAxons) {
+                        curr_weight = curr_source_axons.GetWeight();
+                        source_neuron = curr_source_axons.GetSource();
+                        curr_signal = source_neuron.GetSignal();
+                        sum_signal = sum_signal + (curr_signal * curr_weight);
+                    }
+                    curr_target_neurons.SetSignal(sum_signal);
+                }
+            }
+            else
+            {
+                is_source_layer = false;
+            }
+        }
+    }
+
+    // Возвращает сигнал последнего нейрона.
+    public double GetOutputSignal()
+    {
+        double rez = 0;
+        int layers_size;
+        Neuron first_neuron;
+        ArrayList<Neuron> last_last_neurons = new ArrayList<>();
+        Layer last_layer;
+        layers_size = this.Layers.size();
+        last_layer = this.Layers.get(layers_size -1);
+        if (last_layer.GetSize() > 0)
+        {
+            last_last_neurons = last_layer.GetNeurons();
+            first_neuron = last_last_neurons.get(0);
+            rez = first_neuron.GetSignal();
+        }
+        else
+        {
+            rez = 0;
+        }
+        return rez;
+    }
+
 }
