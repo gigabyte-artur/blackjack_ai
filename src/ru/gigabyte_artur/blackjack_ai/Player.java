@@ -66,5 +66,25 @@ public class Player
         rez = this.hand.SummHand();
         return rez;
     }
+
+    // Играет текущим игроком для колоды deck_chng. Возвращает итоговую сумму очков.
+    public int Play(Hand deck_chng)
+    {
+        int rez;
+        boolean decision;
+        decision = true;
+        rez = 0;
+        while ((decision) && (rez < 21))
+        {
+            this.DrawCard(deck_chng);
+            this.HandToInputSignals();
+            decision = this.Decide();
+            System.out.println(decision);
+            this.ShowHand();
+            rez = this.SummHand();
+            System.out.println(rez);
+        }
+        return rez;
+    }
 }
 

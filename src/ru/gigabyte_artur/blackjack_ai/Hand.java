@@ -128,15 +128,10 @@ public class Hand
     public int SummHand()
     {
         int rez = 0;
-//        int summ = 0;
         for (Card curr_card : this.Cards)
         {
             rez = rez + curr_card.GetValue();
         }
-        /*if (summ > 21)
-            rez = 0;
-        else
-            rez = summ;*/
         return rez;
     }
 

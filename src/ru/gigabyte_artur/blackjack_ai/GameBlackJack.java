@@ -7,10 +7,9 @@ public class GameBlackJack
     // Играет текущую игру. Возвращает номер победителя.
     public int Play()
     {
-        int rez = -1, sum1 = 0;
-        boolean decision;
+        int rez = -1;
         Hand deck = new Hand();
-        NeuroNet model = new NeuroNet();
+        NeuroNet model;
         NeuroNet player_net;
         deck.InitDeck();
         deck.Shuffle();
@@ -19,18 +18,7 @@ public class GameBlackJack
         player1.NewGame(model);
         player_net = player1.GetNeuroNet();
         player_net.RandomWeights();
-        decision = true;
-        sum1 = 0;
-        while ((decision) && (sum1 < 21))
-        {
-            player1.DrawCard(deck);
-            player1.HandToInputSignals();
-            decision = player1.Decide();
-            System.out.println(decision);
-            player1.ShowHand();
-            sum1 = player1.SummHand();
-            System.out.println(sum1);
-        }
+        player1.Play(deck);
         return rez;
     }
 
