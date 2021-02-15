@@ -169,9 +169,9 @@ public class NeuroNet
     }
 
     // Устанавливает во все веса случайные значения.
-    public void RandomSignals()
+    public void RandomWeights()
     {
-        double new_signal;
+        double new_weight;
         final Random random = new Random();
         for (Layer curr_layer:this.Layers)
         {
@@ -179,8 +179,8 @@ public class NeuroNet
             {
                 for (Axon curr_axon: curr_neuron.GetAxons())
                 {
-                    new_signal = (random.nextDouble()*2) - 1;
-                    curr_axon.SetWeight(new_signal);
+                    new_weight = (random.nextDouble()*2) - 1;
+                    curr_axon.SetWeight(new_weight);
                 }
             }
         }

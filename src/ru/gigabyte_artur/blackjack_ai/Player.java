@@ -49,7 +49,7 @@ public class Player
         double output_signal;
         neuro_net.CalcSignals();
         output_signal = neuro_net.GetOutputSignal();
-        rez = (output_signal >= 0.0);
+        rez = (output_signal > 0.0);
         return rez;
     }
 
@@ -57,6 +57,14 @@ public class Player
     public NeuroNet GetNeuroNet()
     {
         return neuro_net;
+    }
+
+    // Возвращает сумму карт в руке.
+    public int SummHand()
+    {
+        int rez = 0;
+        rez = this.hand.SummHand();
+        return rez;
     }
 }
 
