@@ -112,8 +112,8 @@ public class Layer
         for (Neuron curr_target_neurons : TargetNeurons)
         {
             curr_signal = curr_target_neurons.GetSignal();
-            if (curr_signal > rez)
-                rez = curr_signal;
+            if (Math.abs(curr_signal) > rez)
+                rez = Math.abs(curr_signal);
         }
         return rez;
     }
@@ -125,31 +125,19 @@ public class Layer
         double curr_signal, max_signal, new_signal;
         Neuron OutputNeuron;
         TargetNeurons = this.GetNeurons();
-        if (!this.IsOutput())
+        max_signal = this.MaxSignal();
+        if (max_signal != 0)
         {
-            max_signal = this.MaxSignal();
-            if (max_signal != 0) {
-                for (Neuron curr_target_neurons : TargetNeurons)
-                {
-                    curr_signal = curr_target_neurons.GetSignal();
-                    new_signal = curr_signal / max_signal;
-                    curr_target_neurons.SetSignal(new_signal);
-                }
-            }
-            else
+            for (Neuron curr_target_neurons : TargetNeurons)
             {
-                // Нулевой максимум. Пропускаем.
+                curr_signal = curr_target_neurons.GetSignal();
+                new_signal = curr_signal / max_signal;
+                curr_target_neurons.SetSignal(new_signal);
             }
         }
         else
         {
-            if (this.GetSize() > 0)
-            {
-                OutputNeurons = this.GetNeurons();
-                OutputNeuron = OutputNeurons.get(0);
-                curr_signal = OutputNeuron.GetSignal();
-                OutputNeuron.SetSignal(curr_signal / 54);       // TODO: делить на количество предыдущих.
-            }
+            // Нулевой максимум. Пропускаем.
         }
     }
 

@@ -134,7 +134,8 @@ public class NeuroNet
                     curr_target_neurons.SetSignal(sum_signal);
                 }
                 // Нормализация.
-                curr_layer.Normalize();
+                if (!curr_layer.IsOutput())
+                    curr_layer.Normalize();
             }
             else
             {
@@ -178,7 +179,7 @@ public class NeuroNet
             {
                 for (Axon curr_axon: curr_neuron.GetAxons())
                 {
-                    new_signal = random.nextDouble();
+                    new_signal = (random.nextDouble()*2) - 1;
                     curr_axon.SetWeight(new_signal);
                 }
             }

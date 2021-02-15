@@ -49,7 +49,7 @@ public class Player
         double output_signal;
         neuro_net.CalcSignals();
         output_signal = neuro_net.GetOutputSignal();
-        rez = (output_signal >= 0.5);
+        rez = (output_signal >= 0.0);
         return rez;
     }
 
