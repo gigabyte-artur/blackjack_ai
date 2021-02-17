@@ -21,21 +21,10 @@ public class GameBlackJack
         int rez = -1, score1, score2;
         Hand deck;
         deck = this.GenerateDeck();
-        NeuroNet model;
-        NeuroNet player_net;
-        model = GameBlackJack.GenerateModel();
         // Игра первого игрока.
-        this.player1 = new Player();
-        this.player1.NewGame(model);
-        player_net = this.player1.GetNeuroNet();
-        player_net.RandomWeights();
         score1 = this.player1.Play(deck);
         System.out.println("-------");
         // Игра второго игрока.
-        this.player2 = new Player();
-        this.player2.NewGame(model);
-        player_net = this.player2.GetNeuroNet();
-        player_net.RandomWeights();
         score2 = this.player2.Play(deck);
         // Сравнение.
         rez = GameBlackJack.ChooseWinnerByScore(score1, score2);

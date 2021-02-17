@@ -85,5 +85,14 @@ public class Player
         }
         return rez;
     }
+
+    // Инициализирует текущего игрока случайными весами.
+    public void RandomPlayer(NeuroNet model_in)
+    {
+        NeuroNet player_net;
+        this.NewGame(model_in);
+        player_net = this.GetNeuroNet();
+        player_net.RandomWeights();
+    }
 }
 
