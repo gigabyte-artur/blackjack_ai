@@ -79,7 +79,6 @@ public class Player
             this.DrawCard(deck_chng);
             this.HandToInputSignals();
             decision = this.Decide();
-            System.out.println(decision);
             this.ShowHand();
             rez = this.SummHand();
             System.out.println(rez);
