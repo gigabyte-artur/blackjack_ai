@@ -8,6 +8,8 @@ public class Main
     {
         Generation generation1 = new Generation();
         generation1.InitRandom(100);
+        generation1.Play();
+        generation1.ShowScores();
 //        // Инициализация.
 //        int rez;
 //        NeuroNet model;

@@ -74,6 +74,7 @@ public class Player
         boolean decision;
         decision = true;
         rez = 0;
+        this.hand.Empty();
         while ((decision) && (rez < 21))
         {
             this.DrawCard(deck_chng);
