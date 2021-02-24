@@ -7,7 +7,7 @@ import java.util.Map;
 public class Generation
 {
     private ArrayList<Player> Players = new ArrayList<>();
-    Map<Player, Integer> scores = new HashMap<>();
+    ScoreGen scores = new ScoreGen();
 
     // Добавляет игрока player_in в список игроков.
     public void AddPlayer(Player player_in)
@@ -30,22 +30,6 @@ public class Generation
         }
     }
 
-    // Увеличивает в соответствии результатов результат игрока player_in на score_in.
-    private void IncreaseScorePlayer(Player player_in, int score_in)
-    {
-        int old_score, new_score;
-        if (this.scores.containsKey(player_in))
-        {
-            old_score = this.scores.get(player_in);
-            new_score = old_score + score_in;
-            this.scores.put(player_in, new_score);
-        }
-        else
-        {
-            this.scores.put(player_in, score_in);
-        }
-    }
-
     // Разыгрывает игры между игроками. Помещает результаты в хранилище результатов.
     public void Play()
     {
@@ -62,34 +46,28 @@ public class Generation
                     winner_id = game1.Play();
                     if (winner_id == 1)
                     {
-                        this.IncreaseScorePlayer(player1, 1);
-                        this.IncreaseScorePlayer(player2, 0);
+                        this.scores.IncreaseScorePlayer(player1, 1);
+                        this.scores.IncreaseScorePlayer(player2, 0);
                     }
                     else if (winner_id == 2)
                     {
-                        this.IncreaseScorePlayer(player1, 0);
-                        this.IncreaseScorePlayer(player2, 1);
+                        this.scores.IncreaseScorePlayer(player1, 0);
+                        this.scores.IncreaseScorePlayer(player2, 1);
                     }
                     else
                     {
                         // Ничья. Не изменяем результат.
-                        this.IncreaseScorePlayer(player1, 0);
-                        this.IncreaseScorePlayer(player2, 0);
+                        this.scores.IncreaseScorePlayer(player1, 0);
+                        this.scores.IncreaseScorePlayer(player2, 0);
                     }
                 }
             }
         }
     }
 
-    // Отображает результаты игр текущего поколения.
     public void ShowScores()
     {
-        int i = 1;
-        for (Map.Entry<Player, Integer> entry: this.scores.entrySet())
-        {
-            System.out.println(i + ": " + entry.getValue());
-            i = i + 1;
-        }
+        this.scores.ShowScores();
     }
 
 }

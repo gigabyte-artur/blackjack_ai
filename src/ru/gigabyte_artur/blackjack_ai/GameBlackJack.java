@@ -7,7 +7,7 @@ public class GameBlackJack
     Player player1;
     Player player2;
 
-    // Гененрирует пустую колоду в текущую руку.
+    // Генерирует пустую колоду в текущую руку.
     private Hand GenerateDeck()
     {
         Hand rez = new Hand();
