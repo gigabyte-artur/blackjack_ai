@@ -1,13 +1,17 @@
 package ru.gigabyte_artur.blackjack_ai;
 
+import java.util.ArrayList;
+
 public class Main
 {
     public static void main(String[] args)
     {
         Generation generation1 = new Generation();
+        ArrayList<Player> top_players;
         generation1.InitRandom(100);
         generation1.Play();
         generation1.ShowScores();
+        top_players = generation1.GetTopPlayer(0, 20);
 //        // Инициализация.
 //        int rez;
 //        NeuroNet model;

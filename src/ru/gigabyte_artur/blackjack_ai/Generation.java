@@ -65,9 +65,16 @@ public class Generation
         }
     }
 
+    // Отображает результаты игр текущего поколения.
     public void ShowScores()
     {
         this.scores.ShowScores();
+    }
+
+    // Вовзращает игроков с результатами от min_in до max_in места.
+    public ArrayList<Player> GetTopPlayer(int min_in, int max_in)
+    {
+        return this.scores.GetTopPlayer(min_in, max_in);
     }
 
 }
