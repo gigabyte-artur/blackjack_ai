@@ -4,6 +4,7 @@ import ru.gigabyte_artur.blackjack_ai.Neuron;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Layer
 {
@@ -141,4 +142,13 @@ public class Layer
         }
     }
 
+    // С вероятностью probablity_in устанавливает всем аксонам текущего слоя
+    // случайные веса.
+    public void Mutate(double probablity_in)
+    {
+        for (Neuron curr_neuron:this.Neurons)
+        {
+            curr_neuron.Mutate(probablity_in);
+        }
+    }
 }

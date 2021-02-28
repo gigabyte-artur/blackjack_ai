@@ -185,4 +185,14 @@ public class NeuroNet
             }
         }
     }
+
+    // С вероятностью probablity_in устанавливает всем аксонам текущей нейронной сети
+    // случайные веса.
+    public void Mutate(double probablity_in)
+    {
+        for (Layer curr_layer:this.Layers)
+        {
+            curr_layer.Mutate(probablity_in);
+        }
+    }
 }

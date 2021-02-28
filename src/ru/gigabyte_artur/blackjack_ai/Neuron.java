@@ -1,6 +1,8 @@
 package ru.gigabyte_artur.blackjack_ai;
 
 import java.util.ArrayList;
+import java.util.Random;
+
 import ru.gigabyte_artur.blackjack_ai.Axon;
 
 public class Neuron
@@ -41,7 +43,7 @@ public class Neuron
         return this.parent_layer;
     }
 
-    // Устанавливает родителским слоем слой parent_layer_in.
+    // Устанавливает родительским слоем слой parent_layer_in.
     public void SetParentLayer(Layer parent_layer_in)
     {
         this.parent_layer = parent_layer_in;
@@ -51,5 +53,23 @@ public class Neuron
     public ArrayList<Axon> GetAxons()
     {
         return Axons;
+    }
+
+    // С вероятностью probablity_in устанавливает всем аксонам текущего нейрона
+    // случайные веса.
+    public void Mutate(double probablity_in)
+    {
+        double new_weight;
+        final Random random = new Random();
+        int dice;
+        for (Axon curr_axon:this.Axons)
+        {
+            dice = random.nextInt(100);
+            if (dice <= probablity_in)
+            {
+                new_weight = (random.nextDouble() * 2) - 1;
+                curr_axon.SetWeight(new_weight);
+            }
+        }
     }
 }
