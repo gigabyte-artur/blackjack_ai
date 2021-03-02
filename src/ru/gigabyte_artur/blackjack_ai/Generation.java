@@ -77,4 +77,10 @@ public class Generation
         return this.scores.GetTopPlayer(min_in, max_in);
     }
 
+    // Отображает статистику игры.
+    public void ShowStatic()
+    {
+        this.scores.ShowStatic();
+    }
+
 }

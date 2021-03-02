@@ -10,7 +10,13 @@ public class Main
         Generation generation2 = new Generation();
         Selection selection1 = new Selection();
         generation1.InitRandom(100);
-        generation1.Play();
-        generation2 = selection1.MakeSelection(generation1);
+        for (int i = 0; i < 100; i++)
+        {
+            System.out.println(i + ":");
+            generation1.Play();
+            generation1.ShowStatic();
+            generation2 = selection1.MakeSelection(generation1);
+            generation1 = generation2;
+        }
     }
 }

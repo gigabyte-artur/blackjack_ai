@@ -24,7 +24,7 @@ public class GameBlackJack
         deck = this.GenerateDeck();
         // Игра первого игрока.
         score1 = this.player1.Play(deck);
-        System.out.println("-------");
+//        System.out.println("-------");
         // Игра второго игрока.
         score2 = this.player2.Play(deck);
         // Сравнение.

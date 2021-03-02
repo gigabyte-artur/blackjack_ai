@@ -73,4 +73,41 @@ public class ScoreGen
         }
         return rez;
     }
+
+    // Возвращает минимальный счёт.
+    public int MinScore()
+    {
+        int rez, curr_value;
+        rez = 999999;
+        for (Map.Entry<Player, Integer> entry: this.scores.entrySet())
+        {
+            curr_value = entry.getValue();
+            if (curr_value < rez)
+                rez = curr_value;
+        }
+        return rez;
+    }
+
+    // Возвращает минимальный счёт.
+    public int MaxScore()
+    {
+        int rez, curr_value;
+        rez = -1;
+        for (Map.Entry<Player, Integer> entry: this.scores.entrySet())
+        {
+            curr_value = entry.getValue();
+            if (curr_value > rez)
+                rez = curr_value;
+        }
+        return rez;
+    }
+
+    // Отображает статистику.
+    public void ShowStatic()
+    {
+        int min_score, max_score;
+        min_score = this.MinScore();
+        max_score = this.MaxScore();
+        System.out.println( min_score+ " - " + max_score + ": " + (max_score - min_score));
+    }
 }

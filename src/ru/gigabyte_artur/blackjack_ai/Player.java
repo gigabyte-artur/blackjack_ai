@@ -80,9 +80,9 @@ public class Player
             this.DrawCard(deck_chng);
             this.HandToInputSignals();
             decision = this.Decide();
-            this.ShowHand();
+//            this.ShowHand();
             rez = this.SummHand();
-            System.out.println(rez);
+//            System.out.println(rez);
         }
         return rez;
     }
