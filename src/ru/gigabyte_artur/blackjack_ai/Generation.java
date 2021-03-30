@@ -140,7 +140,21 @@ public class Generation
                     // Текст идентификатора.
                     Text layer_id_text = doc.createTextNode(curr_layer.GetId());
                     layer_id_element.appendChild(layer_id_text);
-
+                    // Нейроны.
+                    Element neurons_element = doc.createElement("neurons");
+                    layer_element.appendChild(neurons_element);
+                    for (Neuron curr_neuron:curr_layer.GetNeurons())
+                    {
+                        // Нейрон.
+                        Element neuron_element = doc.createElement("neuron");
+                        neurons_element.appendChild(neuron_element);
+                        // Идентификатор нейрона.
+                        Element neuron_id_element = doc.createElement("id");
+                        neuron_element.appendChild(neuron_id_element);
+                        // Текст идентификатора.
+                        Text neuron_id_text = doc.createTextNode(curr_neuron.GetId());
+                        neuron_id_element.appendChild(neuron_id_text);
+                    }
                 }
             }
 

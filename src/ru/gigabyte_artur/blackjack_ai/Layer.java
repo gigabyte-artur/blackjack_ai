@@ -9,11 +9,11 @@ import java.util.UUID;
 
 public class Layer
 {
-    private ArrayList<Neuron> Neurons = new ArrayList<>();
-    private NeuroNet parent_neuro_net;
-    boolean is_input;
-    boolean is_output;
-    String id;
+    private ArrayList<Neuron> Neurons = new ArrayList<>();      // Нейроны, входящие в слой.
+    private NeuroNet parent_neuro_net;                          // Родительская нейросеть.
+    boolean is_input;                                           // Признак входного слоя.
+    boolean is_output;                                          // Признак выходного слоя.
+    String id;                                                  // Идентификатор.
 
     // Конструктор.
     public Layer()

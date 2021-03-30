@@ -2,14 +2,23 @@ package ru.gigabyte_artur.blackjack_ai;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 import ru.gigabyte_artur.blackjack_ai.Axon;
 
 public class Neuron
 {
-    private double signal;
-    private ArrayList<Axon> Axons = new ArrayList<>();
-    private Layer parent_layer;
+    private double signal;                                  // Сигнал нейрона.
+    private ArrayList<Axon> Axons = new ArrayList<>();      // Аксоны.
+    private Layer parent_layer;                             // Родительский слой.
+    private String id;                                      // Идентификатор.
+
+    // Конструктор.
+    public Neuron()
+    {
+        UUID uuid = UUID.randomUUID();
+        this.id = uuid.toString();
+    }
 
     // Получает сигнал нейрона.
     public double GetSignal()
@@ -71,5 +80,11 @@ public class Neuron
                 curr_axon.SetWeight(new_weight);
             }
         }
+    }
+
+    // Возвращает идентификатор нейрона.
+    public String GetId()
+    {
+        return this.id;
     }
 }
