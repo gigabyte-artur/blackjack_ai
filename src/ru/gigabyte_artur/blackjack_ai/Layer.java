@@ -5,6 +5,7 @@ import ru.gigabyte_artur.blackjack_ai.Neuron;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 public class Layer
 {
@@ -12,6 +13,14 @@ public class Layer
     private NeuroNet parent_neuro_net;
     boolean is_input;
     boolean is_output;
+    String id;
+
+    // Конструктор.
+    public Layer()
+    {
+        UUID uuid = UUID.randomUUID();
+        this.id = uuid.toString();
+    }
 
     // Добавляет в текущий слой нейрон neuron_in.
     public void AddNeuron(Neuron neuron_in)
@@ -151,4 +160,11 @@ public class Layer
             curr_neuron.Mutate(probablity_in);
         }
     }
+
+    // Возвращает идентификатор слоя.
+    public String GetId()
+    {
+        return this.id;
+    }
+
 }

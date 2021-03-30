@@ -195,4 +195,10 @@ public class NeuroNet
             curr_layer.Mutate(probablity_in);
         }
     }
+
+    // Возвращает слои текущей сети.
+    public ArrayList<Layer> GetLayers()
+    {
+        return Layers;
+    }
 }
