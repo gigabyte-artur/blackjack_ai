@@ -112,6 +112,7 @@ public class Generation
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.newDocument();
+            Neuron SourceNeuron;
             // Поколение.
             Element root_element = doc.createElement("generation");
             doc.appendChild(root_element);
@@ -154,6 +155,25 @@ public class Generation
                         // Текст идентификатора.
                         Text neuron_id_text = doc.createTextNode(curr_neuron.GetId());
                         neuron_id_element.appendChild(neuron_id_text);
+                        // Аксоны.
+                        Element axons_element = doc.createElement("axons");
+                        neuron_element.appendChild(axons_element);
+                        for (Axon curr_axon:curr_neuron.GetAxons())
+                        {
+                            // Аксоны.
+                            Element axon_element = doc.createElement("axon");
+                            neuron_element.appendChild(axon_element);
+                            // id нейрона.
+                            Element source_neuron_id_element = doc.createElement("neuron_id");
+                            axon_element.appendChild(source_neuron_id_element);
+                            // Текст идентификатора.
+                            SourceNeuron = curr_axon.GetSource();
+                            if (SourceNeuron != null)
+                            {
+                                Text input_neuron_id_text = doc.createTextNode(SourceNeuron.GetId());
+                                source_neuron_id_element.appendChild(neuron_id_text);
+                            }
+                        }
                     }
                 }
             }
