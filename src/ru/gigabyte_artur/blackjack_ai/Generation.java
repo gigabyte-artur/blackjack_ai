@@ -166,12 +166,28 @@ public class Generation
                             // id нейрона.
                             Element source_neuron_id_element = doc.createElement("neuron_id");
                             axon_element.appendChild(source_neuron_id_element);
-                            // Текст идентификатора.
+                            // Вес связи.
+                            Element weight_element = doc.createElement("weight");
+                            axon_element.appendChild(weight_element);
+                            // Входной нейрон.
                             SourceNeuron = curr_axon.GetSource();
                             if (SourceNeuron != null)
                             {
+                                // Текст идентификатора.
                                 Text input_neuron_id_text = doc.createTextNode(SourceNeuron.GetId());
-                                source_neuron_id_element.appendChild(neuron_id_text);
+                                source_neuron_id_element.appendChild(input_neuron_id_text);
+                                // Вес связи.
+                                Text weight_text = doc.createTextNode(String.valueOf(curr_axon.GetWeight()));
+                                weight_element.appendChild(weight_text);
+                            }
+                            else
+                            {
+                                // Текст идентификатора.
+                                Text input_neuron_id_text = doc.createTextNode("");
+                                source_neuron_id_element.appendChild(input_neuron_id_text);
+                                // Вес связи.
+                                Text weight_text = doc.createTextNode("0");
+                                weight_element.appendChild(weight_text);
                             }
                         }
                     }
