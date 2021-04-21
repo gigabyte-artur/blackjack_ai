@@ -2,28 +2,22 @@ package ru.gigabyte_artur.blackjack_ai;
 
 import org.w3c.dom.*;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.*;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Attr;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import java.io.File;
+import org.xml.sax.SAXException;
 
 public class Generation
 {
@@ -162,7 +156,7 @@ public class Generation
                         {
                             // Аксоны.
                             Element axon_element = doc.createElement("axon");
-                            neuron_element.appendChild(axon_element);
+                            axons_element.appendChild(axon_element);
                             // id нейрона.
                             Element source_neuron_id_element = doc.createElement("neuron_id");
                             axon_element.appendChild(source_neuron_id_element);
@@ -193,56 +187,154 @@ public class Generation
                     }
                 }
             }
-
             // write the content into xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(new File(file_name_in));
             transformer.transform(source, result);
-
-//            // root element
-//            Element rootElement = doc.createElement("cars");
-//            doc.appendChild(rootElement);
-//
-//            // supercars element
-//            Element supercar = doc.createElement("supercars");
-//            rootElement.appendChild(supercar);
-//
-//            // setting attribute to element
-//            Attr attr = doc.createAttribute("company");
-//            attr.setValue("Ferrari");
-//            supercar.setAttributeNode(attr);
-//
-//            // carname element
-//            Element carname = doc.createElement("carname");
-//            Attr attrType = doc.createAttribute("type");
-//            attrType.setValue("formula one");
-//            carname.setAttributeNode(attrType);
-//            carname.appendChild(doc.createTextNode("Ferrari 101"));
-//            supercar.appendChild(carname);
-//
-//            Element carname1 = doc.createElement("carname");
-//            Attr attrType1 = doc.createAttribute("type");
-//            attrType1.setValue("sports");
-//            carname1.setAttributeNode(attrType1);
-//            carname1.appendChild(doc.createTextNode("Ferrari 202"));
-//            supercar.appendChild(carname1);
-//
-//            // write the content into xml file
-//            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-//            Transformer transformer = transformerFactory.newTransformer();
-//            DOMSource source = new DOMSource(doc);
-//            StreamResult result = new StreamResult(new File("D:\\cars.xml"));
-//            transformer.transform(source, result);
-//
-//            // Output to console for testing
-//            StreamResult consoleResult = new StreamResult(System.out);
-//            transformer.transform(source, consoleResult);
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+    }
+
+    // Загружает поколение из файла с именем file_name_in.
+    public Generation LoadFromFile(String file_name_in) throws ParserConfigurationException, IOException, SAXException
+    {
+        Generation rez = new Generation();
+        try
+        {
+            // Создается построитель документа
+            DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            // Создается дерево DOM документа из файла
+            Document document = documentBuilder.parse(file_name_in);
+            // Получаем корневой элемент
+            Node generaion_item = document.getDocumentElement();
+            Generation new_generation = new Generation();
+            // Игроки.
+            NodeList players_list = generaion_item.getChildNodes();
+            for (int c_players_list = 0; c_players_list < players_list.getLength(); c_players_list++)
+            {
+                Node curr_players_item = players_list.item(c_players_list);
+                // Игрок.
+                NodeList player_list_items = curr_players_item.getChildNodes();
+                for (int c_player_list = 0; c_player_list < player_list_items.getLength(); c_player_list++)
+                {
+                    Node curr_player_item = player_list_items.item(c_player_list);
+                    Player new_player = new Player();
+                    // Нейросети.
+                    NodeList neuro_list_items = curr_player_item.getChildNodes();
+                    for (int c_neuro_list = 0; c_neuro_list < neuro_list_items.getLength(); c_neuro_list++)
+                    {
+                        // Нейросеть.
+                        Node curr_neuro_item = neuro_list_items.item(c_neuro_list);
+                        NeuroNet new_neuro_net = new NeuroNet();
+                        Layer last_layer = new Layer();
+                        // Слои.
+                        NodeList layers_list_items = curr_neuro_item.getChildNodes();
+                        for (int c_layers_list = 0; c_layers_list < layers_list_items.getLength(); c_layers_list++)
+                        {
+                            Node curr_layers_item = layers_list_items.item(c_layers_list);
+                            // Слой.
+                            NodeList layer_list_items = curr_layers_item.getChildNodes();
+                            for (int c_layer_list = 0; c_layer_list < layer_list_items.getLength(); c_layer_list++)
+                            {
+                                Node curr_layer_item = layer_list_items.item(c_layer_list);
+                                Layer new_layer = new Layer();
+                                String Layer_id = "";
+                                // Потомки слоя.
+                                NodeList layer_attr_list_items = curr_layer_item.getChildNodes();
+                                for (int c_layer_attr_list = 0; c_layer_attr_list < layer_list_items.getLength(); c_layer_attr_list++)
+                                {
+                                    Node curr_layer_attr_item = layer_attr_list_items.item(c_layer_attr_list);
+                                    if (curr_layer_attr_item != null)
+                                    {
+                                        if (curr_layer_attr_item.getNodeName() == "id")
+                                        {
+                                            Layer_id = curr_layer_attr_item.getTextContent();
+                                        }
+                                        else if (curr_layer_attr_item.getNodeName() == "neurons")
+                                        {
+                                            NodeList neurons_list_item = curr_layer_attr_item.getChildNodes();
+                                            for (int c_neurons_list_item = 0; c_neurons_list_item < neurons_list_item.getLength(); c_neurons_list_item++)
+                                            {
+                                                Node curr_neurons_list_item = neurons_list_item.item(c_neurons_list_item);
+                                                // Нейрон.
+                                                Neuron new_neuron = new Neuron();
+                                                String neuron_id = "";
+                                                NodeList neuron_list_item = curr_neurons_list_item.getChildNodes();
+                                                for (int c_neuron_list_item = 0; c_neuron_list_item < neuron_list_item.getLength(); c_neuron_list_item++)
+                                                {
+                                                    Node curr_neuron_list_item = neuron_list_item.item(c_neuron_list_item);
+                                                    if (curr_neuron_list_item.getNodeName() == "id")
+                                                    {
+                                                        // Идентификатор нейрона.
+                                                        neuron_id = curr_neuron_list_item.getTextContent();
+                                                    }
+                                                    else if (curr_neuron_list_item.getNodeName() == "axons")
+                                                    {
+                                                        // Аксоны.
+                                                        NodeList axons_list_item = curr_neuron_list_item.getChildNodes();
+                                                        for (int c_axons_list_item = 0; c_axons_list_item < axons_list_item.getLength(); c_axons_list_item++)
+                                                        {
+                                                            Node curr_axon_list_item = axons_list_item.item(c_axons_list_item);
+                                                            NodeList axon_child_list_item = curr_axon_list_item.getChildNodes();
+                                                            // Аксон.
+                                                            Axon new_axon = new Axon();
+                                                            double new_weight = 0;
+                                                            String last_neuron_id = "";
+                                                            for (int c_axon_child_list_item = 0; c_axon_child_list_item < axon_child_list_item.getLength(); c_axon_child_list_item++)
+                                                            {
+                                                                Node curr_axon_child_item = axon_child_list_item.item(c_axon_child_list_item);
+                                                                if (curr_axon_child_item.getNodeName() == "weight")
+                                                                {
+                                                                    // Вес связи.
+                                                                    new_weight = Double.valueOf(curr_axon_child_item.getTextContent());
+                                                                }
+                                                                else if (curr_axon_child_item.getNodeName() == "neuron_id")
+                                                                {
+                                                                    // Предыдущий нейрон связи.
+                                                                    last_neuron_id = curr_axon_child_item.getTextContent();
+                                                                }
+                                                            }
+
+                                                            if (last_neuron_id != "")
+                                                            {
+                                                                Neuron last_neuron = last_layer.FindNeuronById(last_neuron_id);
+                                                                new_axon.Set(last_neuron, new_weight);
+                                                            }
+                                                            else
+                                                            {
+                                                                //new_axon.Set(last_neuron, new_weight);
+                                                            }
+                                                            new_neuron.AddAxon(new_axon);
+                                                        }
+                                                    }
+                                                }
+                                                new_neuron.SetId(neuron_id);
+                                            }
+                                        }
+                                    }
+                                }
+                                new_layer.SetId(Layer_id);
+                                new_neuro_net.AddLayer(new_layer);
+                                last_layer = new_layer;
+                            }
+                        }
+                        new_player.SetNeuroNet(new_neuro_net);
+                    }
+                    new_generation.AddPlayer(new_player);
+                }
+            }
+        } catch (ParserConfigurationException ex) {
+            ex.printStackTrace(System.out);
+        } catch (SAXException ex) {
+            ex.printStackTrace(System.out);
+        } catch (IOException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return rez;
     }
 }

@@ -95,5 +95,11 @@ public class Player
         player_net = this.GetNeuroNet();
         player_net.RandomWeights();
     }
+
+    // Устанавливает текущему игроку нейросеть neuro_net_in.
+    public void SetNeuroNet(NeuroNet neuro_net_in)
+    {
+        this.neuro_net = neuro_net_in;
+    }
 }
 

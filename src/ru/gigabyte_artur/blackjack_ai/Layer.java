@@ -167,4 +167,24 @@ public class Layer
         return this.id;
     }
 
+    // Устанавливает идентификатор в id_in.
+    public void SetId(String id_in)
+    {
+       this.id = id_in;
+    }
+
+    // Возвращает нейрон с идентификатором id_in, принадлежащий текущему слою.
+    public Neuron FindNeuronById(String id_in)
+    {
+        Neuron rez = new Neuron();
+        ArrayList<Neuron> Neurons = this.GetNeurons();
+        for (Neuron curr_neuron:Neurons)
+        {
+            if (curr_neuron.GetId() == id_in)
+            {
+                rez = curr_neuron;
+            }
+        }
+        return rez;
+    }
 }

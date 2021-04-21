@@ -87,4 +87,10 @@ public class Neuron
     {
         return this.id;
     }
+
+    // Устанавливает идентификатор в значение id_in.
+    public void SetId(String id_in)
+    {
+        this.id = id_in;
+    }
 }
