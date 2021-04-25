@@ -17,10 +17,10 @@ public class Selection
     // Осуществляет селекцию.
     public Selection()
     {
-//        this.SetParameters(3, 5, 20, 65,
-//                15, 20, 27, 5);
-        this.SetParameters(0, 5, 3, 3,
-                0, 0, 0, 0);
+        this.SetParameters(3, 5, 20, 65,
+                15, 20, 27, 5);
+//        this.SetParameters(0, 5, 3, 3,
+//                0, 0, 0, 0);
     }
 
     // Выполняет селекцию поколения generation_in. Возвращает новое поколение.

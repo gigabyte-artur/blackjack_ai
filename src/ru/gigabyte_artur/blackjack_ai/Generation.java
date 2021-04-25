@@ -22,6 +22,7 @@ import org.xml.sax.SAXException;
 public class Generation
 {
     private ArrayList<Player> Players = new ArrayList<>();
+    private int games_in_series;
     ScoreGen scores = new ScoreGen();
 
     // Добавляет игрока player_in в список игроков.
@@ -56,24 +57,25 @@ public class Generation
             {
                 if (!player1.equals(player2))
                 {
-                    game1 = new GameBlackJack();
-                    game1.SetPlayers(player1, player2);
-                    winner_id = game1.Play();
-                    if (winner_id == 1)
+                    for (int c = 1; c <= this.games_in_series; c++)
                     {
-                        this.scores.IncreaseScorePlayer(player1, 1);
-                        this.scores.IncreaseScorePlayer(player2, 0);
-                    }
-                    else if (winner_id == 2)
-                    {
-                        this.scores.IncreaseScorePlayer(player1, 0);
-                        this.scores.IncreaseScorePlayer(player2, 1);
-                    }
-                    else
-                    {
-                        // Ничья. Не изменяем результат.
-                        this.scores.IncreaseScorePlayer(player1, 0);
-                        this.scores.IncreaseScorePlayer(player2, 0);
+                        game1 = new GameBlackJack();
+                        game1.SetPlayers(player1, player2);
+                        winner_id = game1.Play();
+                        if (winner_id == 1)
+                        {
+                            this.scores.IncreaseScorePlayer(player1, 1);
+                            this.scores.IncreaseScorePlayer(player2, 0);
+                        } else if (winner_id == 2)
+                        {
+                            this.scores.IncreaseScorePlayer(player1, 0);
+                            this.scores.IncreaseScorePlayer(player2, 1);
+                        } else
+                        {
+                            // Ничья. Не изменяем результат.
+                            this.scores.IncreaseScorePlayer(player1, 0);
+                            this.scores.IncreaseScorePlayer(player2, 0);
+                        }
                     }
                 }
             }
@@ -336,5 +338,11 @@ public class Generation
             ex.printStackTrace(System.out);
         }
         return rez;
+    }
+
+    // Устанавливает количество игр в серии для текущего поколения.
+    public void SetGamesInSeries(int games_in_series_in)
+    {
+        this.games_in_series = games_in_series_in;
     }
 }
