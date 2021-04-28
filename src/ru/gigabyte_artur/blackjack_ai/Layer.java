@@ -1,10 +1,6 @@
 package ru.gigabyte_artur.blackjack_ai;
 
-import ru.gigabyte_artur.blackjack_ai.Neuron;
-
-import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.UUID;
 
 public class Layer
@@ -131,9 +127,8 @@ public class Layer
     // Номализует текущий слой.
     public void Normalize()
     {
-        ArrayList<Neuron> TargetNeurons, OutputNeurons;
+        ArrayList<Neuron> TargetNeurons;
         double curr_signal, max_signal, new_signal;
-        Neuron OutputNeuron;
         TargetNeurons = this.GetNeurons();
         max_signal = this.MaxSignal();
         if (max_signal != 0)

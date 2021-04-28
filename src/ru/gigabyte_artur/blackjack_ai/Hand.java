@@ -3,8 +3,6 @@ package ru.gigabyte_artur.blackjack_ai;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import ru.gigabyte_artur.blackjack_ai.Card;
-
 public class Hand
 {
     private ArrayList<Card> Cards = new ArrayList<>();
@@ -144,8 +142,8 @@ public class Hand
     // Возвращает количество карт в руке.
     public int Size()
     {
-        int rez = this.Cards.size();
-        return Cards.size();
+        int rez = Cards.size();
+        return rez;
     }
 
 }

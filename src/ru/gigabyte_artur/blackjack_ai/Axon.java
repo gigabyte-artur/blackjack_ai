@@ -1,7 +1,5 @@
 package ru.gigabyte_artur.blackjack_ai;
 
-import java.util.Set;
-
 public class Axon
 {
     private Neuron source = new Neuron();

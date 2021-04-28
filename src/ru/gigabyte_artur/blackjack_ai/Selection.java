@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Selection
 {
-    private int unсhangable_player_number;      // Число неизменяемых стратегий.
+    private int unchangable_player_number;      // Число неизменяемых стратегий.
     private int probablity_mutation;            // Вероятность мутации.
     private int mutated_player_number;          // Число мутирующих стратегий.
     private int mutated_out_number;             // Число выходных после мутирования стратегий.
@@ -19,8 +19,6 @@ public class Selection
     {
         this.SetParameters(3, 5, 20, 65,
                 15, 20, 27, 5);
-//        this.SetParameters(0, 5, 3, 3,
-//                0, 0, 0, 0);
     }
 
     // Выполняет селекцию поколения generation_in. Возвращает новое поколение.
@@ -36,11 +34,10 @@ public class Selection
         Player random_player;
         NeuroNet model;
         // Неизменяемые стратегии.
-        array_unchangable = generation_in.GetTopPlayer(0, this.unсhangable_player_number);
+        array_unchangable = generation_in.GetTopPlayer(0, this.unchangable_player_number);
         for (Player curr_player: array_unchangable)
         {
             rez.AddPlayer(curr_player);
-            curr_neuro_net = curr_player.GetNeuroNet();
         }
         // Мутирующие стратегии.
         array_mutable = generation_in.GetTopPlayer(0, this.mutated_player_number);
@@ -76,11 +73,11 @@ public class Selection
     }
 
     // Устанавливает параметры текущей селекции, согласно переданным параметрам функции.
-    public void SetParameters(int unсhangable_player_number_in, int probablitity_mutation_in, int mutated_player_number_in,
+    public void SetParameters(int unchangable_player_number_in, int probablitity_mutation_in, int mutated_player_number_in,
         int mutated_out_number_in, int probablity_hard_mutation_in, int hard_mutated_player_number_in,
         int hard_mutated_out_number_in, int random_player_number_in)
     {
-        this.unсhangable_player_number   = unсhangable_player_number_in;
+        this.unchangable_player_number   = unchangable_player_number_in;
         this.probablity_mutation         = probablitity_mutation_in;
         this.mutated_player_number       = mutated_player_number_in;
         this.mutated_out_number          = mutated_out_number_in;

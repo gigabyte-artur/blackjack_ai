@@ -1,7 +1,5 @@
 package ru.gigabyte_artur.blackjack_ai;
 
-import ru.gigabyte_artur.blackjack_ai.Hand;
-
 public class GameBlackJack
 {
     Player player1;

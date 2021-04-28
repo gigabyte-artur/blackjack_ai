@@ -113,7 +113,7 @@ public class NeuroNet
         ArrayList<Neuron> TargetNeurons;
         ArrayList<Axon> SourceAxons = new ArrayList<>();
         double sum_signal, curr_weight, curr_signal;
-        Neuron source_neuron, OutputNeuron;
+        Neuron source_neuron;
         for (Layer curr_layer: Layers)
         {
             if (!curr_layer.IsInput())
