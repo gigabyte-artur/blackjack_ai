@@ -4,6 +4,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main
 {
@@ -28,7 +29,20 @@ public class Main
 //            if (i % 100 == 0)
 //                generation2.SaveToFile(filename);
 //        }
+        Hand Deck = new Hand();
+        int PlayerRez;
+        Deck.InitDeck();
         generation1.LoadFromFile(filename);
-
+        ArrayList<Player> Players = generation1.GetPlayers();
+        if (Players.size() > 0)
+        {
+            Player FirstPlayer = Players.get(0);
+            PlayerRez = FirstPlayer.Play(Deck);
+            System.out.println(PlayerRez);
+        }
+        else
+        {
+            System.out.println("Нет игроков в поколении");
+        }
     }
 }

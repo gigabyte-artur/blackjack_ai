@@ -330,6 +330,7 @@ public class Generation
                                                     }
                                                 }
                                                 new_neuron.SetId(neuron_id);
+                                                new_layer.AddNeuron(new_neuron);
                                             }
                                         }
                                     }
@@ -357,5 +358,11 @@ public class Generation
     public void SetGamesInSeries(int games_in_series_in)
     {
         this.games_in_series = games_in_series_in;
+    }
+
+    // Возвращает массив игроков текущего поколения.
+    public ArrayList<Player> GetPlayers()
+    {
+        return this.Players;
     }
 }
