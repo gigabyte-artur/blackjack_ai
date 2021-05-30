@@ -25,6 +25,21 @@ public class Generation
     private int games_in_series;
     ScoreGen scores = new ScoreGen();
 
+    Generation()
+    {
+        this.Players = new ArrayList<>();
+        this.scores = new ScoreGen();
+        this.games_in_series = 0;
+    }
+
+    // Очищает текущее поколение.
+    void Empty()
+    {
+        this.Players = new ArrayList<>();
+        this.scores = new ScoreGen();
+        this.games_in_series = 0;
+    }
+
     // Добавляет игрока player_in в список игроков.
     public void AddPlayer(Player player_in)
     {
@@ -203,18 +218,17 @@ public class Generation
     }
 
     // Загружает поколение из файла с именем file_name_in.
-    public Generation LoadFromFile(String file_name_in) throws ParserConfigurationException, IOException, SAXException
+    public void LoadFromFile(String file_name_in) throws ParserConfigurationException, IOException, SAXException
     {
-        Generation rez = new Generation();
         try
         {
+            this.Empty();
             // Создается построитель документа
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             // Создается дерево DOM документа из файла
             Document document = documentBuilder.parse(file_name_in);
             // Получаем корневой элемент
             Node generaion_item = document.getDocumentElement();
-            Generation new_generation = new Generation();
             // Игроки.
             NodeList players_list = generaion_item.getChildNodes();
             for (int c_players_list = 0; c_players_list < players_list.getLength(); c_players_list++)
@@ -327,7 +341,7 @@ public class Generation
                         }
                         new_player.SetNeuroNet(new_neuro_net);
                     }
-                    new_generation.AddPlayer(new_player);
+                    this.AddPlayer(new_player);
                 }
             }
         } catch (ParserConfigurationException ex) {
@@ -337,7 +351,6 @@ public class Generation
         } catch (IOException ex) {
             ex.printStackTrace(System.out);
         }
-        return rez;
     }
 
     // Устанавливает количество игр в серии для текущего поколения.
