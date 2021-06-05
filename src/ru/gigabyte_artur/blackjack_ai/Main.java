@@ -5,11 +5,13 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Main
 {
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException
     {
+        final Random random = new Random();
         String filename = "D:\\cars_last.xml";
         Generation generation1 = new Generation();
 ////        if (new File(filename).isFile())
@@ -29,14 +31,16 @@ public class Main
 //            if (i % 100 == 0)
 //                generation2.SaveToFile(filename);
 //        }
+
         Hand Deck = new Hand();
-        int PlayerRez;
+        int PlayerRez, PlayerNum;
         Deck.InitDeck();
         generation1.LoadFromFile(filename);
         ArrayList<Player> Players = generation1.GetPlayers();
         if (Players.size() > 0)
         {
-            Player FirstPlayer = Players.get(0);
+            PlayerNum = random.nextInt(Players.size());
+            Player FirstPlayer = Players.get(PlayerNum);
             PlayerRez = FirstPlayer.Play(Deck);
             System.out.println(PlayerRez);
         }

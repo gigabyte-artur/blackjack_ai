@@ -182,4 +182,24 @@ public class Layer
         }
         return rez;
     }
+
+    // Возвращает, является ли этот слой входным.
+    public boolean GetIsInput()
+    {
+        return this.is_input;
+    }
+
+    // Возвращает, является ли этот слой выходным.
+    public boolean GetIsOutput()
+    {
+        return this.is_output;
+    }
+
+    public void SetOptions(String id_in, Boolean is_input_in, Boolean is_output_in)
+    {
+        this.id = id_in;
+        this.is_input = is_input_in;
+        this.is_output = is_output_in;
+    }
+
 }

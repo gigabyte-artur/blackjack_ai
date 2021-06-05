@@ -2,6 +2,7 @@ package ru.gigabyte_artur.blackjack_ai;
 
 import org.w3c.dom.*;
 
+import javax.swing.*;
 import javax.xml.parsers.*;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -152,6 +153,34 @@ public class Generation
                     // Текст идентификатора.
                     Text layer_id_text = doc.createTextNode(curr_layer.GetId());
                     layer_id_element.appendChild(layer_id_text);
+                    // Это входной.
+                    Element layer_is_input_element = doc.createElement("is_input");
+                    layer_element.appendChild(layer_is_input_element);
+                    // Текст признака входной.
+                    Text layer_is_input_text = doc.createTextNode("No");
+                    if (curr_layer.GetIsInput())
+                    {
+                        layer_is_input_text = doc.createTextNode("Yes");
+                    }
+                    else
+                    {
+                        layer_is_input_text = doc.createTextNode("No");
+                    }
+                    layer_id_element.appendChild(layer_is_input_text);
+                    // Это выходной.
+                    Element layer_is_output_element = doc.createElement("is_output");
+                    layer_element.appendChild(layer_is_output_element);
+                    // Текст признака выходной.
+                    Text layer_is_output_text = doc.createTextNode("No");
+                    if (curr_layer.GetIsOutput())
+                    {
+                        layer_is_output_text = doc.createTextNode("Yes");
+                    }
+                    else
+                    {
+                        layer_is_output_text = doc.createTextNode("No");
+                    }
+                    layer_id_element.appendChild(layer_is_output_text);
                     // Нейроны.
                     Element neurons_element = doc.createElement("neurons");
                     layer_element.appendChild(neurons_element);
@@ -260,6 +289,10 @@ public class Generation
                                 Node curr_layer_item = layer_list_items.item(c_layer_list);
                                 Layer new_layer = new Layer();
                                 String Layer_id = "";
+                                String Is_Input_Layer_Text;
+                                String Is_Output_Layer_Text;
+                                Boolean Is_Input_Layer = false;
+                                Boolean Is_Output_Layer = false;
                                 // Потомки слоя.
                                 NodeList layer_attr_list_items = curr_layer_item.getChildNodes();
                                 for (int c_layer_attr_list = 0; c_layer_attr_list < layer_list_items.getLength(); c_layer_attr_list++)
@@ -270,6 +303,30 @@ public class Generation
                                         if (curr_layer_attr_item.getNodeName() == "id")
                                         {
                                             Layer_id = curr_layer_attr_item.getTextContent();
+                                        }
+                                        else if (curr_layer_attr_item.getNodeName() == "is_input")
+                                        {
+                                            Is_Input_Layer_Text = curr_layer_attr_item.getTextContent();
+                                            if (Is_Input_Layer_Text == "Yes")
+                                            {
+                                                Is_Input_Layer = true;
+                                            }
+                                            else
+                                            {
+                                                Is_Input_Layer = false;
+                                            }
+                                        }
+                                        else if (curr_layer_attr_item.getNodeName() == "is_output")
+                                        {
+                                            Is_Output_Layer_Text = curr_layer_attr_item.getTextContent();
+                                            if (Is_Output_Layer_Text == "Yes")
+                                            {
+                                                Is_Output_Layer = true;
+                                            }
+                                            else
+                                            {
+                                                Is_Output_Layer = false;
+                                            }
                                         }
                                         else if (curr_layer_attr_item.getNodeName() == "neurons")
                                         {
@@ -335,7 +392,7 @@ public class Generation
                                         }
                                     }
                                 }
-                                new_layer.SetId(Layer_id);
+                                new_layer.SetOptions(Layer_id, Is_Input_Layer, Is_Output_Layer);
                                 new_neuro_net.AddLayer(new_layer);
                                 last_layer = new_layer;
                             }
