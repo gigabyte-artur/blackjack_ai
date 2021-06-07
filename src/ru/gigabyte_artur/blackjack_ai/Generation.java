@@ -166,7 +166,7 @@ public class Generation
                     {
                         layer_is_input_text = doc.createTextNode("No");
                     }
-                    layer_id_element.appendChild(layer_is_input_text);
+                    layer_is_input_element.appendChild(layer_is_input_text);
                     // Это выходной.
                     Element layer_is_output_element = doc.createElement("is_output");
                     layer_element.appendChild(layer_is_output_element);
@@ -180,7 +180,7 @@ public class Generation
                     {
                         layer_is_output_text = doc.createTextNode("No");
                     }
-                    layer_id_element.appendChild(layer_is_output_text);
+                    layer_is_output_element.appendChild(layer_is_output_text);
                     // Нейроны.
                     Element neurons_element = doc.createElement("neurons");
                     layer_element.appendChild(neurons_element);
@@ -307,7 +307,7 @@ public class Generation
                                         else if (curr_layer_attr_item.getNodeName() == "is_input")
                                         {
                                             Is_Input_Layer_Text = curr_layer_attr_item.getTextContent();
-                                            if (Is_Input_Layer_Text == "Yes")
+                                            if (Is_Input_Layer_Text.equals("Yes"))
                                             {
                                                 Is_Input_Layer = true;
                                             }
@@ -319,7 +319,7 @@ public class Generation
                                         else if (curr_layer_attr_item.getNodeName() == "is_output")
                                         {
                                             Is_Output_Layer_Text = curr_layer_attr_item.getTextContent();
-                                            if (Is_Output_Layer_Text == "Yes")
+                                            if (Is_Output_Layer_Text.equals("Yes"))
                                             {
                                                 Is_Output_Layer = true;
                                             }

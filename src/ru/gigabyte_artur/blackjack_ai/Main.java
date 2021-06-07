@@ -35,6 +35,7 @@ public class Main
         Hand Deck = new Hand();
         int PlayerRez, PlayerNum;
         Deck.InitDeck();
+        Deck.Shuffle();
         generation1.LoadFromFile(filename);
         ArrayList<Player> Players = generation1.GetPlayers();
         if (Players.size() > 0)
