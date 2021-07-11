@@ -172,10 +172,12 @@ public class Layer
     public Neuron FindNeuronById(String id_in)
     {
         Neuron rez = new Neuron();
+        String curr_id_neuron;
         ArrayList<Neuron> Neurons = this.GetNeurons();
         for (Neuron curr_neuron:Neurons)
         {
-            if (curr_neuron.GetId() == id_in)
+            curr_id_neuron = curr_neuron.GetId();
+            if (curr_id_neuron.equals(id_in))
             {
                 rez = curr_neuron;
             }
