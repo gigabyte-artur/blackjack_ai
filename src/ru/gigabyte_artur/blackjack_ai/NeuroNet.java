@@ -135,7 +135,9 @@ public class NeuroNet
                 }
                 // Нормализация.
                 if (!curr_layer.IsOutput())
+                {
                     curr_layer.Normalize();
+                }
             }
             else
             {

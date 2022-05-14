@@ -79,7 +79,15 @@ public class Player
         {
             this.DrawCard(deck_chng);
             this.HandToInputSignals();
-            decision = this.Decide();
+            decision = false;
+            if (this.SummHand() > 11)
+            {
+                decision = this.Decide();
+            }
+            else
+            {
+                decision = true;
+            }
 //            this.ShowHand();
             rez = this.SummHand();
 //            System.out.println(rez);

@@ -17,22 +17,22 @@ public class Main
 ////        if (new File(filename).isFile())
 ////            generation1.LoadFromFile(filename);
 ////        else
-//            generation1.InitRandom(100);
-//        Generation generation2 = new Generation();
-//        Selection selection1 = new Selection();
-//        for (int i = 0; i < 100000; i++)
-//        {
-//            System.out.print(i + ": ");
-//            generation1.SetGamesInSeries(10);
-//            generation1.Play();
-//            generation1.ShowStatic();
-//            generation2 = selection1.MakeSelection(generation1);
-//            generation1 = generation2;
-//            if (i % 100 == 0)
-//                generation2.SaveToFile(filename);
-//        }
+            generation1.InitRandom(100);
+        Generation generation2 = new Generation();
+        Selection selection1 = new Selection();
+        for (int i = 0; i < 100000; i++)
+        {
+            System.out.print(i + ": ");
+            generation1.SetGamesInSeries(10);
+            generation1.Play();
+            generation1.ShowStatic();
+            generation2 = selection1.MakeSelection(generation1);
+            generation1 = generation2;
+            if (i % 100 == 0)
+                generation1.SaveToFile(filename);
+        }
 
-        Hand Deck = new Hand();
+        /*Hand Deck = new Hand();
         int PlayerRez, PlayerNum;
         Deck.InitDeck();
         Deck.Shuffle();
@@ -48,6 +48,6 @@ public class Main
         else
         {
             System.out.println("Нет игроков в поколении");
-        }
+        }*/
     }
 }
