@@ -1,9 +1,7 @@
 package ru.gigabyte_artur.blackjack_ai;
 
-public class GameBlackJack
+public class GameBlackJack extends TwoPlayersGame
 {
-    Player player1;
-    Player player2;
 
     // Генерирует пустую колоду в текущую руку.
     private Hand GenerateDeck()
@@ -22,7 +20,6 @@ public class GameBlackJack
         deck = this.GenerateDeck();
         // Игра первого игрока.
         score1 = this.player1.Play(deck);
-//        System.out.println("-------");
         // Игра второго игрока.
         score2 = this.player2.Play(deck);
         // Сравнение.
@@ -41,13 +38,6 @@ public class GameBlackJack
         rez.GenerateAddLayer(1, false, true);
         rez.Compile();
         return rez;
-    }
-
-    // Устанавливает игроков player1_in и player2_in.
-    public void SetPlayers(Player player1_in, Player player2_in)
-    {
-        this.player1 = player1_in;
-        this.player2 = player2_in;
     }
 
     // Определяет победителя по набранным очкам score1_in и score2_in. Возвращает номер победителя.
