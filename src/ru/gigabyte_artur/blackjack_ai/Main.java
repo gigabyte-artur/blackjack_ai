@@ -14,17 +14,20 @@ public class Main
         final Random random = new Random();
         String filename = "D:\\cars_last.xml";
         Generation generation1 = new Generation();
+        GameBlackJack BlackJack1 = new GameBlackJack();
+        NeuroNet model_black_jack;
 ////        if (new File(filename).isFile())
 ////            generation1.LoadFromFile(filename);
 ////        else
-            generation1.InitRandom(100);
+        model_black_jack = BlackJack1.GenerateModel();
+        generation1.InitRandom(100, model_black_jack);
         Generation generation2 = new Generation();
         Selection selection1 = new Selection();
         for (int i = 0; i < 100000; i++)
         {
             System.out.print(i + ": ");
             generation1.SetGamesInSeries(10);
-            generation1.Play();
+            generation1.Play(BlackJack1);
             generation1.ShowStatic();
             generation2 = selection1.MakeSelection(generation1);
             generation1 = generation2;

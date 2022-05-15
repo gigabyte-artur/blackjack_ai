@@ -48,24 +48,22 @@ public class Generation
     }
 
     // Инициализирует поколение случайными игроками.
-    public void InitRandom(int generation_size_in)
+    public void InitRandom(int generation_size_in, NeuroNet model_in)
     {
         Player added_player;
         NeuroNet model;
-        model = GameBlackJack.GenerateModel();
         this.Players.clear();
         for (int i = 0; i < generation_size_in; i++)
         {
             added_player = new Player();
-            added_player.RandomPlayer(model);
+            added_player.RandomPlayer(model_in);
             this.Players.add(added_player);
         }
     }
 
     // Разыгрывает игры между игроками. Помещает результаты в хранилище результатов.
-    public void Play()
+    public void Play(TwoPlayersGame game1)
     {
-        GameBlackJack game1;
         int winner_id;
         for (Player player1: this.Players)
         {
@@ -75,7 +73,7 @@ public class Generation
                 {
                     for (int c = 1; c <= this.games_in_series; c++)
                     {
-                        game1 = new GameBlackJack();
+                        game1.Init();
                         game1.SetPlayers(player1, player2);
                         winner_id = game1.Play();
                         if (winner_id == 1)

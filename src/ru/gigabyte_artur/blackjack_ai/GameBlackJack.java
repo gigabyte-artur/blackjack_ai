@@ -27,6 +27,12 @@ public class GameBlackJack extends TwoPlayersGame
         return rez;
     }
 
+    // Инициализирует игру.
+    public void Init()
+    {
+
+    }
+
     // Возвращает пустую нейронную сеть для новой игры.
     public static NeuroNet GenerateModel()
     {

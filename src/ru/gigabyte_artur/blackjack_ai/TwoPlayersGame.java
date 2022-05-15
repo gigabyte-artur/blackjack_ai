@@ -7,6 +7,7 @@ public abstract class TwoPlayersGame
 
     // Играет текущую игру. Возвращает номер победителя. В случае ничьи возвращает -1.
     public abstract  int Play();
+    public abstract void Init();
 
     // Возвращает пустую нейронную сеть для новой игры.
     public static NeuroNet GenerateModel()
