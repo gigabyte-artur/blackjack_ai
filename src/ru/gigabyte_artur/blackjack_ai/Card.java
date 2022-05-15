@@ -13,7 +13,25 @@ public class Card {
     // Выводит карту на экран.
     public void Show()
     {
-        System.out.print("(" + this.suite + " " + this.value + ")");
+        System.out.print("(");
+        switch (this.suite)
+        {
+            case  (Suite_Hearts):
+                System.out.print("H");
+                break;
+            case (Suite_Diamonds):
+                System.out.print("D");
+                break;
+            case (Suite_Clubs):
+                System.out.print("C");
+                break;
+            case (Suite_Spades):
+                System.out.print("S");
+                break;
+            default:
+                break;
+        }
+        System.out.print(" " + this.value + ")");
     }
 
     // Устанавливамет карту с мастью suite_in и значением value_in.
