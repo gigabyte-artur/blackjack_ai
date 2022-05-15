@@ -68,7 +68,7 @@ public class Player
     }
 
     // Играет текущим игроком для колоды deck_chng. Возвращает итоговую сумму очков.
-    public int Play(Hand deck_chng)
+    public int Play(Hand deck_chng, boolean show_hand_in)
     {
         int rez;
         boolean decision;
@@ -88,9 +88,16 @@ public class Player
             {
                 decision = true;
             }
-//            this.ShowHand();
             rez = this.SummHand();
-//            System.out.println(rez);
+            if (show_hand_in)
+            {
+                this.ShowHand();
+                System.out.println(rez);
+            }
+            else
+            {
+                // Не выводим руку.
+            }
         }
         return rez;
     }

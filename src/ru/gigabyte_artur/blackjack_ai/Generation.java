@@ -11,6 +11,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -419,5 +420,25 @@ public class Generation
     public ArrayList<Player> GetPlayers()
     {
         return this.Players;
+    }
+
+    // Возвращает случайного игрока из текущего поколения. Когда игроков нет - возвращает пустого игрока.
+    public Player GetRandomPlayer()
+    {
+        Player rez = new Player();
+        final Random random = new Random();
+        ArrayList<Player> Players = this.GetPlayers();
+        int PlayerNum;
+        if (Players.size() > 0)
+        {
+            PlayerNum = random.nextInt(Players.size());
+            rez = Players.get(PlayerNum);
+        }
+        else
+        {
+            rez = new Player();
+            System.out.println("Нет игроков в поколении");
+        }
+        return rez;
     }
 }

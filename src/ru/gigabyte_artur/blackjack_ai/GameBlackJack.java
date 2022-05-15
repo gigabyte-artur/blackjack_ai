@@ -1,5 +1,7 @@
 package ru.gigabyte_artur.blackjack_ai;
 
+import java.util.Scanner;
+
 public class GameBlackJack extends TwoPlayersGame
 {
 
@@ -19,9 +21,40 @@ public class GameBlackJack extends TwoPlayersGame
         Hand deck;
         deck = this.GenerateDeck();
         // Игра первого игрока.
-        score1 = this.player1.Play(deck);
+        score1 = this.player1.Play(deck, false);
         // Игра второго игрока.
-        score2 = this.player2.Play(deck);
+        score2 = this.player2.Play(deck, false);
+        // Сравнение.
+        rez = GameBlackJack.ChooseWinnerByScore(score1, score2);
+        return rez;
+    }
+
+    // Играет игру игрока player_in с пользователем (в консольном режиме). Если победил пользователь - возвращает 1,
+    //  если победил игрок - возвращает 2. В случае ничьи возвращает -1.
+    public int PlayWithUser(Player player_in)
+    {
+        int rez = -1, score1 = 0, score2, input = 0;
+        Hand deck, user_hand = new Hand();
+        Scanner scanner = new Scanner(System.in);
+        deck = this.GenerateDeck();
+        user_hand.Clear();
+        // Игра пользователя.
+        while((score1 < 22) & (input != 2))
+        {
+            System.out.println("Тяните карты. 1 - взять ещё, 2 - остановиться:");
+            input = scanner.nextInt();
+            if (input == 1)
+            {
+                user_hand.DrawCard(deck);
+                user_hand.Show();
+                score1 = user_hand.SummHand();
+                System.out.println(score1);
+            }
+        }
+        // Игра игрока.
+        System.out.println("------");
+        System.out.println("Игра соперника:");
+        score2 = player_in.Play(deck, true);
         // Сравнение.
         rez = GameBlackJack.ChooseWinnerByScore(score1, score2);
         return rez;
