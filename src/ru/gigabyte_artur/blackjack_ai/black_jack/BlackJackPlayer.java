@@ -1,6 +1,8 @@
-package ru.gigabyte_artur.blackjack_ai;
+package ru.gigabyte_artur.blackjack_ai.black_jack;
 
-public class BlackJackPlayer extends Player{
+import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
+
+public class BlackJackPlayer extends Player {
     private Hand hand = new Hand();
 
     public BlackJackPlayer(Player player_in)

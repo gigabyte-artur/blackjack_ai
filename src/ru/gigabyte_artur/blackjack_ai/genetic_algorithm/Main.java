@@ -1,10 +1,12 @@
-package ru.gigabyte_artur.blackjack_ai;
+package ru.gigabyte_artur.blackjack_ai.genetic_algorithm;
 
 import org.xml.sax.SAXException;
+import ru.gigabyte_artur.blackjack_ai.black_jack.BlackJackPlayer;
+import ru.gigabyte_artur.blackjack_ai.black_jack.GameBlackJack;
+import ru.gigabyte_artur.blackjack_ai.black_jack.Player;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Main
