@@ -1,5 +1,7 @@
 package ru.gigabyte_artur.blackjack_ai;
 
+import java.util.Scanner;
+
 public abstract class TwoPlayersGame
 {
     Player player1;
@@ -22,5 +24,12 @@ public abstract class TwoPlayersGame
         this.player2 = player2_in;
     }
 
+    // Играет игру игрока player_in с пользователем (в консольном режиме). Если победил пользователь - возвращает 1,
+    //  если победил игрок - возвращает 2. В случае ничьи возвращает -1.
+    public int PlayWithUser(Player player_in)
+    {
+        int rez = -1;
+        return rez;
+    }
 
 }

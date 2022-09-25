@@ -31,20 +31,20 @@ public class GameBlackJack extends TwoPlayersGame
 
     // Играет игру игрока player_in с пользователем (в консольном режиме). Если победил пользователь - возвращает 1,
     //  если победил игрок - возвращает 2. В случае ничьи возвращает -1.
-    public int PlayWithUser(Player player_in)
+    public int PlayWithUser(BlackJackPlayer player_in)
     {
-        int rez = -1, score1 = 0, score2, input = 0;
+        int rez = -1;
+        int score1 = 0, score2, input = 0;
         Hand deck, user_hand = new Hand();
         Scanner scanner = new Scanner(System.in);
         deck = this.GenerateDeck();
         user_hand.Clear();
         // Игра пользователя.
-        while((score1 < 22) & (input != 2))
+        while ((score1 < 22) & (input != 2))
         {
             System.out.println("Тяните карты. 1 - взять ещё, 2 - остановиться:");
             input = scanner.nextInt();
-            if (input == 1)
-            {
+            if (input == 1) {
                 user_hand.DrawCard(deck);
                 user_hand.Show();
                 score1 = user_hand.SummHand();

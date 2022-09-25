@@ -19,8 +19,9 @@ public class Main
         System.out.println("Загрузка игроков...");
         generation1.LoadFromFile(filename);
         Player FirstPlayer = generation1.GetRandomPlayer();
-        System.out.println("загрузка завершена. Ваша игра:");
-        rez_game = BlackJack1.PlayWithUser(FirstPlayer);
+        BlackJackPlayer BlackJackPlayer1 = new BlackJackPlayer(FirstPlayer);
+        System.out.println("Загрузка завершена. Ваша игра:");
+        rez_game = BlackJack1.PlayWithUser(BlackJackPlayer1);
         System.out.println("-------");
         switch (rez_game)
         {
