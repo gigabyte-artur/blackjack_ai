@@ -8,6 +8,23 @@ public class Player
 //    private Hand hand = new Hand();
     private NeuroNet neuro_net = new NeuroNet();
 
+    // Конструктор нового.
+    public Player()
+    {
+
+    }
+
+    // Конструктор копирования.
+    public Player(Player player)
+    {
+        //this.neuro_net.
+    }
+
+    public Player copy()
+    {
+        return new Player(this);
+    }
+
     // Запускает новую игру.
     public void NewGame(NeuroNet neuro_net_in)
     {

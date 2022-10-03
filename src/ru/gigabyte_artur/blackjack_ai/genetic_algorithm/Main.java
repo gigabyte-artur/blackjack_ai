@@ -64,7 +64,9 @@ public class Main
         System.out.println("Загрузка игроков...");
         NeuroNet model_black_jack;
         model_black_jack = BlackJack1.GenerateModel();
-        generation1.InitRandom(100, model_black_jack);
+        Player Player1 = new Player();
+        BlackJackPlayer BlackJackPlayer1 = new BlackJackPlayer(Player1);
+        generation1.InitRandom(100, model_black_jack, BlackJackPlayer1);
         Generation generation2 = new Generation();
         Selection selection1 = new Selection();
         for (int i = 0; i < 100000; i++)

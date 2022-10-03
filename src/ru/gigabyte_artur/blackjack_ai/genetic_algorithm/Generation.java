@@ -54,16 +54,15 @@ public class Generation
     }
 
     // Инициализирует поколение случайными игроками.
-    public void InitRandom(int generation_size_in, NeuroNet model_in)
+    public void InitRandom(int generation_size_in, NeuroNet model_in, Player added_player)
     {
-        Player added_player;
         NeuroNet model;
         this.Players.clear();
         for (int i = 0; i < generation_size_in; i++)
         {
-            added_player = new Player();
-            added_player.RandomPlayer(model_in);
-            this.Players.add(added_player);
+            Player added_player2 = added_player.copy();
+            added_player2.RandomPlayer(model_in);
+            this.Players.add(added_player2);
         }
     }
 

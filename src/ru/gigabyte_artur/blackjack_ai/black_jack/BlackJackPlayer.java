@@ -11,6 +11,17 @@ public class BlackJackPlayer extends Player {
         this.hand.Empty();
     }
 
+    public BlackJackPlayer(BlackJackPlayer player_in)
+    {
+        this.SetNeuroNet(player_in.GetNeuroNet());
+        this.hand.Empty();
+    }
+
+    @Override
+    public BlackJackPlayer copy() {
+        return new BlackJackPlayer(this);
+    }
+
     public void NewGame(NeuroNet neuro_net_in)
     {
         this.hand.Empty();
