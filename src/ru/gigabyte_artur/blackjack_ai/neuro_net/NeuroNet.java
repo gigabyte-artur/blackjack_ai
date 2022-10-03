@@ -116,7 +116,7 @@ public class NeuroNet
         Neuron source_neuron;
         for (Layer curr_layer: Layers)
         {
-            if (!curr_layer.IsInput())
+            if (!curr_layer.GetIsInput())
             {
                 // Вычисление сигналов.
                 TargetNeurons = curr_layer.GetNeurons();
@@ -134,7 +134,7 @@ public class NeuroNet
                     curr_target_neurons.SetSignal(sum_signal);
                 }
                 // Нормализация.
-                if (!curr_layer.IsOutput())
+                if (!curr_layer.GetIsOutput())
                 {
                     curr_layer.Normalize();
                 }

@@ -97,18 +97,6 @@ public class Layer
         }
     }
 
-    // Возвращает, является ли текущий слой выходным.
-    public boolean IsOutput()
-    {
-        return this.is_output;
-    }
-
-    // Возвращает, является ли текущий слой входным.
-    public boolean IsInput()
-    {
-        return this.is_input;
-    }
-
     // Возвращает максимальный сигнал в слое.
     private double MaxSignal()
     {

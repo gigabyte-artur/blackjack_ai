@@ -4,6 +4,7 @@ import org.xml.sax.SAXException;
 import ru.gigabyte_artur.blackjack_ai.black_jack.BlackJackPlayer;
 import ru.gigabyte_artur.blackjack_ai.black_jack.GameBlackJack;
 import ru.gigabyte_artur.blackjack_ai.black_jack.Player;
+import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class Main
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException
     {
         final Random random = new Random();
-        int rez_game;
+        /*int rez_game;
         String filename = "D:\\cars_last.xml";
         GameBlackJack BlackJack1 = new GameBlackJack();
         Generation generation1 = new Generation();
@@ -39,7 +40,8 @@ public class Main
             default:
                 System.out.print("Неизвестный победитель");
                 break;
-        }
+        }*/
+
 //        System.out.println("Победил игрок " + rez_game);
 //        ArrayList<Player> Players = generation1.GetPlayers();
 //        if (Players.size() > 0)
@@ -55,8 +57,11 @@ public class Main
 //        if (new File(filename).isFile())
 //            generation1.LoadFromFile(filename);
 //        else
-        /*
 
+
+        GameBlackJack BlackJack1 = new GameBlackJack();
+        Generation generation1 = new Generation();
+        System.out.println("Загрузка игроков...");
         NeuroNet model_black_jack;
         model_black_jack = BlackJack1.GenerateModel();
         generation1.InitRandom(100, model_black_jack);
@@ -70,9 +75,9 @@ public class Main
             generation1.ShowStatic();
             generation2 = selection1.MakeSelection(generation1);
             generation1 = generation2;
-            if (i % 100 == 0)
-                generation1.SaveToFile(filename);
-        }*/
+            //if (i % 100 == 0)
+                // generation1.SaveToFile(filename);
+        }
 
         /*Hand Deck = new Hand();
         int PlayerRez, PlayerNum;
