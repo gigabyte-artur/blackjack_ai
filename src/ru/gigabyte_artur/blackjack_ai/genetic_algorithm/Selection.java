@@ -2,6 +2,7 @@ package ru.gigabyte_artur.blackjack_ai.genetic_algorithm;
 
 import ru.gigabyte_artur.blackjack_ai.black_jack.GameBlackJack;
 import ru.gigabyte_artur.blackjack_ai.black_jack.Player;
+import ru.gigabyte_artur.blackjack_ai.black_jack.TwoPlayersGame;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Selection
     }
 
     // Выполняет селекцию поколения generation_in. Возвращает новое поколение.
-    public Generation MakeSelection(Generation generation_in)
+    public Generation MakeSelection(Generation generation_in, TwoPlayersGame game_in)
     {
         ArrayList<Player> array_unchangable;
         ArrayList<Player> array_mutable;
@@ -66,11 +67,11 @@ public class Selection
             rez.AddPlayer(mutate_player);
         }
         // Новые стратегии.
-        model = GameBlackJack.GenerateModel();
         for (int i = 0; i < this.random_player_number; i++)
         {
-            random_player = new Player();
-            random_player.RandomPlayer(model);
+            random_player = game_in.NewPlayer();
+            NeuroNet players_neuronet = random_player.GetNeuroNet();
+            players_neuronet.RandomWeights();
             rez.AddPlayer(random_player);
         }
         return rez;

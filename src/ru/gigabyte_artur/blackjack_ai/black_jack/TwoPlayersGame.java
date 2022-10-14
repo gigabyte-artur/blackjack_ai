@@ -33,4 +33,11 @@ public abstract class TwoPlayersGame
         return rez;
     }
 
+    // Генерирует игрока текущей игры.
+    public Player NewPlayer()
+    {
+        Player rez = new Player();
+        return rez;
+    }
+
 }

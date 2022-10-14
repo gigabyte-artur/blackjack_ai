@@ -15,9 +15,14 @@ public class Player
     }
 
     // Конструктор копирования.
-    public Player(Player player)
+    public Player(Player player_in)
     {
-        //this.neuro_net.
+
+    }
+
+    public Player(NeuroNet neuro_net_in)
+    {
+        this.SetNeuroNetCopyFrom(neuro_net_in);
     }
 
     public Player copy()
@@ -73,6 +78,13 @@ public class Player
     public void SetNeuroNet(NeuroNet neuro_net_in)
     {
         this.neuro_net = neuro_net_in;
+    }
+
+    // Устанавливает в текущую нейронную сеть копию нейросети neuro_net_in.
+    public void SetNeuroNetCopyFrom(NeuroNet neuro_net_in)
+    {
+        NeuroNet new_neuro_net = new NeuroNet(neuro_net_in);
+        this.SetNeuroNet(new_neuro_net);
     }
 }
 

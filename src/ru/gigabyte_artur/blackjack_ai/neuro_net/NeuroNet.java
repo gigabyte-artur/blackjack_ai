@@ -7,6 +7,29 @@ public class NeuroNet
 {
     private ArrayList<Layer> Layers = new ArrayList<>();
 
+    // Конструктор.
+    public NeuroNet()
+    {
+
+    }
+
+    public NeuroNet copy()
+    {
+        return new NeuroNet(this);
+    }
+
+    // Конструктор копирования.
+    public NeuroNet (NeuroNet net1)
+    {
+        this.Layers.clear();
+        for (Layer curr_layer:net1.Layers)
+        {
+            Layer new_layer = new Layer(curr_layer);
+            this.Layers.add(new_layer);
+        }
+        this.Compile();
+    }
+
     // Добавляет в модель слой layer_in.
     public void AddLayer(Layer layer_in)
     {

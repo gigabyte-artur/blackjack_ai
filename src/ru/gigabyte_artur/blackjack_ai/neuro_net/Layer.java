@@ -18,6 +18,18 @@ public class Layer
         this.id = uuid.toString();
     }
 
+    // Конструктор копирования.
+    public Layer(Layer layer1)
+    {
+        UUID uuid = UUID.randomUUID();
+        this.id = uuid.toString();
+        for (Neuron curr_neuron:layer1.GetNeurons())
+        {
+            Neuron new_neuron = new Neuron();       // TODO: копировнаие аксонов.
+            this.AddNeuron(new_neuron);
+        }
+    }
+
     // Добавляет в текущий слой нейрон neuron_in.
     public void AddNeuron(Neuron neuron_in)
     {

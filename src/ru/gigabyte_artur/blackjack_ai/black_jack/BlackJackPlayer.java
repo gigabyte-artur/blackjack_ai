@@ -5,15 +5,25 @@ import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 public class BlackJackPlayer extends Player {
     private Hand hand = new Hand();
 
+    // Основной конструктор.
+    public BlackJackPlayer()
+    {
+        NeuroNet neuronet1 = GameBlackJack.GenerateModel();
+        this.SetNeuroNet(neuronet1);
+    }
+
+    // Контруктор на основании родителя.
     public BlackJackPlayer(Player player_in)
     {
-        this.SetNeuroNet(player_in.GetNeuroNet());
+        this.SetNeuroNetCopyFrom(player_in.GetNeuroNet());
         this.hand.Empty();
     }
 
+    // Конструктор копирования.
     public BlackJackPlayer(BlackJackPlayer player_in)
     {
-        this.SetNeuroNet(player_in.GetNeuroNet());
+        NeuroNet new_neuro_net = player_in.GetNeuroNet().copy();
+        this.SetNeuroNet(new_neuro_net);
         this.hand.Empty();
     }
 
@@ -105,4 +115,6 @@ public class BlackJackPlayer extends Player {
     {
         this.hand.Show();
     }
+
+
 }

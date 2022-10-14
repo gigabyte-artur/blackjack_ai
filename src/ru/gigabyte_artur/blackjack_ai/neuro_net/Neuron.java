@@ -18,6 +18,12 @@ public class Neuron
         this.id = uuid.toString();
     }
 
+    // Конструктор копирования.
+    public Neuron(Neuron neuron1)
+    {
+
+    }
+
     // Получает сигнал нейрона.
     public double GetSignal()
     {

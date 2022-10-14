@@ -58,13 +58,15 @@ public class Main
 //            generation1.LoadFromFile(filename);
 //        else
 
-
+        String filename = "D:\\cars_last.xml";
         GameBlackJack BlackJack1 = new GameBlackJack();
         Generation generation1 = new Generation();
         System.out.println("Загрузка игроков...");
+//        generation1.LoadFromFile(filename);
+//        Player FirstPlayer = generation1.GetRandomPlayer();
         NeuroNet model_black_jack;
         model_black_jack = BlackJack1.GenerateModel();
-        Player Player1 = new Player();
+        Player Player1 = new Player(model_black_jack);
         BlackJackPlayer BlackJackPlayer1 = new BlackJackPlayer(Player1);
         generation1.InitRandom(100, model_black_jack, BlackJackPlayer1);
         Generation generation2 = new Generation();
@@ -75,7 +77,7 @@ public class Main
             generation1.SetGamesInSeries(10);
             generation1.Play(BlackJack1);
             generation1.ShowStatic();
-            generation2 = selection1.MakeSelection(generation1);
+            generation2 = selection1.MakeSelection(generation1, BlackJack1);
             generation1 = generation2;
             //if (i % 100 == 0)
                 // generation1.SaveToFile(filename);

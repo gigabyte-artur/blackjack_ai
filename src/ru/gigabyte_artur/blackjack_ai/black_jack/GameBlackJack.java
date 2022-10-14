@@ -111,4 +111,10 @@ public class GameBlackJack extends TwoPlayersGame
         }
         return rez;
     }
+
+    @Override
+    public Player NewPlayer() {
+        BlackJackPlayer rez = new BlackJackPlayer();
+        return rez;
+    }
 }
