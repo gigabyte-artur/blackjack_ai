@@ -17,7 +17,7 @@ import javax.swing.*;
 
 public class Main
 {
-    private static boolean Runnig;
+    private static boolean selection_running = false;      // Признак, что селекция выполняется (используется для включения/отключения процесса вычислений).
 
     // Осуществляет селекцию игроков с нуля.
     private static void MakeWorkNewSelection()
@@ -37,7 +37,7 @@ public class Main
         Selection selection1 = new Selection();
         for (int i = 0; i < 100000; i++)
         {
-            if (Runnig)
+            if (selection_running)
             {
                 System.out.print(i + ": ");
                 generation1.SetGamesInSeries(10);
@@ -55,12 +55,24 @@ public class Main
         }
     }
 
-    private static void button_listener_command()
+    private static void ButtonListenerStartCommand()
     {
-        Runnig = true;
-        MakeWorkNewSelection();
+        selection_running = true;
+        Runnable task = () ->
+        {
+            MakeWorkNewSelection();
+        };
+        task.run();
+        Thread thread = new Thread(task);
+        thread.start();
     }
 
+    private static void ButtonListenerStopCommand()
+    {
+        selection_running = false;
+    }
+
+    // Отображает графический интерфейс.
     private static void ShowGUI()
     {
         // Frame.
@@ -68,24 +80,37 @@ public class Main
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300,300);
         // Button Start.
-        JButton button = new JButton("Start");
-        frame.getContentPane().add(button); // Adds Button to content pane of frame
-        frame.setVisible(true);
-        ActionListener button_listener = new ActionListener()
+        JButton button_start = new JButton("Start");
+        button_start.setBounds(0, 0, 100, 40);
+        frame.add(button_start);
+        ActionListener button_listener_start = new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                button_listener_command();
+                ButtonListenerStartCommand();
             }
-
         };
-        button.addActionListener(button_listener);
+        button_start.addActionListener(button_listener_start);
+        // Button Stop.
+        JButton button_stop = new JButton("Stop");
+        button_stop.setBounds(100, 0, 100, 40);
+        frame.add(button_stop); // Adds Button to content pane of frame
+        ActionListener button_listener_stop = new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                ButtonListenerStopCommand();
+            }
+        };
+        button_stop.addActionListener(button_listener_stop);
+        frame.setLayout(null);
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException
     {
         final Random random = new Random();
-        Runnig = false;
+        selection_running = false;
         ShowGUI();
 
         /*int rez_game;
