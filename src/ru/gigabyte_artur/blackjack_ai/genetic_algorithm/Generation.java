@@ -32,7 +32,7 @@ public class Generation
     private int games_in_series;
     ScoreGen scores = new ScoreGen();
 
-    Generation()
+    public Generation()
     {
         this.Players = new ArrayList<>();
         this.scores = new ScoreGen();
@@ -56,7 +56,6 @@ public class Generation
     // Инициализирует поколение случайными игроками.
     public void InitRandom(int generation_size_in, NeuroNet model_in, Player added_player)
     {
-        NeuroNet model;
         this.Players.clear();
         for (int i = 0; i < generation_size_in; i++)
         {

@@ -1,4 +1,4 @@
-package ru.gigabyte_artur.blackjack_ai.genetic_algorithm;
+package ru.gigabyte_artur.blackjack_ai.GUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ public class MainWindow extends JFrame
     public MainWindow() throws IOException
     {
         // Отрисовка окна.
-        super("Black Jack AI");
+        super("Black Jack AI - Main");
         this.setBounds(100, 100, 300, 300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Добавление контейнера-сетки.
@@ -30,9 +30,17 @@ public class MainWindow extends JFrame
 
     class ButtonFitEventListener implements ActionListener
     {
-        public void actionPerformed(ActionEvent e)
+        public void actionPerformed(ActionEvent event)
         {
-            System.out.println("Fit");
+            try
+            {
+                FitWindow Window = new FitWindow();
+                Window.setVisible(true);
+            }
+            catch (IOException exception)
+            {
+                System.out.println(exception.toString());
+            }
         }
     }
 
@@ -40,7 +48,15 @@ public class MainWindow extends JFrame
     {
         public void actionPerformed(ActionEvent e)
         {
-            System.out.println("Play");
+            try
+            {
+                PlayWindow Window = new PlayWindow();
+                Window.setVisible(true);
+            }
+            catch (IOException exception)
+            {
+                System.out.println(exception.toString());
+            }
         }
     }
 }

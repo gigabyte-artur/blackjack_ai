@@ -1,32 +1,44 @@
-package ru.gigabyte_artur.blackjack_ai.genetic_algorithm;
+package ru.gigabyte_artur.blackjack_ai.GUI;
 
 import org.xml.sax.SAXException;
 import ru.gigabyte_artur.blackjack_ai.black_jack.BlackJackPlayer;
 import ru.gigabyte_artur.blackjack_ai.black_jack.GameBlackJack;
 import ru.gigabyte_artur.blackjack_ai.black_jack.Player;
+import ru.gigabyte_artur.blackjack_ai.genetic_algorithm.Generation;
+import ru.gigabyte_artur.blackjack_ai.genetic_algorithm.Selection;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
-
-import javax.imageio.ImageIO;
-import java.io.File;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-public class SimpleGUI extends JFrame
+public class FitWindow extends JFrame
 {
     private JButton button = new JButton("Старт");
     private JTextField input = new JTextField("100", 5);
     private JLabel label = new JLabel("Размер поколения:");
     private JCheckBox check = new JCheckBox("загружать из файла", false);
+
+    public FitWindow() throws IOException
+    {
+        // Отрисовка окна.
+        super("Black Jack AI - Fitness Model");
+        this.setBounds(100,100,300,300);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        // Добавление контейнера.
+        Container container = this.getContentPane();
+        container.setLayout(new GridLayout(5,1,2,2));
+        // Добавление события для кнопки.
+        button.addActionListener(new FitWindow.ButtonEventListener());
+        // Размещение элементов.
+        container.add(label);
+        container.add(input);
+        container.add(check);
+        container.add(button);
+    }
 
     // Осуществляет селекцию игроков с нуля.
     private static void MakeWorkNewSelection(int generation_size_in, boolean is_from_file_in)
@@ -75,48 +87,20 @@ public class SimpleGUI extends JFrame
         {
 //            if (selection_running)
 //            {
-                System.out.print(i + ": ");
-                generation1.SetGamesInSeries(10);
-                generation1.Play(BlackJack1);
-                generation1.ShowStatic();
-                generation2 = selection1.MakeSelection(generation1, BlackJack1);
-                generation1 = generation2;
-                //if (i % 100 == 0)
-                // generation1.SaveToFile(filename);
+            System.out.print(i + ": ");
+            generation1.SetGamesInSeries(10);
+            generation1.Play(BlackJack1);
+            generation1.ShowStatic();
+            generation2 = selection1.MakeSelection(generation1, BlackJack1);
+            generation1 = generation2;
+            //if (i % 100 == 0)
+            // generation1.SaveToFile(filename);
 //            }
 //            else
 //            {
 //                // Процесс остановлен.
 //            }
         }
-    }
-
-    public SimpleGUI() throws IOException
-    {
-        super("Black Jack AI");
-        this.setBounds(100,100,300,300);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        Container container = this.getContentPane();
-        container.setLayout(new GridLayout(5,1,2,2));
-        container.add(label);
-//        input.setPreferredSize(100, 100);
-        container.add(input);
-
-        container.add(check);
-
-        Container imgContainer = new Container();
-        imgContainer.setLayout(new GridLayout(1,2,2,2));
-        BufferedImage acePicture = ImageIO.read(new File("src/ru/gigabyte_artur/blackjack_ai/res/ace.jpg"));
-        JLabel picLabelAce = new JLabel(new ImageIcon(acePicture));
-        imgContainer.add(picLabelAce);
-        BufferedImage kingPicture = ImageIO.read(new File("src/ru/gigabyte_artur/blackjack_ai/res/king.jpg"));
-        JLabel kingLabelAce = new JLabel(new ImageIcon(kingPicture));
-        imgContainer.add(kingLabelAce);
-        container.add(imgContainer);
-
-        button.addActionListener(new ButtonEventListener());
-        container.add(button);
     }
 
     class ButtonEventListener implements ActionListener

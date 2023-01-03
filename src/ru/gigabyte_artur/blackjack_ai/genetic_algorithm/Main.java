@@ -1,6 +1,8 @@
 package ru.gigabyte_artur.blackjack_ai.genetic_algorithm;
 
 import org.xml.sax.SAXException;
+import ru.gigabyte_artur.blackjack_ai.GUI.MainWindow;
+
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
@@ -9,7 +11,6 @@ public class Main
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException
     {
-//        SimpleGUI app = new SimpleGUI();
         MainWindow app = new MainWindow();
         app.setVisible(true);
         /*int rez_game;
