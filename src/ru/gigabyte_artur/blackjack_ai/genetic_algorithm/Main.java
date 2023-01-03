@@ -9,7 +9,8 @@ public class Main
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException
     {
-        SimpleGUI app = new SimpleGUI();
+//        SimpleGUI app = new SimpleGUI();
+        MainWindow app = new MainWindow();
         app.setVisible(true);
         /*int rez_game;
         String filename = "D:\\cars_last.xml";

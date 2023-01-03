@@ -117,7 +117,6 @@ public class SimpleGUI extends JFrame
 
         button.addActionListener(new ButtonEventListener());
         container.add(button);
-
     }
 
     class ButtonEventListener implements ActionListener
