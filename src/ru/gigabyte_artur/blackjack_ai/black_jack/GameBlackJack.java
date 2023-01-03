@@ -72,11 +72,11 @@ public class GameBlackJack extends TwoPlayersGame
     public static NeuroNet GenerateModel()
     {
         NeuroNet rez = new NeuroNet();
-        rez.GenerateAddLayer(54, true, false);
-        rez.GenerateAddLayer(54, false, false);
-        rez.GenerateAddLayer(54, false, false);
-        rez.GenerateAddLayer(54, false, false);
-        rez.GenerateAddLayer(1, false, true);
+        rez.GenerateAddDenseLayer(54, true, false);
+        rez.GenerateAddDenseLayer(54, false, false);
+        rez.GenerateAddDenseLayer(54, false, false);
+        rez.GenerateAddDenseLayer(54, false, false);
+        rez.GenerateAddDenseLayer(1, false, true);
         rez.Compile();
         return rez;
     }

@@ -122,7 +122,7 @@ public class Generation
     // Сохраняет текущее поколение в файл с именем file_name_in.
     public void SaveToFile(String file_name_in)
     {
-        try
+        /*try
         {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -246,13 +246,13 @@ public class Generation
         catch (Exception e)
         {
             e.printStackTrace();
-        }
+        }*/
     }
 
     // Загружает поколение из файла с именем file_name_in.
     public void LoadFromFile(String file_name_in) throws ParserConfigurationException, IOException, SAXException
     {
-        try
+        /*try
         {
             this.Empty();
             // Создается построитель документа
@@ -411,7 +411,7 @@ public class Generation
             ex.printStackTrace(System.out);
         } catch (IOException ex) {
             ex.printStackTrace(System.out);
-        }
+        }*/
     }
 
     // Устанавливает количество игр в серии для текущего поколения.

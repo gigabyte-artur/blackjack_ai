@@ -8,9 +8,18 @@ import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
+
+
+import javax.imageio.ImageIO;
+import java.io.File;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class SimpleGUI extends JFrame
 {
@@ -82,20 +91,33 @@ public class SimpleGUI extends JFrame
         }
     }
 
-    public SimpleGUI()
+    public SimpleGUI() throws IOException
     {
         super("Black Jack AI");
-        this.setBounds(100,100,300,150);
+        this.setBounds(100,100,300,300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Container container = this.getContentPane();
-        container.setLayout(new GridLayout(4,2,2,2));
+        container.setLayout(new GridLayout(5,1,2,2));
         container.add(label);
+//        input.setPreferredSize(100, 100);
         container.add(input);
+
         container.add(check);
+
+        Container imgContainer = new Container();
+        imgContainer.setLayout(new GridLayout(1,2,2,2));
+        BufferedImage acePicture = ImageIO.read(new File("src/ru/gigabyte_artur/blackjack_ai/res/ace.jpg"));
+        JLabel picLabelAce = new JLabel(new ImageIcon(acePicture));
+        imgContainer.add(picLabelAce);
+        BufferedImage kingPicture = ImageIO.read(new File("src/ru/gigabyte_artur/blackjack_ai/res/king.jpg"));
+        JLabel kingLabelAce = new JLabel(new ImageIcon(kingPicture));
+        imgContainer.add(kingLabelAce);
+        container.add(imgContainer);
 
         button.addActionListener(new ButtonEventListener());
         container.add(button);
+
     }
 
     class ButtonEventListener implements ActionListener

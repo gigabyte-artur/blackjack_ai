@@ -38,9 +38,9 @@ public class NeuroNet
     }
 
     // Генерирует слой с размером count_in и добавляет его в модель.
-    public void GenerateAddLayer(int count_in, boolean is_input_in, boolean is_output_in)
+    public void GenerateAddDenseLayer(int count_in, boolean is_input_in, boolean is_output_in)
     {
-        Layer new_layer = new Layer();
+        DenseLayer new_layer = new DenseLayer();
         new_layer.GenerateLayer(count_in, is_input_in, is_output_in);
         this.AddLayer(new_layer);
     }
@@ -78,32 +78,15 @@ public class NeuroNet
     public void Compile()
     {
         Layer next_layer;
-        ArrayList <Neuron> target_neurons;
-        ArrayList <Neuron> source_neurons = new ArrayList<>();
         for (Layer curr_layer:this.Layers)
         {
             next_layer = this.NextLayer(curr_layer);
             if (next_layer != null)
             {
-                target_neurons = next_layer.GetNeurons();
-                source_neurons = curr_layer.GetNeurons();
-                for (Neuron curr_target_neurons: target_neurons)
-                {
-                    for (Neuron curr_source_neurons:source_neurons)
-                        curr_target_neurons.GenerateAddAxon(curr_source_neurons, 0);
-                }
+                curr_layer.CompileLayer(next_layer);
             }
         }
     }
-
-//    // Обнуляет сигналы во всех слоях текущей сети.
-//    public void EmptySignals()
-//    {
-//        for (Layer curr_layer:Layers)
-//        {
-//            curr_layer:EmptySignals();
-//        }
-//    }
 
     // Копирует модель из нейросети neuro_net_in.
     public void CopyModel(NeuroNet neuro_net_in)
@@ -122,7 +105,14 @@ public class NeuroNet
         if (this.Layers.size() != 0)
         {
             input_layer = this.Layers.get(0);
-            input_layer.SetSignalToNeuron(neuron_id_in, signal_in);
+            if (input_layer instanceof DenseLayer)
+            {
+                ((DenseLayer)input_layer).SetSignalToNeuron(neuron_id_in, signal_in);
+            }
+            else
+            {
+                // Не полносвязный слой. Ничего не делаем.
+            }
         }
         else
         {
@@ -133,34 +123,11 @@ public class NeuroNet
     // Вычисляет сигналы в текущей нейронной сети по слоям.
     public void CalcSignals()
     {
-        ArrayList<Neuron> TargetNeurons;
-        ArrayList<Axon> SourceAxons = new ArrayList<>();
-        double sum_signal, curr_weight, curr_signal;
-        Neuron source_neuron;
         for (Layer curr_layer: Layers)
         {
             if (!curr_layer.GetIsInput())
             {
-                // Вычисление сигналов.
-                TargetNeurons = curr_layer.GetNeurons();
-                for (Neuron curr_target_neurons : TargetNeurons)
-                {
-                    SourceAxons = curr_target_neurons.GetAxons();
-                    sum_signal = 0;
-                    for (Axon curr_source_axons : SourceAxons)
-                    {
-                        curr_weight = curr_source_axons.GetWeight();
-                        source_neuron = curr_source_axons.GetSource();
-                        curr_signal = source_neuron.GetSignal();
-                        sum_signal = sum_signal + (curr_signal * curr_weight);
-                    }
-                    curr_target_neurons.SetSignal(sum_signal);
-                }
-                // Нормализация.
-                if (!curr_layer.GetIsOutput())
-                {
-                    curr_layer.Normalize();
-                }
+                curr_layer.CalcSignalsLayer();
             }
             else
             {
@@ -180,11 +147,18 @@ public class NeuroNet
         Layer last_layer;
         layers_size = this.Layers.size();
         last_layer = this.Layers.get(layers_size -1);
-        if (last_layer.GetSize() > 0)
+        if (last_layer instanceof DenseLayer)
         {
-            last_last_neurons = last_layer.GetNeurons();
-            first_neuron = last_last_neurons.get(0);
-            rez = first_neuron.GetSignal();
+            if (((DenseLayer)last_layer).GetSize() > 0)
+            {
+                last_last_neurons = ((DenseLayer)last_layer).GetNeurons();
+                first_neuron = last_last_neurons.get(0);
+                rez = first_neuron.GetSignal();
+            }
+            else
+            {
+                rez = 0;
+            }
         }
         else
         {
@@ -196,18 +170,9 @@ public class NeuroNet
     // Устанавливает во все веса случайные значения.
     public void RandomWeights()
     {
-        double new_weight;
-        final Random random = new Random();
         for (Layer curr_layer:this.Layers)
         {
-            for (Neuron curr_neuron: curr_layer.GetNeurons())
-            {
-                for (Axon curr_axon: curr_neuron.GetAxons())
-                {
-                    new_weight = (random.nextDouble()*2) - 1;
-                    curr_axon.SetWeight(new_weight);
-                }
-            }
+            curr_layer.RandomWeightsLayer();
         }
     }
 
