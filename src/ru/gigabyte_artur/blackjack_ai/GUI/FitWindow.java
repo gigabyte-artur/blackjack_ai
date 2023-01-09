@@ -3,7 +3,7 @@ package ru.gigabyte_artur.blackjack_ai.GUI;
 import org.xml.sax.SAXException;
 import ru.gigabyte_artur.blackjack_ai.black_jack.BlackJackPlayer;
 import ru.gigabyte_artur.blackjack_ai.black_jack.GameBlackJack;
-import ru.gigabyte_artur.blackjack_ai.black_jack.Player;
+import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.genetic_algorithm.Generation;
 import ru.gigabyte_artur.blackjack_ai.genetic_algorithm.Selection;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;

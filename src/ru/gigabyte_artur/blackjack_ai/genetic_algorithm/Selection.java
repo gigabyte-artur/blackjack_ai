@@ -1,8 +1,7 @@
 package ru.gigabyte_artur.blackjack_ai.genetic_algorithm;
 
-import ru.gigabyte_artur.blackjack_ai.black_jack.GameBlackJack;
-import ru.gigabyte_artur.blackjack_ai.black_jack.Player;
-import ru.gigabyte_artur.blackjack_ai.black_jack.TwoPlayersGame;
+import ru.gigabyte_artur.blackjack_ai.gaming.Player;
+import ru.gigabyte_artur.blackjack_ai.gaming.TwoPlayersGame;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
 import java.util.ArrayList;

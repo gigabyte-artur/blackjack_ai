@@ -1,5 +1,6 @@
 package ru.gigabyte_artur.blackjack_ai.black_jack;
 
+import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
 public class BlackJackPlayer extends Player {

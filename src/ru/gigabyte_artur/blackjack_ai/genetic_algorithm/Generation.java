@@ -1,30 +1,15 @@
 package ru.gigabyte_artur.blackjack_ai.genetic_algorithm;
 
-import org.w3c.dom.*;
-
 import javax.xml.parsers.*;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
-import ru.gigabyte_artur.blackjack_ai.black_jack.Player;
-import ru.gigabyte_artur.blackjack_ai.black_jack.TwoPlayersGame;
-import ru.gigabyte_artur.blackjack_ai.neuro_net.Axon;
-import ru.gigabyte_artur.blackjack_ai.neuro_net.Layer;
+import ru.gigabyte_artur.blackjack_ai.gaming.Player;
+import ru.gigabyte_artur.blackjack_ai.gaming.TwoPlayersGame;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
-import ru.gigabyte_artur.blackjack_ai.neuro_net.Neuron;
 
 public class Generation
 {

@@ -1,11 +1,12 @@
-package ru.gigabyte_artur.blackjack_ai.black_jack;
+package ru.gigabyte_artur.blackjack_ai.gaming;
 
+import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
 public abstract class TwoPlayersGame
 {
-    Player player1;
-    Player player2;
+    public Player player1;
+    public Player player2;
 
     // Играет текущую игру. Возвращает номер победителя. В случае ничьи возвращает -1.
     public abstract  int Play();
