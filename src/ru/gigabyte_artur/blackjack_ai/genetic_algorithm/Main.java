@@ -2,6 +2,13 @@ package ru.gigabyte_artur.blackjack_ai.genetic_algorithm;
 
 import org.xml.sax.SAXException;
 import ru.gigabyte_artur.blackjack_ai.GUI.MainWindow;
+import ru.gigabyte_artur.blackjack_ai.black_jack.BlackJackPlayer;
+import ru.gigabyte_artur.blackjack_ai.black_jack.GameBlackJack;
+import ru.gigabyte_artur.blackjack_ai.gaming.Player;
+import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
+import ru.gigabyte_artur.blackjack_ai.xo.GameXO;
+import ru.gigabyte_artur.blackjack_ai.xo.XoBoard;
+import ru.gigabyte_artur.blackjack_ai.xo.XoPlayer;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -11,8 +18,73 @@ public class Main
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException
     {
-        MainWindow app = new MainWindow();
-        app.setVisible(true);
+//        MainWindow app = new MainWindow();
+//        app.setVisible(true);
+
+        XoBoard board1 = new XoBoard();
+        board1.SetXToCell(0 , 1);
+        board1.SetOToCell(1 , 2);
+        board1.Show();
+
+        // Инициализация.
+        String filename = "D:\\cars_last.xml";
+        GameXO XO1 = new GameXO();
+        Generation generation1 = new Generation();
+        NeuroNet model_XO;
+        // Генерация модели.
+        model_XO = GameXO.GenerateModel();
+        Player Player1 = new Player(model_XO);
+        XoPlayer XOPlayer1 = new XoPlayer(Player1);
+        // Загрузка игроков.
+//        if (is_from_file_in)
+//        {
+//            System.out.println("Загрузка игроков...");
+//            try
+//            {
+//                generation1.LoadFromFile(filename);
+//            }
+//            catch (ParserConfigurationException e)
+//            {
+//                throw new RuntimeException(e);
+//            }
+//            catch (IOException e)
+//            {
+//                throw new RuntimeException(e);
+//            }
+//            catch (SAXException e)
+//            {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//        else
+//        {
+            System.out.println("Инициализация случайного поколения...");
+            generation1.InitRandom(100, model_XO, XOPlayer1);
+//        }
+        // Инициализация селекции.
+        System.out.println("Начата селекция. В поколении " + 100 + " особей.");
+        Generation generation2 = new Generation();
+        Selection selection1 = new Selection();
+        // Непосредcтвенно селекция.
+        for (int i = 0; i < 100000; i++)
+        {
+//            if (selection_running)
+//            {
+            System.out.print(i + ": ");
+            generation1.SetGamesInSeries(10);
+            generation1.Play(XO1);
+            generation1.ShowStatic();
+            generation2 = selection1.MakeSelection(generation1, XO1);
+            generation1 = generation2;
+            //if (i % 100 == 0)
+            // generation1.SaveToFile(filename);
+//            }
+//            else
+//            {
+//                // Процесс остановлен.
+//            }
+        }
+
         /*int rez_game;
         String filename = "D:\\cars_last.xml";
         GameBlackJack BlackJack1 = new GameBlackJack();

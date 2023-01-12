@@ -49,7 +49,7 @@ public class FitWindow extends JFrame
         Generation generation1 = new Generation();
         NeuroNet model_black_jack;
         // Генерация модели.
-        model_black_jack = BlackJack1.GenerateModel();
+        model_black_jack = GameBlackJack.GenerateModel();
         Player Player1 = new Player(model_black_jack);
         BlackJackPlayer BlackJackPlayer1 = new BlackJackPlayer(Player1);
         // Загрузка игроков.

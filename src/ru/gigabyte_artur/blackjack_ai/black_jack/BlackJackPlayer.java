@@ -1,6 +1,7 @@
 package ru.gigabyte_artur.blackjack_ai.black_jack;
 
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
+import ru.gigabyte_artur.blackjack_ai.gaming.TwoPlayersGame;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
 public class BlackJackPlayer extends Player {
@@ -33,6 +34,17 @@ public class BlackJackPlayer extends Player {
         return new BlackJackPlayer(this);
     }
 
+    // Решает, нужно ли взять карту.
+    public boolean Decide()
+    {
+        boolean rez = false;
+        double output_signal;
+        this.neuro_net.CalcSignals();
+        output_signal = this.neuro_net.GetOutputSignal();
+        rez = (output_signal > 0.0);
+        return rez;
+    }
+
     public void NewGame(NeuroNet neuro_net_in)
     {
         this.hand.Empty();
@@ -63,7 +75,7 @@ public class BlackJackPlayer extends Player {
 
     // Играет текущим игроком для колоды deck_chng. Возвращает итоговую сумму очков.
     @Override
-    public int Play(Hand deck_chng, boolean show_hand_in)
+    public int Play(TwoPlayersGame game_in, boolean silent_in)
     {
         int rez;
         boolean decision;
@@ -72,7 +84,8 @@ public class BlackJackPlayer extends Player {
         this.hand.Empty();
         while ((decision) && (rez < 21))
         {
-            this.DrawCard(deck_chng);
+            if (game_in instanceof GameBlackJack)
+            this.DrawCard(((GameBlackJack) game_in).deck);
             this.HandToInputSignals();
             decision = false;
             if (this.SummHand() > 11)
@@ -84,7 +97,7 @@ public class BlackJackPlayer extends Player {
                 decision = true;
             }
             rez = this.SummHand();
-            if (show_hand_in)
+            if (!silent_in)
             {
                 this.ShowHand();
                 System.out.println(rez);

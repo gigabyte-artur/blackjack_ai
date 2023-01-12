@@ -9,6 +9,8 @@ import java.util.Scanner;
 public class GameBlackJack extends TwoPlayersGame
 {
 
+    public Hand deck;       // Колода текущей игры.
+
     // Генерирует пустую колоду в текущую руку.
     private Hand GenerateDeck()
     {
@@ -23,11 +25,11 @@ public class GameBlackJack extends TwoPlayersGame
     {
         int rez = -1, score1, score2;
         Hand deck;
-        deck = this.GenerateDeck();
+        this.deck = this.GenerateDeck();
         // Игра первого игрока.
-        score1 = this.player1.Play(deck, false);
+        score1 = this.player1.Play(this, true);
         // Игра второго игрока.
-        score2 = this.player2.Play(deck, false);
+        score2 = this.player2.Play(this, true);
         // Сравнение.
         rez = GameBlackJack.ChooseWinnerByScore(score1, score2);
         return rez;
@@ -58,7 +60,7 @@ public class GameBlackJack extends TwoPlayersGame
         // Игра игрока.
         System.out.println("------");
         System.out.println("Игра соперника:");
-        score2 = player_in.Play(deck, true);
+        score2 = player_in.Play(this, false);
         // Сравнение.
         rez = GameBlackJack.ChooseWinnerByScore(score1, score2);
         return rez;
@@ -115,7 +117,8 @@ public class GameBlackJack extends TwoPlayersGame
     }
 
     @Override
-    public Player NewPlayer() {
+    public Player NewPlayer()
+    {
         BlackJackPlayer rez = new BlackJackPlayer();
         return rez;
     }

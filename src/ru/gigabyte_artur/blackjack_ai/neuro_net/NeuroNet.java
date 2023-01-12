@@ -1,6 +1,7 @@
 package ru.gigabyte_artur.blackjack_ai.neuro_net;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class NeuroNet
@@ -136,29 +137,49 @@ public class NeuroNet
         }
     }
 
-    // Возвращает сигнал последнего нейрона.
-    public double GetOutputSignal()
+    public HashMap<Integer,Double> GetArrayOutputSignals()
     {
-        double rez;
-        rez = 0;
-        int layers_size;
-        Neuron first_neuron;
-        ArrayList<Neuron> last_last_neurons = new ArrayList<>();
+        HashMap<Integer,Double> rez = new HashMap<Integer,Double>();
+        ArrayList<Neuron> last_neurons = new ArrayList<>();
         Layer last_layer;
+        int layers_size, counter;
+        double curr_signal;
         layers_size = this.Layers.size();
         last_layer = this.Layers.get(layers_size -1);
         if (last_layer instanceof DenseLayer)
         {
             if (((DenseLayer)last_layer).GetSize() > 0)
             {
-                last_last_neurons = ((DenseLayer)last_layer).GetNeurons();
-                first_neuron = last_last_neurons.get(0);
-                rez = first_neuron.GetSignal();
+                last_neurons = ((DenseLayer)last_layer).GetNeurons();
+                counter = 0;
+                for (Neuron current_neuron : last_neurons)
+                {
+                    curr_signal = current_neuron.GetSignal();
+                    rez.put(counter, curr_signal);
+                    counter++;
+                }
             }
             else
             {
-                rez = 0;
+                rez = new HashMap<Integer,Double>();
             }
+        }
+        else
+        {
+            rez = new HashMap<Integer,Double>();
+        }
+        return rez;
+    }
+
+    // Возвращает сигнал последнего нейрона.
+    public double GetOutputSignal()
+    {
+        double rez;
+        rez = 0;
+        HashMap<Integer,Double> signals = this.GetArrayOutputSignals();
+        if (!signals.isEmpty())
+        {
+            rez = signals.get(0);
         }
         else
         {
