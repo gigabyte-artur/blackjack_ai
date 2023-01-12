@@ -26,13 +26,20 @@ public class GameXO extends TwoPlayersGame
         {
             ((XoPlayer)curr_player2).setSide(O_VALUE);
         }
-        while ((board.HaveEmpty()) && (rez != 0) && (counter < 1000))
+        while ((board.HaveEmpty()) && (rez == -1) && (counter < 1000))
         {
             curr_player1.Play(this, true);
-            curr_player2.Play(this, true);
-            counter = counter + 1;
             rez = board.ChooseWinner();
+            if (rez == -1)
+            {
+                curr_player2.Play(this, true);
+                rez = board.ChooseWinner();
+            }
+            counter = counter + 1;
+//            board.Show();
+//            System.out.println("");
         }
+//        System.out.println("------");
         return rez;
     }
 
