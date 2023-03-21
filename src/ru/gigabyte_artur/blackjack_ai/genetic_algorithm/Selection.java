@@ -5,7 +5,12 @@ import ru.gigabyte_artur.blackjack_ai.gaming.TwoPlayersGame;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Selection
 {
@@ -28,50 +33,85 @@ public class Selection
     // Выполняет селекцию поколения generation_in. Возвращает новое поколение.
     public Generation MakeSelection(Generation generation_in, TwoPlayersGame game_in)
     {
-        ArrayList<Player> array_unchangable;
-        ArrayList<Player> array_mutable;
+        // Инициализация.
         Generation rez = new Generation();
-        NeuroNet curr_neuro_net;
-        int mutable_count, new_index;
+        ArrayList<Player> array_mutable;
+        int mutable_count;
         final Random random = new Random();
-        Player mutate_player = new Player();
-        Player random_player;
-        NeuroNet model;
+        // Инициализация многопоточности.
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+        List<Future<Player>> futures = new ArrayList<>(); // список для хранения результатов вычислений
         // Неизменяемые стратегии.
+        ArrayList<Player> array_unchangable;
         array_unchangable = generation_in.GetTopPlayer(0, this.unchangable_player_number);
-        for (Player curr_player: array_unchangable)
-        {
-            rez.AddPlayer(curr_player);
+        for (Player curr_player: array_unchangable) {
+            Future<Player> future = executor.submit(() -> {
+                return curr_player;
+            });
+            futures.add(future);
         }
         // Мутирующие стратегии.
         array_mutable = generation_in.GetTopPlayer(0, this.mutated_player_number);
-        mutable_count = array_mutable.size();
         for (int i = 0; i < this.mutated_out_number; i++)
         {
-            new_index = random.nextInt(mutable_count);
-            mutate_player = array_mutable.get(new_index);
-            curr_neuro_net = mutate_player.GetNeuroNet();
-            curr_neuro_net.Mutate(this.probablity_mutation);
-            rez.AddPlayer(mutate_player);
+            final  ArrayList<Player> array_mutable_lamda = array_mutable;
+            Future<Player> future = executor.submit(() -> {
+                int mutable_count_lamda, new_index_lamda;
+                NeuroNet curr_neuro_net_lamda;
+                Player mutate_player_lamda = new Player();
+                mutable_count_lamda = array_mutable_lamda.size();
+                new_index_lamda = random.nextInt(mutable_count_lamda);
+                mutate_player_lamda = array_mutable_lamda.get(new_index_lamda);
+                curr_neuro_net_lamda = mutate_player_lamda.GetNeuroNet();
+                curr_neuro_net_lamda.Mutate(this.probablity_mutation);
+                return mutate_player_lamda;
+            });
+            futures.add(future);
         }
         // Сильно мутирующие стратегии.
         array_mutable = generation_in.GetTopPlayer(0, this.hard_mutated_player_number);
         mutable_count = array_mutable.size();
         for (int i = 0; i < this.hard_mutated_out_number; i++)
         {
-            new_index = random.nextInt(mutable_count);
-            mutate_player = array_mutable.get(new_index);
-            curr_neuro_net = mutate_player.GetNeuroNet();
-            curr_neuro_net.Mutate(this.probablity_hard_mutation);
-            rez.AddPlayer(mutate_player);
+            final  ArrayList<Player> array_mutable_lamda = array_mutable;
+            Future<Player> future = executor.submit(() ->
+            {
+                int new_index_lamda;
+                Player mutate_player_lamda = new Player();
+                NeuroNet curr_neuro_net_lamda;
+                new_index_lamda = random.nextInt(mutable_count);
+                mutate_player_lamda = array_mutable_lamda.get(new_index_lamda);
+                curr_neuro_net_lamda = mutate_player_lamda.GetNeuroNet();
+                curr_neuro_net_lamda.Mutate(this.probablity_hard_mutation);
+                return mutate_player_lamda;
+            });
+            futures.add(future);
         }
         // Новые стратегии.
         for (int i = 0; i < this.random_player_number; i++)
         {
-            random_player = game_in.NewPlayer();
-            NeuroNet players_neuronet = random_player.GetNeuroNet();
-            players_neuronet.RandomWeights();
-            rez.AddPlayer(random_player);
+            Future<Player> future = executor.submit(() ->
+            {
+                Player random_player_lamda = new Player();
+                random_player_lamda = game_in.NewPlayer();
+                NeuroNet players_neuronet = random_player_lamda.GetNeuroNet();
+                players_neuronet.RandomWeights();
+                rez.AddPlayer(random_player_lamda);
+                return random_player_lamda;
+            });
+            futures.add(future);
+        }
+        // Ожидаем завершения всех задач.
+        for (Future<Player> future : futures)
+        {
+            try
+            {
+                Player result = future.get(); // получаем результат вычислений
+                rez.AddPlayer(result);
+            } catch (InterruptedException | ExecutionException e)
+            {
+                e.printStackTrace();
+            }
         }
         return rez;
     }
