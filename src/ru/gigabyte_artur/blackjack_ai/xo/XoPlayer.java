@@ -6,8 +6,6 @@ import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 import java.util.HashMap;
 import java.util.Map;
 
-import static ru.gigabyte_artur.blackjack_ai.xo.XoBoard.getEMPTY_VALUE;
-
 public class XoPlayer extends Player
 {
 
@@ -141,7 +139,6 @@ public class XoPlayer extends Player
         if (game_in instanceof GameXO)
         {
             int X_VALUE = XoBoard.getX_VALUE();
-            int O_VALUE = XoBoard.getO_VALUE();
             XoBoard board1 = game_in.getBoard();
             this.InputSignals(game_in);
             int desicion = this.Decide(board1);

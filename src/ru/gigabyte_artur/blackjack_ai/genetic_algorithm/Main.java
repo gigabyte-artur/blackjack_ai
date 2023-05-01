@@ -124,9 +124,9 @@ public class Main
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException
     {
-        main_BlackJack_GUI();
+        //main_BlackJack_GUI();
         //main_XO();
         //main_BlackJack_WithUser();
-        //main_Poker();
+        main_Poker();
     }
 }

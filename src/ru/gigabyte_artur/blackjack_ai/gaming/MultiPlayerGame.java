@@ -51,4 +51,10 @@ public abstract class MultiPlayerGame
             System.out.println("Невозможно уставновить игрока номер " + id_player_in + ". В игре недостаточно игроков.");
         }
     }
+
+    // Добавляет игрока Player_in в текущую игру.
+    public void AddPlayer(Player Player_in)
+    {
+        this.Players.add(Player_in);
+    }
 }
