@@ -24,7 +24,6 @@ public class GameBlackJack extends TwoPlayersGame
     public int Play()
     {
         int rez = -1, score1, score2;
-        Hand deck;
         this.deck = this.GenerateDeck();
         // Игра первого игрока.
         score1 = this.getPlayer1().Play(this, true);

@@ -2,7 +2,6 @@ package ru.gigabyte_artur.blackjack_ai.neuro_net;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 public class NeuroNet
 {

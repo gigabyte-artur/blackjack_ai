@@ -1,19 +1,16 @@
 package ru.gigabyte_artur.blackjack_ai.gaming;
 
-import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
-public abstract class TwoPlayersGame
+public abstract class TwoPlayersGame extends MultiPlayerGame
 {
     public Player player1;      // Первый игрок.
     public Player player2;      // Второй игрок.
 
-    // Играет текущую игру. Возвращает номер победителя. В случае ничьи возвращает -1.
-    public abstract  int Play();
-    // Инициализирует игру.
-    public abstract void Init();
-    // Генерирует игрока текущей игры.
-    public abstract Player NewPlayer();
+    public TwoPlayersGame()
+    {
+        this.SetEmptyPlayers(2);
+    }
 
     // Возвращает пустую нейронную сеть для новой игры.
     public static NeuroNet GenerateModel()
@@ -24,8 +21,8 @@ public abstract class TwoPlayersGame
     // Устанавливает игроков player1_in и player2_in.
     public void SetPlayers(Player player1_in, Player player2_in)
     {
-        this.player1 = player1_in;
-        this.player2 = player2_in;
+        this.setPlayerById(0, player1_in);
+        this.setPlayerById(1, player2_in);
     }
 
     // Играет игру игрока player_in с пользователем (в консольном режиме). Если победил пользователь - возвращает 1,
@@ -39,12 +36,12 @@ public abstract class TwoPlayersGame
     // Возвращает игрока 1.
     public Player getPlayer1()
     {
-        return this.player1;
+        return this.getPlayerById(0);
     }
 
     // Возвращает игрока 2.
     public Player getPlayer2()
     {
-        return this.player2;
+        return this.getPlayerById(1);
     }
 }
