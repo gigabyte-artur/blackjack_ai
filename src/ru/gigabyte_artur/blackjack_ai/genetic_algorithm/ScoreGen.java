@@ -1,7 +1,6 @@
 package ru.gigabyte_artur.blackjack_ai.genetic_algorithm;
 
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

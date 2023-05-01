@@ -6,10 +6,10 @@ import ru.gigabyte_artur.blackjack_ai.black_jack.BlackJackPlayer;
 import ru.gigabyte_artur.blackjack_ai.black_jack.GameBlackJack;
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
+import ru.gigabyte_artur.blackjack_ai.poker.GamePoker;
 import ru.gigabyte_artur.blackjack_ai.xo.GameXO;
 import ru.gigabyte_artur.blackjack_ai.xo.XoBoard;
 import ru.gigabyte_artur.blackjack_ai.xo.XoPlayer;
-
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
@@ -115,10 +115,18 @@ public class Main
         }
     }
 
+    // Игро Покер. В консоли с обучением.
+    private static void main_Poker()
+    {
+        GamePoker Poker1 = new GamePoker();
+        Poker1.Init();
+    }
+
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException
     {
-        //main_BlackJack_GUI();
-        main_XO();
+        main_BlackJack_GUI();
+        //main_XO();
         //main_BlackJack_WithUser();
+        //main_Poker();
     }
 }

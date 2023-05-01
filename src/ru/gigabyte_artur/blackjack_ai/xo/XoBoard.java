@@ -1,8 +1,5 @@
 package ru.gigabyte_artur.blackjack_ai.xo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class XoBoard
 {
     private int[][] cells = new int[3][3];      // Доска.

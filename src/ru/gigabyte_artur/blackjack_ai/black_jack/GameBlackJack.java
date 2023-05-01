@@ -53,7 +53,7 @@ public class GameBlackJack extends TwoPlayersGame
             if (input == 1) {
                 user_hand.DrawCard(deck);
                 user_hand.Show();
-                score1 = user_hand.SummHand();
+                score1 = GameBlackJack.SummHand(user_hand);
                 System.out.println(score1);
             }
         }
@@ -126,5 +126,35 @@ public class GameBlackJack extends TwoPlayersGame
     public void setDeck(Hand deck_in)
     {
         this.deck = deck_in;
+    }
+
+    // Подсчитывает сумму карт в колоде deck_in.
+    public static int SummHand(Hand deck_in)
+    {
+        int rez = 0;
+        int curr_value = 0;
+        for (Card curr_card : deck_in.getCards())
+        {
+            curr_value = curr_card.GetValue();
+            switch (curr_value)
+            {
+                case  (Card.Value_Jack):
+                    rez = rez + 2;
+                    break;
+                case (Card.Value_Queen):
+                    rez = rez + 3;
+                    break;
+                case (Card.Value_King):
+                    rez = rez + 4;
+                    break;
+                case (Card.Value_Ace):
+                    rez = rez + 11;
+                    break;
+                default:
+                    rez = rez + curr_value;
+                    break;
+            }
+        }
+        return rez;
     }
 }

@@ -4,8 +4,6 @@ import javax.xml.parsers.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-
-
 import org.xml.sax.SAXException;
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.gaming.TwoPlayersGame;

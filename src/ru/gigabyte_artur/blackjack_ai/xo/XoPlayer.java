@@ -1,11 +1,8 @@
 package ru.gigabyte_artur.blackjack_ai.xo;
 
-import ru.gigabyte_artur.blackjack_ai.black_jack.BlackJackPlayer;
-import ru.gigabyte_artur.blackjack_ai.black_jack.GameBlackJack;
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.gaming.TwoPlayersGame;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
-
 import java.util.HashMap;
 import java.util.Map;
 

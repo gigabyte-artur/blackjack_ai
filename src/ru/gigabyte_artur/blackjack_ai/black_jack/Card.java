@@ -8,7 +8,11 @@ public class Card {
     public static final int Suite_Diamonds = 2;     // Значение масти Буби.
     public static final int Suite_Clubs = 3;        // Значение масти Трефы.
     public static final int Suite_Spades = 4;       // Значение масти Пики.
-    public static final int MAX_VALUE = 11;         // Максимальное значение карты.
+    public static final int MAX_VALUE = 14;         // Максимальное значение карты.
+    public static final int Value_Jack = 11;       // Значение масти Пики.
+    public static final int Value_Queen = 12;       // Значение масти Пики.
+    public static final int Value_King = 13;       // Значение масти Пики.
+    public static final int Value_Ace = 14;       // Значение масти Пики.
 
     // Выводит карту на экран.
     public void Show()
@@ -31,7 +35,25 @@ public class Card {
             default:
                 break;
         }
-        System.out.print(" " + this.value + ")");
+        switch (this.value)
+        {
+            case  (Value_Jack):
+                System.out.print(" " + "J");
+                break;
+            case (Value_Queen):
+                System.out.print(" " + "Q");
+                break;
+            case (Value_King):
+                System.out.print(" " + "K");
+                break;
+            case (Value_Ace):
+                System.out.print(" " + "A");
+                break;
+            default:
+                System.out.print(" " + this.value);
+                break;
+        }
+        System.out.print(")");
     }
 
     // Устанавливамет карту с мастью suite_in и значением value_in.

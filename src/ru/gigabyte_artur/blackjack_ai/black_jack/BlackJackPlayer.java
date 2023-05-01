@@ -114,7 +114,7 @@ public class BlackJackPlayer extends Player {
     public int SummHand()
     {
         int rez = 0;
-        rez = this.hand.SummHand();
+        rez = GameBlackJack.SummHand(this.hand);
         return rez;
     }
 

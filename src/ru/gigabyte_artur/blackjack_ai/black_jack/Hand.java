@@ -122,17 +122,6 @@ public class Hand
         }
     }
 
-    // Подсчитывает сумму очков карт на руках.
-    public int SummHand()
-    {
-        int rez = 0;
-        for (Card curr_card : this.Cards)
-        {
-            rez = rez + curr_card.GetValue();
-        }
-        return rez;
-    }
-
     // Очищает текущую руку.
     public void Empty()
     {
@@ -146,4 +135,7 @@ public class Hand
         return rez;
     }
 
+    public ArrayList<Card> getCards() {
+        return Cards;
+    }
 }
