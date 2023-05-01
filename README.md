@@ -1,2 +1,2 @@
 # blackjack_ai
-AI plays BlackJack on Java
+AI plays BlackJack, Tic-tac-toe, Poker on Java
