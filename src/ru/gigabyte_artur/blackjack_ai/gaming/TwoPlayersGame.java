@@ -4,8 +4,6 @@ import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
 public abstract class TwoPlayersGame extends MultiPlayerGame
 {
-    public Player player1;      // Первый игрок.
-    public Player player2;      // Второй игрок.
 
     public TwoPlayersGame()
     {
