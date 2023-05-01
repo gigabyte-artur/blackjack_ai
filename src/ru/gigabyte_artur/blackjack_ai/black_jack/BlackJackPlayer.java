@@ -85,7 +85,7 @@ public class BlackJackPlayer extends Player {
         while ((decision) && (rez < 21))
         {
             if (game_in instanceof GameBlackJack)
-            this.DrawCard(((GameBlackJack) game_in).deck);
+                this.DrawCard(((GameBlackJack) game_in).deck);
             this.HandToInputSignals();
             decision = false;
             if (this.SummHand() > 11)

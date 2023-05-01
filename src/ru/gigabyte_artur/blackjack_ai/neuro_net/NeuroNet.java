@@ -145,12 +145,12 @@ public class NeuroNet
         int layers_size, counter;
         double curr_signal;
         layers_size = this.Layers.size();
-        last_layer = this.Layers.get(layers_size -1);
-        if (last_layer instanceof DenseLayer)
+        if (layers_size > 0)
         {
-            if (((DenseLayer)last_layer).GetSize() > 0)
+            last_layer = this.Layers.get(layers_size - 1);
+            if (last_layer instanceof DenseLayer)
             {
-                last_neurons = ((DenseLayer)last_layer).GetNeurons();
+                last_neurons = ((DenseLayer) last_layer).GetNeurons();
                 counter = 0;
                 for (Neuron current_neuron : last_neurons)
                 {
@@ -161,12 +161,14 @@ public class NeuroNet
             }
             else
             {
-                rez = new HashMap<Integer,Double>();
+                System.out.println("Неизвестный вариант слоя");
+                rez = new HashMap<Integer, Double>();
             }
         }
         else
         {
-            rez = new HashMap<Integer,Double>();
+            System.out.println("В нейронной сети нет слоёв");
+            rez = new HashMap<Integer, Double>();
         }
         return rez;
     }

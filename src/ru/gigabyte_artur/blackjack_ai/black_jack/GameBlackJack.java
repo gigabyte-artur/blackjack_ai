@@ -27,9 +27,9 @@ public class GameBlackJack extends TwoPlayersGame
         Hand deck;
         this.deck = this.GenerateDeck();
         // Игра первого игрока.
-        score1 = this.player1.Play(this, true);
+        score1 = this.getPlayer1().Play(this, true);
         // Игра второго игрока.
-        score2 = this.player2.Play(this, true);
+        score2 = this.getPlayer2().Play(this, true);
         // Сравнение.
         rez = GameBlackJack.ChooseWinnerByScore(score1, score2);
         return rez;
@@ -44,6 +44,7 @@ public class GameBlackJack extends TwoPlayersGame
         Hand deck, user_hand = new Hand();
         Scanner scanner = new Scanner(System.in);
         deck = this.GenerateDeck();
+        this.setDeck(deck);
         user_hand.Clear();
         // Игра пользователя.
         while ((score1 < 22) & (input != 2))
@@ -121,5 +122,10 @@ public class GameBlackJack extends TwoPlayersGame
     {
         BlackJackPlayer rez = new BlackJackPlayer();
         return rez;
+    }
+
+    public void setDeck(Hand deck_in)
+    {
+        this.deck = deck_in;
     }
 }
