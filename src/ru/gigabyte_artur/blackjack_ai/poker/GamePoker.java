@@ -23,15 +23,42 @@ public class GamePoker extends MultiPlayerGame
     public static final int MAX_PLAYERS = 6;           // Количество игроков за столом.
     public static final int NEW_AMOUNT = 10000;        // Размер банка у нового игрока.
 
-    // Играет текущую игру. Возвращает номер победителя. В случае ничьи возвращает -1.
-    public int Play()
+    // Считывает входные сигналы всех игроков.
+    private void PlayersReadInputSignals()
     {
-        int rez = 0;
         for (Player curr_Players:this.getPlayers())
         {
             if (curr_Players instanceof PokerPlayer)
                 ((PokerPlayer)curr_Players).ReadInputSignals(this);
         }
+    }
+
+    // Раздаёт карты в текущей игре.
+    private void DealCards(Hand deck_in)
+    {
+        // Раздача карт.
+        for (Player curr_Players:this.getPlayers())
+        {
+            if (curr_Players instanceof PokerPlayer) {
+                ((PokerPlayer)curr_Players).getHand().DrawCard(deck_in);
+                ((PokerPlayer)curr_Players).getHand().DrawCard(deck_in);        // Вытянем две карты.
+            }
+        }
+        // Установка дилера, малого, большого блайнда.
+        if (this.getPlayers().size() > 2)
+        {
+            DealerPlayer         = this.getPlayers().get(0);
+            LittleBlindPlayer    = this.getPlayers().get(1);
+            BigBlindPlayer       = this.getPlayers().get(2);
+        }
+    }
+
+    // Играет текущую игру. Возвращает номер победителя. В случае ничьи возвращает -1.
+    public int Play()
+    {
+        int rez = 0;
+        DealCards(this.deck);
+        PlayersReadInputSignals();
         return rez;
     }
 
@@ -57,8 +84,6 @@ public class GamePoker extends MultiPlayerGame
         for (int c=1; c<=MAX_PLAYERS; c++)
         {
             PokerPlayer Player_new = NewPlayer();
-            Player_new.getHand().DrawCard(deck);
-            Player_new.getHand().DrawCard(deck);        // Вытянем две карты.
             this.AddPlayer(Player_new);
         }
         // Установка состояния игры.
