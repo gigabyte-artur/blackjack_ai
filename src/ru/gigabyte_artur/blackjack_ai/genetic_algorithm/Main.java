@@ -120,6 +120,7 @@ public class Main
     {
         GamePoker Poker1 = new GamePoker();
         Poker1.Init();
+        Poker1.Play();
     }
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException

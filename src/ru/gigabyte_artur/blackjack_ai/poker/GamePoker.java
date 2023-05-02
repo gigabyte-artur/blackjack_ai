@@ -3,11 +3,13 @@ package ru.gigabyte_artur.blackjack_ai.poker;
 import ru.gigabyte_artur.blackjack_ai.black_jack.Hand;
 import ru.gigabyte_artur.blackjack_ai.gaming.MultiPlayerGame;
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
+import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
 public class GamePoker extends MultiPlayerGame
 {
 
     private Hand deck;                       // Колода текущей игры.
+    private Hand table;                      // Карты, лежащие на столе.
     private Player DealerPlayer;             // Текущий игрок-дилер.
     private Player LittleBlindPlayer;        // Игрок с малым бландом.
     private Player BigBlindPlayer;           // Игрок с большим блайндом.
@@ -25,7 +27,11 @@ public class GamePoker extends MultiPlayerGame
     public int Play()
     {
         int rez = 0;
-
+        for (Player curr_Players:this.getPlayers())
+        {
+            if (curr_Players instanceof PokerPlayer)
+                ((PokerPlayer)curr_Players).ReadInputSignals(this);
+        }
         return rez;
     }
 
@@ -41,6 +47,9 @@ public class GamePoker extends MultiPlayerGame
     // Инициализирует игру.
     public void Init()
     {
+        // Инициализация стола.
+        this.table = new Hand();
+        this.table.Empty();
         // Колода для игры.
         deck = GenerateDeck();
         this.setDeck(deck);
@@ -79,5 +88,45 @@ public class GamePoker extends MultiPlayerGame
     private void setCurrBet(int currBet_in)
     {
         this.CurrBet = currBet_in;
+    }
+
+    // Возвращает пустую нейронную сеть для новой игры.
+    public static NeuroNet GenerateModel()
+    {
+        // ВХОДНЫЕ НЕЙРОНЫ:
+        // 1-54      (54) - есть ли карта с номером в руке у игрока.
+        // 55-110    (54) - есть ли карта с номером на столе.
+        // 111-116   (6) - спасовал ли игрок 1-6.
+        // 117-122   (6) - продолжил ли игрок 1-6.
+        // 123-128   (6) - поднял ли ставку *1 игрок 1-6.
+        // 129-134   (6) - поднял ли ставку *3 игрок 1-6.
+        // 135-140   (6) - поднял ли ставку *10 игрок 1-6.
+        // 141-146   (6) - моя позиция относительно дилера.
+        // 147       (1) - размер моего депозита (в процентах от 0 до 3 начальных).
+        //
+        // ВЫХОДНЫЕ НЕЙРОНЫ:
+        // 1 - скинуть карты.
+        // 2 - продолжить.
+        // 3 - поднять *1.
+        // 4 - поднять *3.
+        // 5 - поднять *10.
+        NeuroNet rez = new NeuroNet();
+        rez.GenerateAddDenseLayer(147, true, false);
+        rez.GenerateAddDenseLayer(147, false, false);
+        rez.GenerateAddDenseLayer(147, false, false);
+        rez.GenerateAddDenseLayer(147, false, false);
+        rez.GenerateAddDenseLayer(5, false, true);
+        rez.Compile();
+        return rez;
+    }
+
+    public Hand getDeck()
+    {
+        return deck;
+    }
+
+    public Hand getTable()
+    {
+        return table;
     }
 }

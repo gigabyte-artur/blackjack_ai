@@ -57,4 +57,9 @@ public abstract class MultiPlayerGame
     {
         this.Players.add(Player_in);
     }
+
+    public ArrayList<Player> getPlayers()
+    {
+        return this.Players;
+    }
 }
