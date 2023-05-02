@@ -57,8 +57,12 @@ public class GamePoker extends MultiPlayerGame
     public int Play()
     {
         int rez = 0;
+        this.table.DrawCard(this.deck);
+        this.table.DrawCard(this.deck);
+        this.table.DrawCard(this.deck);
         DealCards(this.deck);
         PlayersReadInputSignals();
+        this.Show();
         return rez;
     }
 
@@ -154,4 +158,23 @@ public class GamePoker extends MultiPlayerGame
     {
         return table;
     }
+
+    // Отображает текущее состояние игры в консоли.
+    public void Show()
+    {
+        int c = 0;
+        System.out.println("На столе: ");
+        this.table.Show();
+        System.out.println("-----");
+        for (Player curr_Players:this.getPlayers())
+        {
+            System.out.println("Карты игрока #" + (c + 1) + ":");
+            if (curr_Players instanceof PokerPlayer)
+            {
+                ((PokerPlayer)curr_Players).getHand().Show();
+            }
+            c = c + 1;
+        }
+    }
+
 }

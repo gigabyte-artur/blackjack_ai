@@ -16,12 +16,17 @@ public class Hand
     // Выводит содержимое руки на экран.
     public void Show()
     {
-        for (Card curr_card: Cards)
+        if (Cards.size() > 0)
         {
-            curr_card.Show();
-            System.out.print(", ");
+            for (Card curr_card : Cards)
+            {
+                curr_card.Show();
+                System.out.print(", ");
+            }
+            System.out.println();
         }
-        System.out.println();
+        else
+            System.out.println("<Пустая рука>");
     }
 
     // Очищает содержимое руки.
