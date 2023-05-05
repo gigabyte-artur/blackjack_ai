@@ -34,21 +34,29 @@ public class PokerCombination
 
     public PokerCombination(ArrayList<Card> cards_in)
     {
+        // Инициализация.
         final int CardValueNone = Card.Value_None;
-        int CardValueOnePair;
-        setCombinationType(Type_None);
-        setHightestCard(CardValueNone);
+        int CardValueOnePair, CardValueHightCard;
+        this.Set(Type_None, CardValueNone);
+        // Одна пара.
         CardValueOnePair = IsOnePair(cards_in);
         if (CardValueOnePair != CardValueNone)
         {
-            setCombinationType(Type_OnePair);
-            setHightestCard(CardValueOnePair);
+            this.Set(Type_OnePair, CardValueOnePair);
         }
         else
         {
-            // Комбинаций не найдено.
-            setCombinationType(Type_None);
-            setHightestCard(CardValueNone);
+            // Старшая карта.
+            CardValueHightCard = IsHightCard(cards_in);
+            if (CardValueHightCard != CardValueNone)
+            {
+                this.Set(Type_HightCard, CardValueHightCard);
+            }
+            else
+            {
+                // Комбинаций не найдено.
+                this.Set(Type_None, CardValueNone);
+            }
         }
     }
 
@@ -70,6 +78,13 @@ public class PokerCombination
     public int getHightestCard()
     {
         return this.HightestCard;
+    }
+
+    // Устанавливает в текущую комбинацию значения полей.
+    public void Set(int CombinationType_in, int HightestCard_in)
+    {
+        this.CombinationType = CombinationType_in;
+        this.HightestCard = HightestCard_in;
     }
 
     // Определяет, что в массиве карт cards_in есть комбинация Одна пара. Вовзвращает старшую карту в случае успеха и
@@ -104,6 +119,43 @@ public class PokerCombination
         return rez;
     }
 
+    // Определяет, что в массиве карт cards_in есть комбинация Старшая карта. Вовзвращает старшую карту в случае успеха и
+    // пустую карту в случае неуспеха.
+    private int IsHightCard(ArrayList<Card> cards_in)
+    {
+        int rez = Card.Value_None;       // Пустая карта.
+        int value1;
+        for (Card curr_cards_in1:cards_in)
+        {
+            value1 = curr_cards_in1.GetValue();
+            if ((value1 == Card.Value_Jack) || (value1 == Card.Value_Queen) || (value1 == Card.Value_King) || (value1 == Card.Value_Ace))
+            {
+                if (value1 > rez)
+                {
+                    rez = value1;
+                }
+                else
+                {
+                    // Текущий результат выше, либо аналогичный. Не обновляем.
+                }
+            }
+            else
+            {
+                // Не совпадают значения, либо это одна и та же карта.
+            }
+        }
+        return rez;
+    }
+
+    // Печатает в консоль комбинацию с текстовым представлением CombinationName_in и значением старшей карты
+    // CardValue_in.
+    private void PrintCombinationByName(String CombinationName_in, int CardValue_in)
+    {
+        System.out.print(CombinationName_in + " (");
+        Card.PrintValue(CardValue_in);
+        System.out.println(")");
+    }
+
     // Отображает комбинацию.
     public void Show()
     {
@@ -112,9 +164,10 @@ public class PokerCombination
             case (Type_None):
                 break;
             case (Type_OnePair):
-                System.out.print("One pair (");
-                Card.PrintValue(this.getHightestCard());
-                System.out.println(")");
+                PrintCombinationByName("One pair", this.getHightestCard());
+                break;
+            case (Type_HightCard):
+                PrintCombinationByName("Hight card", this.getHightestCard());
                 break;
         }
     }
