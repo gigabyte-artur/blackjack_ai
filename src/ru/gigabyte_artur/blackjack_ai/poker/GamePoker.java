@@ -1,9 +1,12 @@
 package ru.gigabyte_artur.blackjack_ai.poker;
 
+import ru.gigabyte_artur.blackjack_ai.black_jack.Card;
 import ru.gigabyte_artur.blackjack_ai.black_jack.Hand;
 import ru.gigabyte_artur.blackjack_ai.gaming.MultiPlayerGame;
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
+
+import java.util.ArrayList;
 
 public class GamePoker extends MultiPlayerGame
 {
@@ -162,16 +165,26 @@ public class GamePoker extends MultiPlayerGame
     // Отображает текущее состояние игры в консоли.
     public void Show()
     {
+        // Инициализация.
         int c = 0;
+        ArrayList<Card> CardMixed = new ArrayList<Card>();
+        Hand HandCurrPlayer;
+        PokerCombination CombinationCurrPlayer = new PokerCombination();
+        // Вывод карт на столе.
         System.out.println("На столе: ");
         this.table.Show();
         System.out.println("-----");
+        // Вывод карт у игроков.
         for (Player curr_Players:this.getPlayers())
         {
             System.out.println("Карты игрока #" + (c + 1) + ":");
             if (curr_Players instanceof PokerPlayer)
             {
-                ((PokerPlayer)curr_Players).getHand().Show();
+                HandCurrPlayer = ((PokerPlayer)curr_Players).getHand();
+                HandCurrPlayer.Show();
+                CardMixed = Hand.MixTwoHand(this.table, HandCurrPlayer);
+                CombinationCurrPlayer = new PokerCombination(CardMixed);
+                CombinationCurrPlayer.Show();
             }
             c = c + 1;
         }

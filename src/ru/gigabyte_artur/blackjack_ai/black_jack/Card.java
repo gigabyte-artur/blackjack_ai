@@ -9,52 +9,11 @@ public class Card {
     public static final int Suite_Clubs = 3;        // Значение масти Трефы.
     public static final int Suite_Spades = 4;       // Значение масти Пики.
     public static final int MAX_VALUE = 14;         // Максимальное значение карты.
-    public static final int Value_Jack = 11;       // Значение масти Пики.
+    public static final int Value_None = 0;         // Значение масти 0.
+    public static final int Value_Jack = 11;        // Значение масти Пики.
     public static final int Value_Queen = 12;       // Значение масти Пики.
-    public static final int Value_King = 13;       // Значение масти Пики.
-    public static final int Value_Ace = 14;       // Значение масти Пики.
-
-    // Выводит карту на экран.
-    public void Show()
-    {
-        System.out.print("(");
-        switch (this.suite)
-        {
-            case  (Suite_Hearts):
-                System.out.print("H");
-                break;
-            case (Suite_Diamonds):
-                System.out.print("D");
-                break;
-            case (Suite_Clubs):
-                System.out.print("C");
-                break;
-            case (Suite_Spades):
-                System.out.print("S");
-                break;
-            default:
-                break;
-        }
-        switch (this.value)
-        {
-            case  (Value_Jack):
-                System.out.print(" " + "J");
-                break;
-            case (Value_Queen):
-                System.out.print(" " + "Q");
-                break;
-            case (Value_King):
-                System.out.print(" " + "K");
-                break;
-            case (Value_Ace):
-                System.out.print(" " + "A");
-                break;
-            default:
-                System.out.print(" " + this.value);
-                break;
-        }
-        System.out.print(")");
-    }
+    public static final int Value_King = 13;        // Значение масти Пики.
+    public static final int Value_Ace = 14;         // Значение масти Пики.
 
     // Устанавливамет карту с мастью suite_in и значением value_in.
     public void Set(int suite_in, int value_in)
@@ -75,7 +34,58 @@ public class Card {
         return this.value;
     }
 
-    // Переопределение оперции сравнения.
+    // Печатает на экран значение текущей карты.
+    public static void PrintValue(int value_in)
+    {
+        switch (value_in)
+        {
+            case  (Value_Jack):
+                System.out.print("J");
+                break;
+            case (Value_Queen):
+                System.out.print("Q");
+                break;
+            case (Value_King):
+                System.out.print("K");
+                break;
+            case (Value_Ace):
+                System.out.print("A");
+                break;
+            default:
+                System.out.print(value_in);
+                break;
+        }
+    }
+
+    // Выводит карту на экран.
+    public void Show()
+    {
+        System.out.print("(");
+        // Вывод масти.
+        switch (this.suite)
+        {
+            case  (Suite_Hearts):
+                System.out.print("H");
+                break;
+            case (Suite_Diamonds):
+                System.out.print("D");
+                break;
+            case (Suite_Clubs):
+                System.out.print("C");
+                break;
+            case (Suite_Spades):
+                System.out.print("S");
+                break;
+            default:
+                break;
+        }
+        // Вывод значения.
+        System.out.print(" ");
+        this.PrintValue(this.value);
+        System.out.print(")");
+    }
+
+    // Переопределение операции сравнения.
     public boolean equals(Card card_in)
     {
         boolean rez = false;

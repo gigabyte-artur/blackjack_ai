@@ -143,4 +143,19 @@ public class Hand
     public ArrayList<Card> getCards() {
         return Cards;
     }
+
+    // Возвращает массив карт, принадлежащих двум рукам hand1_in и hand2_in.
+    public static ArrayList<Card> MixTwoHand(Hand hand1_in, Hand hand2_in)
+    {
+        ArrayList<Card> rez =  new ArrayList<Card>();
+        for (Card curr_hand1:hand1_in.getCards())
+        {
+            rez.add(curr_hand1);
+        }
+        for (Card curr_hand2:hand2_in.getCards())
+        {
+            rez.add(curr_hand2);
+        }
+        return rez;
+    }
 }
