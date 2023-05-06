@@ -63,6 +63,8 @@ public class GamePoker extends MultiPlayerGame
         this.table.DrawCard(this.deck);
         this.table.DrawCard(this.deck);
         this.table.DrawCard(this.deck);
+        this.table.DrawCard(this.deck);
+        this.table.DrawCard(this.deck);
         DealCards(this.deck);
         PlayersReadInputSignals();
         this.Show();

@@ -36,26 +36,35 @@ public class PokerCombination
     {
         // Инициализация.
         final int CardValueNone = Card.Value_None;
-        int CardValueOnePair, CardValueHightCard;
+        int CardValueOnePair, CardValueHightCard, CardValueSimpleFlash;
         this.Set(Type_None, CardValueNone);
-        // Одна пара.
-        CardValueOnePair = IsOnePair(cards_in);
-        if (CardValueOnePair != CardValueNone)
+        // Простой Флеш.
+        CardValueSimpleFlash = IsFlashSimple(cards_in);
+        if (CardValueSimpleFlash != CardValueNone)
         {
-            this.Set(Type_OnePair, CardValueOnePair);
+            this.Set(Type_FlashSimple, CardValueSimpleFlash);
         }
         else
         {
-            // Старшая карта.
-            CardValueHightCard = IsHightCard(cards_in);
-            if (CardValueHightCard != CardValueNone)
+            // Одна пара.
+            CardValueOnePair = IsOnePair(cards_in);
+            if (CardValueOnePair != CardValueNone)
             {
-                this.Set(Type_HightCard, CardValueHightCard);
+                this.Set(Type_OnePair, CardValueOnePair);
             }
             else
             {
-                // Комбинаций не найдено.
-                this.Set(Type_None, CardValueNone);
+                // Старшая карта.
+                CardValueHightCard = IsHightCard(cards_in);
+                if (CardValueHightCard != CardValueNone)
+                {
+                    this.Set(Type_HightCard, CardValueHightCard);
+                }
+                else
+                {
+                    // Комбинаций не найдено.
+                    this.Set(Type_None, CardValueNone);
+                }
             }
         }
     }
@@ -147,6 +156,57 @@ public class PokerCombination
         return rez;
     }
 
+    // Определяет, что в массиве карт cards_in есть комбинация Простой Флеш. Вовзвращает старшую карту в случае успеха и
+    // пустую карту в случае неуспеха.
+    private int IsFlashSimple(ArrayList<Card> cards_in)
+    {
+        // Инициализация.
+        int rez = Card.Value_None;       // Пустая карта.
+        int max_card_hearts = Card.Value_None, max_card_diamonds = Card.Value_None,
+                max_card_clubs = Card.Value_None, max_card_spades = Card.Value_None;        // Максимальные значения карт по мастям.
+        int count_hearts = 0, count_diamonds = 0, count_clubs = 0, count_spades = 0;        // Количество карт с мастью в комбинации.
+        int suite1 = Card.Suite_None, value1 = Card.Value_None;
+        // Обход комбиации, определение длины максимальной очереди по каждой масти.
+        for (Card curr_cards_in1:cards_in)
+        {
+            suite1 = curr_cards_in1.GetSuite();
+            value1 = curr_cards_in1.GetValue();
+            switch (suite1)
+            {
+                case Card.Suite_Hearts:
+                    count_hearts = count_hearts + 1;
+                    if (max_card_hearts < value1)
+                        max_card_hearts = value1;
+                    break;
+                case Card.Suite_Diamonds:
+                    count_diamonds = count_diamonds + 1;
+                    if (max_card_diamonds < value1)
+                        max_card_diamonds = value1;
+                    break;
+                case Card.Suite_Clubs:
+                    count_clubs = count_clubs + 1;
+                    if (max_card_clubs < value1)
+                        max_card_clubs = value1;
+                    break;
+                case Card.Suite_Spades:
+                    count_spades = count_spades + 1;
+                    if (max_card_spades < value1)
+                        max_card_spades = value1;
+                    break;
+            }
+        }
+        // Анализ полученных длин очередей и вывод результата.
+        if (count_hearts >= 5)
+            rez = max_card_hearts;
+        if (count_diamonds >= 5)
+            rez = max_card_diamonds;
+        if (count_clubs >= 5)
+            rez = max_card_clubs;
+        if (count_spades >= 5)
+            rez = max_card_spades;
+        return rez;
+    }
+
     // Печатает в консоль комбинацию с текстовым представлением CombinationName_in и значением старшей карты
     // CardValue_in.
     private void PrintCombinationByName(String CombinationName_in, int CardValue_in)
@@ -162,6 +222,9 @@ public class PokerCombination
         switch (this.getCombinationType())
         {
             case (Type_None):
+                break;
+            case (Type_FlashSimple):
+                PrintCombinationByName("Flash Simple", this.getHightestCard());
                 break;
             case (Type_OnePair):
                 PrintCombinationByName("One pair", this.getHightestCard());
