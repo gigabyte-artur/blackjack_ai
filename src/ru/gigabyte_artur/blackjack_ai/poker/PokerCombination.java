@@ -36,34 +36,33 @@ public class PokerCombination
     {
         // Инициализация.
         final int CardValueNone = Card.Value_None;
-        int CardValueOnePair, CardValueHightCard, CardValueSimpleFlash;
+        int CardValueOnePair, CardValueHightCard, CardValueSimpleFlash, CardValueSet;
         this.Set(Type_None, CardValueNone);
         // Простой Флеш.
-        CardValueSimpleFlash = IsFlashSimple(cards_in);
-        if (CardValueSimpleFlash != CardValueNone)
+        CardValueSet = IsSet(cards_in);
+        if (CardValueSet != CardValueNone)
         {
-            this.Set(Type_FlashSimple, CardValueSimpleFlash);
+            this.Set(Type_Set, CardValueSet);
         }
-        else
-        {
-            // Одна пара.
-            CardValueOnePair = IsOnePair(cards_in);
-            if (CardValueOnePair != CardValueNone)
-            {
-                this.Set(Type_OnePair, CardValueOnePair);
-            }
-            else
-            {
-                // Старшая карта.
-                CardValueHightCard = IsHightCard(cards_in);
-                if (CardValueHightCard != CardValueNone)
-                {
-                    this.Set(Type_HightCard, CardValueHightCard);
-                }
-                else
-                {
-                    // Комбинаций не найдено.
-                    this.Set(Type_None, CardValueNone);
+        else {
+            // Простой Флеш.
+            CardValueSimpleFlash = IsFlashSimple(cards_in);
+            if (CardValueSimpleFlash != CardValueNone) {
+                this.Set(Type_FlashSimple, CardValueSimpleFlash);
+            } else {
+                // Одна пара.
+                CardValueOnePair = IsOnePair(cards_in);
+                if (CardValueOnePair != CardValueNone) {
+                    this.Set(Type_OnePair, CardValueOnePair);
+                } else {
+                    // Старшая карта.
+                    CardValueHightCard = IsHightCard(cards_in);
+                    if (CardValueHightCard != CardValueNone) {
+                        this.Set(Type_HightCard, CardValueHightCard);
+                    } else {
+                        // Комбинаций не найдено.
+                        this.Set(Type_None, CardValueNone);
+                    }
                 }
             }
         }
@@ -207,11 +206,42 @@ public class PokerCombination
         return rez;
     }
 
+    // Определяет, что в массиве карт cards_in есть комбинация Сет. Вовзвращает старшую карту в случае успеха и
+    // пустую карту в случае неуспеха.
+    private int IsSet(ArrayList<Card> cards_in)
+    {
+        int rez = Card.Value_None;       // Пустая карта.
+        int value1, value2, value3;
+        for (Card curr_cards_in1:cards_in)
+        {
+            value1 = curr_cards_in1.GetValue();
+            for (Card curr_cards_in2:cards_in)
+            {
+                value2 = curr_cards_in2.GetValue();
+                for (Card curr_cards_in3:cards_in) {
+                    value3 = curr_cards_in3.GetValue();
+                    if ((value1 == value2) && (value1 == value3) && (!curr_cards_in1.equals(curr_cards_in2))
+                    && (!curr_cards_in1.equals(curr_cards_in3)) && (!curr_cards_in2.equals(curr_cards_in3)))
+                    {
+                        if (value1 > rez) {
+                            rez = value1;
+                        } else {
+                            // Текущий результат выше, либо аналогичный. Не обновляем.
+                        }
+                    } else {
+                        // Не совпадают значения, либо это одна и та же карта.
+                    }
+                }
+            }
+        }
+        return rez;
+    }
+
     // Печатает в консоль комбинацию с текстовым представлением CombinationName_in и значением старшей карты
     // CardValue_in.
     private void PrintCombinationByName(String CombinationName_in, int CardValue_in)
     {
-        System.out.print(CombinationName_in + " (");
+        System.out.print("* " + CombinationName_in + " (");
         Card.PrintValue(CardValue_in);
         System.out.println(")");
     }
@@ -225,6 +255,9 @@ public class PokerCombination
                 break;
             case (Type_FlashSimple):
                 PrintCombinationByName("Flash Simple", this.getHightestCard());
+                break;
+            case (Type_Set):
+                PrintCombinationByName("Set", this.getHightestCard());
                 break;
             case (Type_OnePair):
                 PrintCombinationByName("One pair", this.getHightestCard());
