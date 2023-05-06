@@ -1,4 +1,4 @@
-package ru.gigabyte_artur.blackjack_ai.black_jack;
+package ru.gigabyte_artur.blackjack_ai.card_game;
 
 public class Card {
     private int suite;      // Масть.

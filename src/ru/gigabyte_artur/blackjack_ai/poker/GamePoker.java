@@ -1,7 +1,7 @@
 package ru.gigabyte_artur.blackjack_ai.poker;
 
-import ru.gigabyte_artur.blackjack_ai.black_jack.Card;
-import ru.gigabyte_artur.blackjack_ai.black_jack.Hand;
+import ru.gigabyte_artur.blackjack_ai.card_game.Card;
+import ru.gigabyte_artur.blackjack_ai.card_game.Hand;
 import ru.gigabyte_artur.blackjack_ai.gaming.MultiPlayerGame;
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;

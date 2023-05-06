@@ -1,6 +1,6 @@
 package ru.gigabyte_artur.blackjack_ai.poker;
 
-import ru.gigabyte_artur.blackjack_ai.black_jack.Card;
+import ru.gigabyte_artur.blackjack_ai.card_game.Card;
 import java.util.ArrayList;
 
 public class PokerCombination
