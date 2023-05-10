@@ -47,7 +47,7 @@ public class Player
     // Возвращает массив случайных имён.
     private ArrayList<String> GetRandomNamesArray()
     {
-        ArrayList<String> rez = new ArrayList<String>();
+        ArrayList<String> rez = new ArrayList<>();
         rez.add("Adam");
         rez.add("Alana");
         rez.add("Albert");
