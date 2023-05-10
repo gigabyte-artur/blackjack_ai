@@ -2,10 +2,10 @@ package ru.gigabyte_artur.blackjack_ai.poker;
 
 import ru.gigabyte_artur.blackjack_ai.card_game.Card;
 import ru.gigabyte_artur.blackjack_ai.card_game.Hand;
+import ru.gigabyte_artur.blackjack_ai.gaming.BidsOfPlayers;
 import ru.gigabyte_artur.blackjack_ai.gaming.MultiPlayerGame;
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
-
 import java.util.ArrayList;
 
 public class GamePoker extends MultiPlayerGame
@@ -13,6 +13,7 @@ public class GamePoker extends MultiPlayerGame
 
     private Hand deck;                       // Колода текущей игры.
     private Hand table;                      // Карты, лежащие на столе.
+
     private Player DealerPlayer;             // Текущий игрок-дилер.
     private Player LittleBlindPlayer;        // Игрок с малым бландом.
     private Player BigBlindPlayer;           // Игрок с большим блайндом.
@@ -25,6 +26,8 @@ public class GamePoker extends MultiPlayerGame
     public static final int GameState_River = 3;      // Состояние текущей игры Ривер.
     public static final int MAX_PLAYERS = 6;           // Количество игроков за столом.
     public static final int NEW_AMOUNT = 10000;        // Размер банка у нового игрока.
+
+    private BidsOfPlayers Bids;        // Ставки игроков.
 
     // Считывает входные сигналы всех игроков.
     private void PlayersReadInputSignals()
@@ -56,18 +59,62 @@ public class GamePoker extends MultiPlayerGame
         }
     }
 
+    // Стадия игры Префлоп. Возвращает номер победителя. В случае ничьи возвращает -1.
+    public int Preflop()
+    {
+        int rez = -1;
+        Player NewDealerPlayer, NewBigBlindPlayer, NewLittleBlindPlayer;
+        Player NewBigBlind = new Player();
+        if (getPlayers().size() > 1)
+        {
+            // Установка ставок.
+            this.Bids = new BidsOfPlayers(this.getPlayers());
+            // Раздача карт.
+            DealCards(this.deck);
+            // Игрок-дилер.
+            NewDealerPlayer = getPlayerById(0);
+            setDealerPlayer(NewDealerPlayer);
+            // Малый блайнд.
+            NewBigBlindPlayer = getPlayerById(1);
+            setBigBlindPlayer(NewBigBlindPlayer);
+            // Большой блайнд.
+            NewLittleBlindPlayer = getPlayerById(2);
+            setLittleBlindPlayer(NewLittleBlindPlayer);
+//            PlayersReadInputSignals();
+        }
+        else
+        {
+            System.out.println("Недостаточно игроков для начала игры");
+        }
+        return rez;
+    }
+
+    private void setDealerPlayer(Player Player_in)
+    {
+        this.DealerPlayer = Player_in;
+    }
+
+    public void setLittleBlindPlayer(Player littleBlindPlayer_in)
+    {
+        this.LittleBlindPlayer = littleBlindPlayer_in;
+    }
+
+    public void setBigBlindPlayer(Player bigBlindPlayer_in)
+    {
+        this.BigBlindPlayer = bigBlindPlayer_in;
+    }
+
     // Играет текущую игру. Возвращает номер победителя. В случае ничьи возвращает -1.
     public int Play()
     {
-        int rez = 0;
-        this.table.DrawCard(this.deck);
-        this.table.DrawCard(this.deck);
-        this.table.DrawCard(this.deck);
-        this.table.DrawCard(this.deck);
-        this.table.DrawCard(this.deck);
-        DealCards(this.deck);
-        PlayersReadInputSignals();
-        this.Show();
+        int rez = -1;
+//        this.table.DrawCard(this.deck);
+//        this.table.DrawCard(this.deck);
+//        this.table.DrawCard(this.deck);
+//        this.table.DrawCard(this.deck);
+//        this.table.DrawCard(this.deck);
+        Preflop();
+//        this.Show();
         return rez;
     }
 
@@ -191,5 +238,4 @@ public class GamePoker extends MultiPlayerGame
             c = c + 1;
         }
     }
-
 }
