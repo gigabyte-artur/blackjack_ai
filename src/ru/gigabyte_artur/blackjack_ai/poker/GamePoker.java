@@ -10,15 +10,14 @@ import java.util.ArrayList;
 
 public class GamePoker extends MultiPlayerGame
 {
-
     private Hand deck;                       // Колода текущей игры.
     private Hand table;                      // Карты, лежащие на столе.
-
     private Player DealerPlayer;             // Текущий игрок-дилер.
     private Player LittleBlindPlayer;        // Игрок с малым бландом.
     private Player BigBlindPlayer;           // Игрок с большим блайндом.
     private int CurrBet;                     // Размер текущей ставки.
     private int GameState;                   // Текущее состояние игры.
+    private BidsOfPlayers Bids;              // Ставки игроков.
 
     public static final int GameState_Preflop = 0;    // Состояние текущей игры Префлоп.
     public static final int GameState_Flop = 1;       // Состояние текущей игры Флоп.
@@ -26,8 +25,7 @@ public class GamePoker extends MultiPlayerGame
     public static final int GameState_River = 3;      // Состояние текущей игры Ривер.
     public static final int MAX_PLAYERS = 6;           // Количество игроков за столом.
     public static final int NEW_AMOUNT = 10000;        // Размер банка у нового игрока.
-
-    private BidsOfPlayers Bids;        // Ставки игроков.
+    public static final int MINIMAL_BID = 5;
 
     // Считывает входные сигналы всех игроков.
     private void PlayersReadInputSignals()
@@ -75,11 +73,13 @@ public class GamePoker extends MultiPlayerGame
             NewDealerPlayer = getPlayerById(0);
             setDealerPlayer(NewDealerPlayer);
             // Малый блайнд.
-            NewBigBlindPlayer = getPlayerById(1);
-            setBigBlindPlayer(NewBigBlindPlayer);
+            NewLittleBlindPlayer = getPlayerById(1);
+            setBigBlindPlayer(NewLittleBlindPlayer);
+            Bids.setBidOfPlayer(NewLittleBlindPlayer, MINIMAL_BID);                 // Малый блайнд - 1 минимальная ставка.
             // Большой блайнд.
-            NewLittleBlindPlayer = getPlayerById(2);
-            setLittleBlindPlayer(NewLittleBlindPlayer);
+            NewBigBlindPlayer = getPlayerById(2);
+            setLittleBlindPlayer(NewBigBlindPlayer);
+            Bids.setBidOfPlayer(NewLittleBlindPlayer, MINIMAL_BID * 2);       // Болльшой блайнд - 2 минальные ставки.
 //            PlayersReadInputSignals();
         }
         else
