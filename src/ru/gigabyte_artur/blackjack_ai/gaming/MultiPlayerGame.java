@@ -1,10 +1,14 @@
 package ru.gigabyte_artur.blackjack_ai.gaming;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class MultiPlayerGame
 {
-    private ArrayList<Player> Players = new ArrayList<>();
+    private ArrayList<Player> Players = new ArrayList<>();                              // Игроки.
+    private HashMap<Player, Integer> PlayersState= new HashMap<Player, Integer>();      // Состояния игроков.
+
+    public static final int PLAYER_STATE_NONE = 0;
 
     // Играет текущую игру. Возвращает номер победителя. В случае ничьи возвращает -1.
     public abstract  int Play();
@@ -56,10 +60,23 @@ public abstract class MultiPlayerGame
     public void AddPlayer(Player Player_in)
     {
         this.Players.add(Player_in);
+        this.SetPlayersState(Player_in, PLAYER_STATE_NONE);
     }
 
     public ArrayList<Player> getPlayers()
     {
         return this.Players;
+    }
+
+    // Возвращает состояние игрока Player_in.
+    public int GetPlayersState(Player Player_in)
+    {
+        return this.PlayersState.get(Player_in);
+    }
+
+    // Устанавливает игроку Player_in состояние State_in.
+    public void SetPlayersState(Player Player_in, int State_in)
+    {
+        this.PlayersState.put(Player_in, State_in);
     }
 }

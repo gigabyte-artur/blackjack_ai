@@ -15,17 +15,59 @@ public class GamePoker extends MultiPlayerGame
     private Player DealerPlayer;             // Текущий игрок-дилер.
     private Player LittleBlindPlayer;        // Игрок с малым бландом.
     private Player BigBlindPlayer;           // Игрок с большим блайндом.
-    private int CurrBet;                     // Размер текущей ставки.
+    private int CurrentBid;                  // Размер текущей ставки.
     private int GameState;                   // Текущее состояние игры.
     private BidsOfPlayers Bids;              // Ставки игроков.
+    private Player LastRaisedPlayer;
 
     public static final int GameState_Preflop = 0;    // Состояние текущей игры Префлоп.
     public static final int GameState_Flop = 1;       // Состояние текущей игры Флоп.
     public static final int GameState_Turn = 2;       // Состояние текущей игры Тёрн.
     public static final int GameState_River = 3;      // Состояние текущей игры Ривер.
+    public static final int PokerPlayerState_Fold = 1;          // Состояние игрока "сбросил".
+    public static final int PokerPlayerState_binding = 2;       // Состояние игрока "обязательная ставка".
+    public static final int PokerPlayerState_Check = 3;         // Состояние игрока "проверил".
+    public static final int PokerPlayerState_RaiseLess = 4;     // Состояние игрока "поднял немного".
+    public static final int PokerPlayerState_RaiseNormal = 5;   // Состояние игрока "поднял средне".
+    public static final int PokerPlayerState_RaiseBig = 6;      // Состояние игрока "поднял много".
     public static final int MAX_PLAYERS = 6;           // Количество игроков за столом.
     public static final int NEW_AMOUNT = 10000;        // Размер банка у нового игрока.
     public static final int MINIMAL_BID = 5;
+
+    public void setCurrentBid(int currentBid_in)
+    {
+        this.CurrentBid = currentBid_in;
+    }
+
+    private void setDealerPlayer(Player Player_in)
+    {
+        this.DealerPlayer = Player_in;
+    }
+
+    public void setLittleBlindPlayer(Player littleBlindPlayer_in)
+    {
+        this.LittleBlindPlayer = littleBlindPlayer_in;
+    }
+
+    public void setBigBlindPlayer(Player bigBlindPlayer_in)
+    {
+        this.BigBlindPlayer = bigBlindPlayer_in;
+    }
+
+    public void setDeck(Hand deck)
+    {
+        this.deck = deck;
+    }
+
+    private void setGameState(int GameState_in)
+    {
+        this.GameState = GameState_in;
+    }
+
+    public void setLastRaisedPlayer(Player lastRaisedPlayer)
+    {
+        LastRaisedPlayer = lastRaisedPlayer;
+    }
 
     // Считывает входные сигналы всех игроков.
     private void PlayersReadInputSignals()
@@ -74,12 +116,10 @@ public class GamePoker extends MultiPlayerGame
             setDealerPlayer(NewDealerPlayer);
             // Малый блайнд.
             NewLittleBlindPlayer = getPlayerById(1);
-            setBigBlindPlayer(NewLittleBlindPlayer);
-            Bids.setBidOfPlayer(NewLittleBlindPlayer, MINIMAL_BID);                 // Малый блайнд - 1 минимальная ставка.
+            MakeLittleBlind(NewLittleBlindPlayer);
             // Большой блайнд.
             NewBigBlindPlayer = getPlayerById(2);
-            setLittleBlindPlayer(NewBigBlindPlayer);
-            Bids.setBidOfPlayer(NewLittleBlindPlayer, MINIMAL_BID * 2);       // Болльшой блайнд - 2 минальные ставки.
+            MakeBigBlind(NewBigBlindPlayer);
 //            PlayersReadInputSignals();
         }
         else
@@ -87,21 +127,6 @@ public class GamePoker extends MultiPlayerGame
             System.out.println("Недостаточно игроков для начала игры");
         }
         return rez;
-    }
-
-    private void setDealerPlayer(Player Player_in)
-    {
-        this.DealerPlayer = Player_in;
-    }
-
-    public void setLittleBlindPlayer(Player littleBlindPlayer_in)
-    {
-        this.LittleBlindPlayer = littleBlindPlayer_in;
-    }
-
-    public void setBigBlindPlayer(Player bigBlindPlayer_in)
-    {
-        this.BigBlindPlayer = bigBlindPlayer_in;
     }
 
     // Играет текущую игру. Возвращает номер победителя. В случае ничьи возвращает -1.
@@ -145,7 +170,7 @@ public class GamePoker extends MultiPlayerGame
         // Установка состояния игры.
         this.setGameState(GameState_Preflop);
         // Инициализация ставки.
-        this.setCurrBet(0);
+        this.setCurrentBid(0);
     }
 
     // Генерирует игрока текущей игры.
@@ -156,19 +181,27 @@ public class GamePoker extends MultiPlayerGame
         return rez;
     }
 
-    public void setDeck(Hand deck)
+    // Устанавливает в текущей игре ставку bid_in игроком player_in.
+    private void MakeNewBid(Player player_in, int bid_in)
     {
-        this.deck = deck;
+        this.Bids.setBidOfPlayer(player_in, bid_in);
+        this.setCurrentBid(bid_in);
     }
 
-    private void setGameState(int GameState_in)
+    // Делает ставку малого блайнда игроком player_in.
+    private void MakeLittleBlind(Player player_in)
     {
-        this.GameState = GameState_in;
+        setLittleBlindPlayer(player_in);
+        MakeNewBid(player_in, MINIMAL_BID);                 // Малый блайнд - 1 минимальная ставка.
+        setLastRaisedPlayer(player_in);
     }
 
-    private void setCurrBet(int currBet_in)
+    // Делает ставку большого блайнда игроком player_in.
+    private void MakeBigBlind(Player player_in)
     {
-        this.CurrBet = currBet_in;
+        setBigBlindPlayer(player_in);
+        MakeNewBid(player_in, MINIMAL_BID * 2);                 // Большой блайнд - 2 минимальные ставки.
+        setLastRaisedPlayer(player_in);
     }
 
     // Возвращает пустую нейронную сеть для новой игры.
