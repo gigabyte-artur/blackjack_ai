@@ -237,6 +237,8 @@ public class PokerCombination
         return rez;
     }
 
+    // TODO: Реализовать прочие комбинации.
+
     // Печатает в консоль комбинацию с текстовым представлением CombinationName_in и значением старшей карты
     // CardValue_in.
     private void PrintCombinationByName(String CombinationName_in, int CardValue_in)
@@ -252,6 +254,7 @@ public class PokerCombination
         switch (this.getCombinationType())
         {
             case (Type_None):
+                System.out.println("<none>");
                 break;
             case (Type_FlashSimple):
                 PrintCombinationByName("Flash Simple", this.getHightestCard());

@@ -27,4 +27,10 @@ public class BidsOfPlayers
     {
         this.Bids.put(player_in, bid_in);
     }
+
+    public int getBidOfPlayer(Player player_in)
+    {
+        int rez = Bids.get(player_in);
+        return rez;
+    }
 }

@@ -15,24 +15,24 @@ public class GamePoker extends MultiPlayerGame
     private Player DealerPlayer;             // Текущий игрок-дилер.
     private Player LittleBlindPlayer;        // Игрок с малым бландом.
     private Player BigBlindPlayer;           // Игрок с большим блайндом.
+    private Player LastPlayerCircle;         // Последний игрок, участовавший в торгах.
     private int CurrentBid;                  // Размер текущей ставки.
     private int GameState;                   // Текущее состояние игры.
     private BidsOfPlayers Bids;              // Ставки игроков.
-    private Player LastRaisedPlayer;
+    private Player LastRaisedPlayer;         // Игрок, в последний раз поднимавший ставки.
 
     public static final int GameState_Preflop = 0;    // Состояние текущей игры Префлоп.
     public static final int GameState_Flop = 1;       // Состояние текущей игры Флоп.
     public static final int GameState_Turn = 2;       // Состояние текущей игры Тёрн.
     public static final int GameState_River = 3;      // Состояние текущей игры Ривер.
-    public static final int PokerPlayerState_Fold = 1;          // Состояние игрока "сбросил".
-    public static final int PokerPlayerState_binding = 2;       // Состояние игрока "обязательная ставка".
-    public static final int PokerPlayerState_Check = 3;         // Состояние игрока "проверил".
-    public static final int PokerPlayerState_RaiseLess = 4;     // Состояние игрока "поднял немного".
-    public static final int PokerPlayerState_RaiseNormal = 5;   // Состояние игрока "поднял средне".
-    public static final int PokerPlayerState_RaiseBig = 6;      // Состояние игрока "поднял много".
-    public static final int MAX_PLAYERS = 6;           // Количество игроков за столом.
-    public static final int NEW_AMOUNT = 10000;        // Размер банка у нового игрока.
-    public static final int MINIMAL_BID = 5;
+    public static final int MAX_PLAYERS = 6;          // Количество игроков за столом.
+    public static final int NEW_AMOUNT = 10000;       // Размер банка у нового игрока.
+    public static final int MINIMAL_BID = 5;          // Размер минимальной ставки.
+
+    public int getCurrentBid()
+    {
+        return CurrentBid;
+    }
 
     public void setCurrentBid(int currentBid_in)
     {
@@ -67,6 +67,16 @@ public class GamePoker extends MultiPlayerGame
     public void setLastRaisedPlayer(Player lastRaisedPlayer)
     {
         LastRaisedPlayer = lastRaisedPlayer;
+    }
+
+    public void setLastPlayerCircle(Player lastPlayerCircle)
+    {
+        LastPlayerCircle = lastPlayerCircle;
+    }
+
+    public Player getLastPlayerCircle()
+    {
+        return LastPlayerCircle;
     }
 
     // Считывает входные сигналы всех игроков.
@@ -104,7 +114,6 @@ public class GamePoker extends MultiPlayerGame
     {
         int rez = -1;
         Player NewDealerPlayer, NewBigBlindPlayer, NewLittleBlindPlayer;
-        Player NewBigBlind = new Player();
         if (getPlayers().size() > 1)
         {
             // Установка ставок.
@@ -116,11 +125,12 @@ public class GamePoker extends MultiPlayerGame
             setDealerPlayer(NewDealerPlayer);
             // Малый блайнд.
             NewLittleBlindPlayer = getPlayerById(1);
-            MakeLittleBlind(NewLittleBlindPlayer);
+            MakeLittleBlind((PokerPlayer)NewLittleBlindPlayer);
             // Большой блайнд.
             NewBigBlindPlayer = getPlayerById(2);
-            MakeBigBlind(NewBigBlindPlayer);
-//            PlayersReadInputSignals();
+            MakeBigBlind((PokerPlayer)NewBigBlindPlayer);
+            // Круги торгов.
+            TradesCircles();
         }
         else
         {
@@ -129,17 +139,70 @@ public class GamePoker extends MultiPlayerGame
         return rez;
     }
 
+    // Круги торгов.
+    private void TradesCircles()
+    {
+        // Инициализация.
+        boolean ContinueTrades = true;
+        int Decision = 0;
+        Player NextPlayer;
+        while (ContinueTrades)
+        {
+            // Принятие решения следующим игроком.
+            NextPlayer = this.GetNextPlayer(this.getLastPlayerCircle());
+            if (this.GetPlayersState(NextPlayer) != PokerPlayer.Decision_Fold)
+            {
+                Decision = ((PokerPlayer) NextPlayer).Decide();
+                switch (Decision) {
+                    // TODO: Реализовать обработку принятых решений.
+                    case PokerPlayer.Decision_None:
+                        // Неизвестный вариант. Пропускаем.
+                        break;
+                    case PokerPlayer.Decision_Blind:
+                        // Сделан блайнд. Пропускаем.
+                        break;
+                    case PokerPlayer.Decision_Fold:
+                        // Игрок решил скинуть карты и прекратить игру.
+                        SetPlayersState(NextPlayer, PokerPlayer.Decision_Fold);
+                        break;
+                    case PokerPlayer.Decision_Check:
+                        // Игрок оставляет ставки как есть.
+                        SetPlayersState(NextPlayer, PokerPlayer.Decision_Check);
+                        break;
+                    case PokerPlayer.Decision_LittleRaise:
+                        // Игрок поднимает ставку на 1 минимальную ставки.
+                        RaiseBid((PokerPlayer)NextPlayer, MINIMAL_BID);
+                        SetPlayersState(NextPlayer, PokerPlayer.Decision_LittleRaise);
+                        break;
+                    case PokerPlayer.Decision_MidRaise:
+                        // Игрок поднимает ставку на 3 минимальные ставки.
+                        RaiseBid((PokerPlayer)NextPlayer, 3 * MINIMAL_BID);
+                        SetPlayersState(NextPlayer, PokerPlayer.Decision_MidRaise);
+                        break;
+                    case PokerPlayer.Decision_BigRaise:
+                        // Игрок поднимает ставку на 10 минимальные ставки.
+                        RaiseBid((PokerPlayer)NextPlayer, 10 * MINIMAL_BID);
+                        SetPlayersState(NextPlayer, PokerPlayer.Decision_BigRaise);
+                        break;
+                }
+            }
+            else
+            {
+                // Игрок скинул свои карты. Пропускаем.
+            }
+            this.setLastPlayerCircle(NextPlayer);
+            // Проверка на продолжение.
+            ContinueTrades = (NextPlayer != LastRaisedPlayer);
+        }
+    }
+
     // Играет текущую игру. Возвращает номер победителя. В случае ничьи возвращает -1.
     public int Play()
     {
         int rez = -1;
-//        this.table.DrawCard(this.deck);
-//        this.table.DrawCard(this.deck);
-//        this.table.DrawCard(this.deck);
-//        this.table.DrawCard(this.deck);
-//        this.table.DrawCard(this.deck);
         Preflop();
-//        this.Show();
+        // TODO: Реализовать прочие стадии.
+        Show();
         return rez;
     }
 
@@ -166,6 +229,7 @@ public class GamePoker extends MultiPlayerGame
         {
             PokerPlayer Player_new = NewPlayer();
             this.AddPlayer(Player_new);
+            this.SetPlayersState(Player_new, PokerPlayer.Decision_None);
         }
         // Установка состояния игры.
         this.setGameState(GameState_Preflop);
@@ -182,26 +246,41 @@ public class GamePoker extends MultiPlayerGame
     }
 
     // Устанавливает в текущей игре ставку bid_in игроком player_in.
-    private void MakeNewBid(Player player_in, int bid_in)
+    private void MakeNewBid(PokerPlayer player_in, int bid_in)
     {
+        int new_amount;
         this.Bids.setBidOfPlayer(player_in, bid_in);
         this.setCurrentBid(bid_in);
+        new_amount = player_in.getAmount() - bid_in;
+        player_in.setAmount(new_amount);
     }
 
     // Делает ставку малого блайнда игроком player_in.
-    private void MakeLittleBlind(Player player_in)
+    private void MakeLittleBlind(PokerPlayer player_in)
     {
         setLittleBlindPlayer(player_in);
         MakeNewBid(player_in, MINIMAL_BID);                 // Малый блайнд - 1 минимальная ставка.
         setLastRaisedPlayer(player_in);
+        setLastPlayerCircle(player_in);
+        SetPlayersState(player_in, PokerPlayer.Decision_Blind);
     }
 
     // Делает ставку большого блайнда игроком player_in.
-    private void MakeBigBlind(Player player_in)
+    private void MakeBigBlind(PokerPlayer player_in)
     {
         setBigBlindPlayer(player_in);
         MakeNewBid(player_in, MINIMAL_BID * 2);                 // Большой блайнд - 2 минимальные ставки.
         setLastRaisedPlayer(player_in);
+        setLastPlayerCircle(player_in);
+        SetPlayersState(player_in, PokerPlayer.Decision_Blind);
+    }
+
+    // Поднимает игроком player_in ставки на величину AdditionalBid_in.
+    private void RaiseBid(PokerPlayer player_in, int AdditionalBid_in)
+    {
+       int curr_bid = this.getCurrentBid();
+       int new_bid = curr_bid + AdditionalBid_in;
+       MakeNewBid(player_in, new_bid);
     }
 
     // Возвращает пустую нейронную сеть для новой игры.
@@ -249,23 +328,36 @@ public class GamePoker extends MultiPlayerGame
     {
         // Инициализация.
         int c = 0;
+        String PlayerText;
         ArrayList<Card> CardMixed = new ArrayList<Card>();
         Hand HandCurrPlayer;
         PokerCombination CombinationCurrPlayer = new PokerCombination();
         // Вывод карт на столе.
-        System.out.println("На столе: ");
+        System.out.println("(" + this.getCurrentBid()+ ") " + "На столе: ");
         this.table.Show();
         System.out.println("-----");
         // Вывод карт у игроков.
         for (Player curr_Players:this.getPlayers())
         {
-            System.out.println("Карты игрока #" + (c + 1) + ":");
+            PlayerText = "";
+            PlayerText = PlayerText + "(";
+            PlayerText = PlayerText + Bids.getBidOfPlayer(curr_Players);
+            PlayerText = PlayerText + "/";
+            PlayerText = PlayerText + ((PokerPlayer)curr_Players).getAmount();
+            PlayerText = PlayerText + ") Карты игрока #";
+            PlayerText = PlayerText + (c + 1);
+            PlayerText = PlayerText + " [";
+            PlayerText = PlayerText + ((PokerPlayer) curr_Players).PlayerStateToString(this);
+            PlayerText = PlayerText + "]:";
+            System.out.println(PlayerText);
             if (curr_Players instanceof PokerPlayer)
             {
                 HandCurrPlayer = ((PokerPlayer)curr_Players).getHand();
+                System.out.print("   ");
                 HandCurrPlayer.Show();
                 CardMixed = Hand.MixTwoHand(this.table, HandCurrPlayer);
                 CombinationCurrPlayer = new PokerCombination(CardMixed);
+                System.out.print("   ");
                 CombinationCurrPlayer.Show();
             }
             c = c + 1;

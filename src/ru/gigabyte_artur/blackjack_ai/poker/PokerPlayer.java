@@ -2,6 +2,7 @@ package ru.gigabyte_artur.blackjack_ai.poker;
 
 import ru.gigabyte_artur.blackjack_ai.card_game.Card;
 import ru.gigabyte_artur.blackjack_ai.card_game.Hand;
+import ru.gigabyte_artur.blackjack_ai.gaming.MultiPlayerGame;
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 
@@ -9,7 +10,16 @@ public class PokerPlayer extends Player
 {
 
     private Hand hand;          // Текущая рука игрока.
+
     private int amount;         // Сумма на счёте.
+
+    public static final int Decision_None = 0;
+    public static final int Decision_Blind = 1;
+    public static final int Decision_Fold = 2;
+    public static final int Decision_Check = 3;
+    public static final int Decision_LittleRaise = 4;
+    public static final int Decision_MidRaise = 5;
+    public static final int Decision_BigRaise = 6;
 
     public PokerPlayer()
     {
@@ -24,6 +34,11 @@ public class PokerPlayer extends Player
     public void setAmount(int amount)
     {
         this.amount = amount;
+    }
+
+    public int getAmount()
+    {
+        return amount;
     }
 
     public Hand getHand()
@@ -76,5 +91,48 @@ public class PokerPlayer extends Player
     {
         HandToInputSignals();
         DeckToInputSignals(game_in.getTable());
+
+        // TODO: Реализовать считывание прочих сигналов.
+    }
+
+    // Осуществляет принятие решениея на основе нейронной сети.
+    public int Decide()
+    {
+        int rez = Decision_None;
+
+        // TODO: Реализовать принятие решений по данным нейросети.
+        this.neuro_net.CalcSignals();
+        return rez;
+    }
+
+    // Текстовое представление текущего состояния игрока.
+    public String PlayerStateToString(MultiPlayerGame game_in)
+    {
+        String rez = "";
+        switch (game_in.GetPlayersState(this))
+        {
+            case Decision_None:
+                rez = "None";
+                break;
+            case Decision_Blind:
+                rez = "Blind";
+                break;
+            case Decision_Fold:
+                rez = "Fold";
+                break;
+            case Decision_Check:
+                rez = "Check";
+                break;
+            case Decision_LittleRaise:
+                rez = "LittleRaise";
+                break;
+            case Decision_MidRaise:
+                rez = "MidRaise";
+                break;
+            case Decision_BigRaise:
+                rez = "BigRaise";
+                break;
+        }
+        return rez;
     }
 }

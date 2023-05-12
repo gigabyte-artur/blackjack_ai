@@ -56,13 +56,6 @@ public abstract class MultiPlayerGame
         }
     }
 
-    // Добавляет игрока Player_in в текущую игру.
-    public void AddPlayer(Player Player_in)
-    {
-        this.Players.add(Player_in);
-        this.SetPlayersState(Player_in, PLAYER_STATE_NONE);
-    }
-
     public ArrayList<Player> getPlayers()
     {
         return this.Players;
@@ -78,5 +71,32 @@ public abstract class MultiPlayerGame
     public void SetPlayersState(Player Player_in, int State_in)
     {
         this.PlayersState.put(Player_in, State_in);
+    }
+
+
+    // Добавляет игрока Player_in в текущую игру.
+    public void AddPlayer(Player Player_in)
+    {
+        this.Players.add(Player_in);
+        this.SetPlayersState(Player_in, PLAYER_STATE_NONE);
+    }
+    // Возвращает следующего за Player_in игрока.
+    public Player GetNextPlayer(Player Player_in)
+    {
+        Player rez;
+        int PlayerIndex, PlayersSize;
+        ArrayList<Player> PlayersGame = this.getPlayers();
+        PlayersSize = PlayersGame.size();
+        PlayerIndex = PlayersGame.indexOf(Player_in);
+        if (PlayerIndex < (PlayersSize - 1))
+        {
+            PlayerIndex = PlayerIndex + 1;
+        }
+        else
+        {
+            PlayerIndex = 0;
+        }
+        rez = PlayersGame.get(PlayerIndex);
+        return rez;
     }
 }
