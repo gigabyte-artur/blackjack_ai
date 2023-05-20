@@ -5,6 +5,7 @@ import ru.gigabyte_artur.blackjack_ai.card_game.Hand;
 import ru.gigabyte_artur.blackjack_ai.gaming.MultiPlayerGame;
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
+import java.util.ArrayList;
 
 public class PokerPlayer extends Player
 {
@@ -29,6 +30,7 @@ public class PokerPlayer extends Player
         // Добавление нейронной сети
         NeuroNet neuronet1 = GamePoker.GenerateModel();
         this.SetNeuroNet(neuronet1);
+        neuronet1.RandomWeights();
     }
 
     public void setAmount(int amount)
@@ -98,10 +100,26 @@ public class PokerPlayer extends Player
     // Осуществляет принятие решениея на основе нейронной сети.
     public int Decide()
     {
-        int rez = Decision_None;
-
-        // TODO: Реализовать принятие решений по данным нейросети.
-        this.neuro_net.CalcSignals();
+        // Инициализация.
+        int rez = Decision_None, SelectedSignal;
+        ArrayList<Integer> AllowedSignals = new ArrayList<Integer>();
+        // Разрешенные решения.
+        AllowedSignals.add(0);
+        AllowedSignals.add(1);
+        AllowedSignals.add(2);
+        AllowedSignals.add(3);
+        AllowedSignals.add(4);
+        // Вычисление нейросети.
+        SelectedSignal = neuro_net.CalcSignalsAndGetAllowedOutput(AllowedSignals);
+        // Обход результатов вычисления.
+        switch (SelectedSignal)
+        {
+            case (0): rez = Decision_Fold; break;
+            case (1): rez = Decision_Check; break;
+            case (2): rez = Decision_LittleRaise; break;
+            case (3): rez = Decision_MidRaise; break;
+            case (4): rez = Decision_BigRaise; break;
+        }
         return rez;
     }
 

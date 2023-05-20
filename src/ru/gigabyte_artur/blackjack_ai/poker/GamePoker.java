@@ -152,7 +152,8 @@ public class GamePoker extends MultiPlayerGame
             NextPlayer = this.GetNextPlayer(this.getLastPlayerCircle());
             if (this.GetPlayersState(NextPlayer) != PokerPlayer.Decision_Fold)
             {
-                Decision = ((PokerPlayer) NextPlayer).Decide();
+                ((PokerPlayer)NextPlayer).ReadInputSignals(this);
+                Decision = ((PokerPlayer)NextPlayer).Decide();
                 switch (Decision) {
                     // TODO: Реализовать обработку принятых решений.
                     case PokerPlayer.Decision_None:

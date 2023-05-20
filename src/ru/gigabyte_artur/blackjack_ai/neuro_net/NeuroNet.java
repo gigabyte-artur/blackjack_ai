@@ -213,4 +213,40 @@ public class NeuroNet
     {
         return Layers;
     }
+
+    // Выбирает выходные сигналы из OutputSignals_in среди массива разрешённых Allowed_in.
+    public static int SelectNeuronFromAllowed(HashMap<Integer,Double> OutputSignals_in, ArrayList<Integer> Allowed_in)
+    {
+        int rez = -1, MaxNeuron = -1, CurrentNeuron;
+        double MaxSignal = -999999, CurrentSignal;
+        for (HashMap.Entry<Integer,Double> entry: OutputSignals_in.entrySet())
+        {
+            CurrentNeuron = entry.getKey();
+            if (Allowed_in.indexOf(CurrentNeuron) != -1)
+            {
+                CurrentSignal = entry.getValue();
+                if (CurrentSignal > MaxSignal)
+                {
+                    MaxSignal = CurrentSignal;
+                    rez = CurrentNeuron;
+                }
+            }
+            else
+            {
+                // Нет в списке разрешенных. Пропускаем.
+            }
+        }
+
+        return rez;
+    }
+
+    // Вычисляет сигналы текущей нейросети и возвращает выходные сигналы среди массива разрешённых AllowedSignals_in.
+    public int CalcSignalsAndGetAllowedOutput(ArrayList<Integer> AllowedSignals_in)
+    {
+        int rez = -1;
+        this.CalcSignals();
+        HashMap<Integer,Double> OutputSignals = this.GetArrayOutputSignals();
+        rez = NeuroNet.SelectNeuronFromAllowed(OutputSignals, AllowedSignals_in);
+        return rez;
+    }
 }
