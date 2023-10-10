@@ -136,6 +136,7 @@ public class NeuroNet
         }
     }
 
+    // Возваращает сигналы выходного слоя.
     public HashMap<Integer,Double> GetArrayOutputSignals()
     {
         HashMap<Integer,Double> rez = new HashMap<Integer,Double>();

@@ -49,7 +49,7 @@ public class PokerPlayer extends Player
         return rez;
     }
 
-    // Переосит руку в сигналы входных нейронов.
+    // Переносит руку в сигналы входных нейронов.
     private void HandToInputSignals()
     {
         int hand_size, points_multiplication, curr_suite, curr_value;
@@ -74,7 +74,7 @@ public class PokerPlayer extends Player
         int hand_size, points_multiplication, curr_suite, curr_value;
         final int SIGNALS_SHIFT = 54;
         NeuroNet net1;
-        Card card1 = new Card();
+        Card card1;
         hand_size = deck_in.Size();
         for (int i = 0; i < hand_size; i++)
         {
@@ -98,7 +98,7 @@ public class PokerPlayer extends Player
     }
 
     // Осуществляет принятие решениея на основе нейронной сети.
-    public int Decide()
+    public int Decide(GamePoker game_in)
     {
         // Инициализация.
         int rez = Decision_None, SelectedSignal;
@@ -109,6 +109,8 @@ public class PokerPlayer extends Player
         AllowedSignals.add(2);
         AllowedSignals.add(3);
         AllowedSignals.add(4);
+        // Отберём запрещённые решения.
+        AllowedSignals = FilterAllowedSignalsByGame(AllowedSignals, game_in);
         // Вычисление нейросети.
         SelectedSignal = neuro_net.CalcSignalsAndGetAllowedOutput(AllowedSignals);
         // Обход результатов вычисления.
@@ -120,6 +122,105 @@ public class PokerPlayer extends Player
             case (3): rez = Decision_MidRaise; break;
             case (4): rez = Decision_BigRaise; break;
         }
+        return rez;
+    }
+
+    // Отбирает в массиве AllowedSignals_in доступные решения, исходя из текущего состояния State_in.
+    private ArrayList<Integer> FilterAllowedSignalsByCurrentState(ArrayList<Integer> AllowedSignals_in, int State_in)
+    {
+        ArrayList<Integer> rez = new ArrayList<>();
+        boolean CanContinue = true;
+        CanContinue = (State_in != Decision_Fold);
+        if (!CanContinue)
+        {
+            // Нельзя продолжать. Доступно только решение Fold.
+            rez.clear();
+            rez.add(Decision_Fold);
+        }
+        else
+        {
+            // Можно продолжить. Доступны все решения.
+            rez.addAll(AllowedSignals_in);
+        }
+        return rez;
+    }
+
+    // Удаляет из массива решений AllowedSignals_chng решение Decision_in, если новая ставка NewBid_in меньше текущей
+    // ставки Decision_in.
+    private void RemoveDecisionIfNotEnoughBid(int NewBid_in, int CurrentBid_in, int Decision_in, ArrayList<Integer> AllowedSignals_chng)
+    {
+        if (NewBid_in  < CurrentBid_in)
+        {
+            AllowedSignals_chng.remove((Integer) Decision_in);       // Запрещено оставлять ставку.
+        }
+        else
+        {
+            // Не требуется удаление.
+        }
+    }
+
+    // Удаляет из массива решений AllowedSignals_chng решение Decision_in, если новая ставка NewBid_in больше депозита
+    // Amount_in.
+    private void RemoveDecisionIfNotEnoughAmount(int NewBid_in, int Amount_in, int Decision_in, ArrayList<Integer> AllowedSignals_chng)
+    {
+        if (NewBid_in > Amount_in)
+        {
+            AllowedSignals_chng.remove((Integer) Decision_in);
+        }
+        else
+        {
+            // Не требуется удаление.
+        }
+    }
+
+    // Очищает из доступрных сигналов AllowedSignals_in те сигналы, которые не удовлетворяют текущей ставке, согласно
+    // данным игры game_in.
+    private ArrayList<Integer> FilterAllowedSignalsByBid(ArrayList<Integer> AllowedSignals_in, GamePoker game_in)
+    {
+        // Инициализация.
+        ArrayList<Integer> rez = new ArrayList<>();
+        int PlayerAmmount, CurrentBid, PlayerBid;
+        int LittleRaiseVolume_loc = GamePoker.LittleRaiseVolume();
+        int MidRaiseVolume_loc = GamePoker.MidRaiseVolume();
+        int BigRaiseVolume_loc = GamePoker.BigRaiseVolume();
+        // Проверка, что ставка игрока не меньше текущей ставки.
+        rez.addAll(AllowedSignals_in);
+        CurrentBid = game_in.getCurrentBid();
+        PlayerBid = game_in.getBids().getBidOfPlayer(this);
+        if (PlayerBid < CurrentBid)
+        {
+            rez.remove((Integer) Decision_Check);       // Запрещено оставлять ставку.
+            // Удаление решения по величине текущей ставки.
+            RemoveDecisionIfNotEnoughBid(PlayerBid + LittleRaiseVolume_loc, CurrentBid, Decision_LittleRaise, rez);
+            RemoveDecisionIfNotEnoughBid(PlayerBid + MidRaiseVolume_loc, CurrentBid, Decision_MidRaise, rez);
+            RemoveDecisionIfNotEnoughBid(PlayerBid + BigRaiseVolume_loc, CurrentBid, Decision_BigRaise, rez);
+            // Удаление решения по величине депозита.
+            PlayerAmmount = this.getAmount();
+            RemoveDecisionIfNotEnoughAmount(PlayerBid, PlayerAmmount, Decision_Check, rez);
+            RemoveDecisionIfNotEnoughAmount(PlayerBid + LittleRaiseVolume_loc, PlayerAmmount, Decision_LittleRaise, rez);
+            RemoveDecisionIfNotEnoughAmount(PlayerBid + MidRaiseVolume_loc, PlayerAmmount, Decision_MidRaise, rez);
+            RemoveDecisionIfNotEnoughAmount(PlayerBid + BigRaiseVolume_loc, PlayerAmmount, Decision_BigRaise, rez);
+        }
+        else
+        {
+            // Ставка удовлетворяет. Доступны все решения.
+        }
+        return rez;
+    }
+
+    // Отбирает доступные решения AllowedSignals_in согласованно игре game_in.
+    private ArrayList<Integer> FilterAllowedSignalsByGame(ArrayList<Integer> AllowedSignals_in, GamePoker game_in)
+    {
+        //Инициализация.
+        ArrayList<Integer> rez = new ArrayList<>();
+        int CurrentBid;
+        rez.addAll(AllowedSignals_in);
+        int CurrentState;
+        // Отбор по текущему состоянию.
+        CurrentState = game_in.GetPlayersState(this);
+        rez = FilterAllowedSignalsByCurrentState(rez, CurrentState);
+        // Отбор по ставке.
+        rez = FilterAllowedSignalsByBid(rez, game_in);
         return rez;
     }
 
