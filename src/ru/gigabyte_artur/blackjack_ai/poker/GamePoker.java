@@ -179,7 +179,7 @@ public class GamePoker extends MultiPlayerGame
         }
     }
 
-    // Стадия игры Префлоп. Возвращает номер победителя. В случае ничьи возвращает -1.
+    // Стадия игры Флоп.
     private void Flop()
     {
         if (getPlayers().size() > 1)
@@ -194,7 +194,41 @@ public class GamePoker extends MultiPlayerGame
         }
         else
         {
-            System.out.println("Недостаточно игроков для начала игры");
+            System.out.println("Недостаточно игроков для стадии Флоп");
+        }
+    }
+
+    // Стадия игры Тёрн.
+    private void Turn()
+    {
+        if (getPlayers().size() > 1)
+        {
+            this.setGameState(GameState_Turn);
+            // Вытянуть 1 карту.
+            this.table.DrawCard(this.deck);
+            // Круги торгов.
+            TradesCircles();
+        }
+        else
+        {
+            System.out.println("Недостаточно игроков для стадии Тёрн");
+        }
+    }
+
+    // Стадия игры Ривер.
+    private void River()
+    {
+        if (getPlayers().size() > 1)
+        {
+            this.setGameState(GameState_Turn);
+            // Вытянуть 1 карту.
+            this.table.DrawCard(this.deck);
+            // Круги торгов.
+            TradesCircles();
+        }
+        else
+        {
+            System.out.println("Недостаточно игроков для стадии Ривер");
         }
     }
 
@@ -264,7 +298,10 @@ public class GamePoker extends MultiPlayerGame
         Show();
         Flop();
         Show();
-        // TODO: Реализовать прочие стадии.
+        Turn();
+        Show();
+        River();
+        Show();
         return rez;
     }
 
@@ -395,6 +432,7 @@ public class GamePoker extends MultiPlayerGame
         Hand HandCurrPlayer;
         PokerCombination CombinationCurrPlayer = new PokerCombination();
         // Вывод карт на столе.
+        System.out.println("=======");
         System.out.println("(" + this.getCurrentBid()+ ") " + "На столе: ");
         this.table.Show();
         System.out.println("-----");
