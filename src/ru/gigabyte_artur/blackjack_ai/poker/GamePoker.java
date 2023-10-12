@@ -13,8 +13,6 @@ public class GamePoker extends MultiPlayerGame
     private Hand deck;                       // Колода текущей игры.
     private Hand table;                      // Карты, лежащие на столе.
     private Player DealerPlayer;             // Текущий игрок-дилер.
-    private Player LittleBlindPlayer;        // Игрок с малым бландом.
-    private Player BigBlindPlayer;           // Игрок с большим блайндом.
     private Player LastPlayerCircle;         // Последний игрок, участовавший в торгах.
     private int CurrentBid;                  // Размер текущей ставки.
     private int GameState;                   // Текущее состояние игры.
@@ -48,16 +46,6 @@ public class GamePoker extends MultiPlayerGame
     private void setDealerPlayer(Player Player_in)
     {
         this.DealerPlayer = Player_in;
-    }
-
-    public void setLittleBlindPlayer(Player littleBlindPlayer_in)
-    {
-        this.LittleBlindPlayer = littleBlindPlayer_in;
-    }
-
-    public void setBigBlindPlayer(Player bigBlindPlayer_in)
-    {
-        this.BigBlindPlayer = bigBlindPlayer_in;
     }
 
     public void setDeck(Hand deck)
@@ -145,8 +133,6 @@ public class GamePoker extends MultiPlayerGame
         if (this.getPlayers().size() > 2)
         {
             DealerPlayer         = this.getPlayers().get(0);
-            LittleBlindPlayer    = this.getPlayers().get(1);
-            BigBlindPlayer       = this.getPlayers().get(2);
         }
     }
 
@@ -220,7 +206,7 @@ public class GamePoker extends MultiPlayerGame
     {
         if (getPlayers().size() > 1)
         {
-            this.setGameState(GameState_Turn);
+            this.setGameState(GameState_River);
             // Вытянуть 1 карту.
             this.table.DrawCard(this.deck);
             // Круги торгов.
@@ -357,7 +343,6 @@ public class GamePoker extends MultiPlayerGame
     // Делает ставку малого блайнда игроком player_in.
     private void MakeLittleBlind(PokerPlayer player_in)
     {
-        setLittleBlindPlayer(player_in);
         MakeNewBid(player_in, LittleBlindVolume());                 // Малый блайнд - 1 минимальная ставка.
         setLastRaisedPlayer(player_in);
         setLastPlayerCircle(player_in);
@@ -367,7 +352,6 @@ public class GamePoker extends MultiPlayerGame
     // Делает ставку большого блайнда игроком player_in.
     private void MakeBigBlind(PokerPlayer player_in)
     {
-        setBigBlindPlayer(player_in);
         MakeNewBid(player_in, BigBlindVolume());                 // Большой блайнд - 2 минимальные ставки.
         setLastRaisedPlayer(player_in);
         setLastPlayerCircle(player_in);

@@ -178,13 +178,12 @@ public class PokerPlayer extends Player
     private ArrayList<Integer> FilterAllowedSignalsByBid(ArrayList<Integer> AllowedSignals_in, GamePoker game_in)
     {
         // Инициализация.
-        ArrayList<Integer> rez = new ArrayList<>();
+        ArrayList<Integer> rez = new ArrayList<>(AllowedSignals_in);
         int PlayerAmmount, CurrentBid, PlayerBid;
         int LittleRaiseVolume_loc = GamePoker.LittleRaiseVolume();
         int MidRaiseVolume_loc = GamePoker.MidRaiseVolume();
         int BigRaiseVolume_loc = GamePoker.BigRaiseVolume();
         // Проверка, что ставка игрока не меньше текущей ставки.
-        rez.addAll(AllowedSignals_in);
         CurrentBid = game_in.getCurrentBid();
         PlayerBid = game_in.getBids().getBidOfPlayer(this);
         if (PlayerBid < CurrentBid)
@@ -212,9 +211,7 @@ public class PokerPlayer extends Player
     private ArrayList<Integer> FilterAllowedSignalsByGame(ArrayList<Integer> AllowedSignals_in, GamePoker game_in)
     {
         //Инициализация.
-        ArrayList<Integer> rez = new ArrayList<>();
-        int CurrentBid;
-        rez.addAll(AllowedSignals_in);
+        ArrayList<Integer> rez = new ArrayList<>(AllowedSignals_in);
         int CurrentState;
         // Отбор по текущему состоянию.
         CurrentState = game_in.GetPlayersState(this);

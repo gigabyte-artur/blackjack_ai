@@ -64,7 +64,8 @@ public abstract class MultiPlayerGame
     // Возвращает состояние игрока Player_in.
     public int GetPlayersState(Player Player_in)
     {
-        return this.PlayersState.get(Player_in);
+        int rez = this.PlayersState.get(Player_in);
+        return rez;
     }
 
     // Устанавливает игроку Player_in состояние State_in.

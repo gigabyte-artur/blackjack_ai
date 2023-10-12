@@ -223,12 +223,17 @@ public class PokerCombination
                     if ((value1 == value2) && (value1 == value3) && (!curr_cards_in1.equals(curr_cards_in2))
                     && (!curr_cards_in1.equals(curr_cards_in3)) && (!curr_cards_in2.equals(curr_cards_in3)))
                     {
-                        if (value1 > rez) {
+                        if (value1 > rez)
+                        {
                             rez = value1;
-                        } else {
+                        }
+                        else
+                        {
                             // Текущий результат выше, либо аналогичный. Не обновляем.
                         }
-                    } else {
+                    }
+                    else
+                    {
                         // Не совпадают значения, либо это одна и та же карта.
                     }
                 }

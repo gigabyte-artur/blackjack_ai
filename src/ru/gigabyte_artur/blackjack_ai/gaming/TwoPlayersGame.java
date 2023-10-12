@@ -10,12 +10,6 @@ public abstract class TwoPlayersGame extends MultiPlayerGame
         this.SetEmptyPlayers(2);
     }
 
-    // Возвращает пустую нейронную сеть для новой игры.
-    public static NeuroNet GenerateModel()
-    {
-        return new NeuroNet();
-    }
-
     // Устанавливает игроков player1_in и player2_in.
     public void SetPlayers(Player player1_in, Player player2_in)
     {
