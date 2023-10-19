@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import org.xml.sax.SAXException;
+import ru.gigabyte_artur.blackjack_ai.gaming.MultiPlayerGame;
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.gaming.TwoPlayersGame;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
@@ -49,7 +50,7 @@ public class Generation
     }
 
     // Разыгрывает игры между игроками. Помещает результаты в хранилище результатов.
-    public void Play(TwoPlayersGame game1)
+    public void Play(TwoPlayersGame game_in)
     {
         int winner_id;
         for (Player player1: this.Players)
@@ -60,9 +61,9 @@ public class Generation
                 {
                     for (int c = 1; c <= this.games_in_series; c++)
                     {
-                        game1.Init();
-                        game1.SetPlayers(player1, player2);
-                        winner_id = game1.Play();
+                        game_in.Init();
+                        game_in.SetPlayers(player1, player2);
+                        winner_id = game_in.Play();
                         if (winner_id == 1)
                         {
                             this.scores.IncreaseScorePlayer(player1, 1);
@@ -80,6 +81,46 @@ public class Generation
                     }
                 }
             }
+        }
+    }
+
+    // Разыгрывает игры между игроками. Помещает результаты в хранилище результатов.
+    public void Play(MultiPlayerGame game_in)
+    {
+        // Генерация размещений игроков по играм.
+        // TODO: Реализовать случайную выборку, с проверкой чтобы каждый игрок отыграл не менее 100 игр.
+        Players = this.GetPlayers();
+        int variationLength = game_in.GetStandardNumberOfPlayers();
+        Player[] PlayerArray = new Player[Players.size()];
+        for (int i = 0; i < Players.size(); i++) 
+        {
+            PlayerArray[i] = Players.get(i);
+        }
+        PermutationsWithRepetition gen = new PermutationsWithRepetition(PlayerArray, variationLength);
+        Object[][] variations = gen.getVariations();
+        // Игра отдельных игр.
+        for (Object[] s : variations)
+        {
+            // Игра.
+            game_in.Init();
+            for (Object CurrS:s)
+            {
+                game_in.AddPlayer((Player) CurrS);
+            }
+            Player Winner = game_in.PlayAndGetWinner();
+            // Подсчёт результатов.
+            for (Object CurrS:s)
+            {
+                if (CurrS.equals(Winner))
+                {
+                    this.scores.IncreaseScorePlayer((Player)CurrS, 1);
+                }
+                else
+                {
+                    this.scores.IncreaseScorePlayer((Player)CurrS, 0);
+                }
+            }
+
         }
     }
 

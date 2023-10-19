@@ -1,7 +1,7 @@
 package ru.gigabyte_artur.blackjack_ai.genetic_algorithm;
 
+import ru.gigabyte_artur.blackjack_ai.gaming.MultiPlayerGame;
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
-import ru.gigabyte_artur.blackjack_ai.gaming.TwoPlayersGame;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class Selection
     }
 
     // Выполняет селекцию поколения generation_in. Возвращает новое поколение.
-    public Generation MakeSelection(Generation generation_in, TwoPlayersGame game_in)
+    public Generation MakeSelection(Generation generation_in, MultiPlayerGame game_in)
     {
         // Инициализация.
         Generation rez = new Generation();

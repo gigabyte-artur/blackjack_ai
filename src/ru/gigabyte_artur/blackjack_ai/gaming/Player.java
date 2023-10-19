@@ -38,7 +38,6 @@ public class Player
         this.name = name;
     }
 
-
     public Player copy()
     {
         return new Player(this);

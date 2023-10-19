@@ -7,6 +7,7 @@ import ru.gigabyte_artur.blackjack_ai.black_jack.GameBlackJack;
 import ru.gigabyte_artur.blackjack_ai.gaming.Player;
 import ru.gigabyte_artur.blackjack_ai.neuro_net.NeuroNet;
 import ru.gigabyte_artur.blackjack_ai.poker.GamePoker;
+import ru.gigabyte_artur.blackjack_ai.poker.PokerPlayer;
 import ru.gigabyte_artur.blackjack_ai.xo.GameXO;
 import ru.gigabyte_artur.blackjack_ai.xo.XoBoard;
 import ru.gigabyte_artur.blackjack_ai.xo.XoPlayer;
@@ -118,9 +119,58 @@ public class Main
     // Игро Покер. В консоли с обучением.
     private static void main_Poker()
     {
+        // Инициализация.
+        String filename = "D:\\cars_last.xml";
         GamePoker Poker1 = new GamePoker();
-        Poker1.Init();
-        Poker1.Play();
+        Generation generation1 = new Generation();
+        NeuroNet model_Poker;
+        // Генерация модели.
+        model_Poker = GamePoker.GenerateModel();
+        Player Player1 = new Player(model_Poker);
+        PokerPlayer PokerPlayer1 = new PokerPlayer(Player1);
+        System.out.println("Загрузка игроков...");
+//        // Загрузка игроков.
+//        try
+//        {
+//            generation1.LoadFromFile(filename);
+//        }
+//        catch (ParserConfigurationException e)
+//        {
+//            throw new RuntimeException(e);
+//        }
+//        catch (IOException e)
+//        {
+//            throw new RuntimeException(e);
+//        }
+//        catch (SAXException e)
+//        {
+//            throw new RuntimeException(e);
+//        }
+        System.out.println("Инициализация случайного поколения...");
+        generation1.InitRandom(20, model_Poker, PokerPlayer1);
+        // Инициализация селекции.
+        System.out.println("Начата селекция. В поколении " + 20 + " особей.");
+        Generation generation2 = new Generation();
+        Selection selection1 = new Selection();
+        // Непосредcтвенно селекция.
+        for (int i = 0; i < 100000; i++)
+        {
+            System.out.print(i + ": ");
+            generation1.SetGamesInSeries(10);
+            generation1.Play(Poker1);
+            generation1.ShowStatic();
+            generation2 = selection1.MakeSelection(generation1, Poker1);
+            generation1 = generation2;
+//            // Сохранение поколений.
+//            if (i % 100 == 0)
+//            {
+//            generation1.SaveToFile(filename);
+//            }
+//            else
+//            {
+//                // Процесс остановлен.
+//            }
+        }
     }
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException

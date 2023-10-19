@@ -3,7 +3,7 @@ package ru.gigabyte_artur.blackjack_ai.poker;
 import ru.gigabyte_artur.blackjack_ai.card_game.Card;
 import java.util.ArrayList;
 
-public class PokerCombination
+public class PokerCombination implements Comparable<PokerCombination>
 {
     private int CombinationType;         // Тип комбинации.
     private int HightestCard;            // Старшая карта.
@@ -274,5 +274,45 @@ public class PokerCombination
                 PrintCombinationByName("Hight card", this.getHightestCard());
                 break;
         }
+    }
+
+    // Сравнивает две комбинации.
+    @Override
+    public int compareTo(PokerCombination o)
+    {
+        // Инициализация.
+        int rez = 0;
+        // Сравниваем типы комбинаций.
+        if (this.getCombinationType() == o.getCombinationType())
+        {
+            // Типы комбинаций совпадают. Сравниваем старшую карту.
+            if (this.getHightestCard() == o.getHightestCard())
+            {
+                rez = 0;    // Совпадают тип комбинации и старшая карта.
+            }
+            else
+            {
+                if (this.getHightestCard() < o.getHightestCard())
+                {
+                    rez = -1;       // Совпадают тип комбинации, но меньше старшая карта.
+                }
+                else
+                {
+                    rez = 1;       // Совпадают тип комбинации, но больше старшая карта.
+                }
+            }
+        }
+        else
+        {
+            if (this.getCombinationType() < o.getCombinationType())
+            {
+                rez = -1;       // Меньше тип комбинации.
+            }
+            else
+            {
+                rez = 1;        // Больше тип комбинации.
+            }
+        }
+        return rez;
     }
 }

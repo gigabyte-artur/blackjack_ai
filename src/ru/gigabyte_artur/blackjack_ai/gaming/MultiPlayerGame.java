@@ -16,6 +16,8 @@ public abstract class MultiPlayerGame
     public abstract void Init();
     // Генерирует игрока текущей игры.
     public abstract Player NewPlayer();
+    // Возвращает стандартное количество игроков в одной игре.
+    public abstract int GetStandardNumberOfPlayers();
 
     // Очищает и устанавливает в массив игроков пустых игроков в количестве num_players_in.
     public void SetEmptyPlayers(int num_players_in)
@@ -98,6 +100,16 @@ public abstract class MultiPlayerGame
             PlayerIndex = 0;
         }
         rez = PlayersGame.get(PlayerIndex);
+        return rez;
+    }
+
+    // Играет текущую игру и возвращает победителя.
+    public Player PlayAndGetWinner()
+    {
+        Player rez = new Player();
+        int WinnerNumber = this.Play();
+        ArrayList<Player> Players = this.getPlayers();
+        rez = Players.get(WinnerNumber);
         return rez;
     }
 }

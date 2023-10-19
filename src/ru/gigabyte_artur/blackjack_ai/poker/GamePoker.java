@@ -281,13 +281,31 @@ public class GamePoker extends MultiPlayerGame
     {
         int rez = -1;
         Preflop();
-        Show();
         Flop();
-        Show();
         Turn();
-        Show();
         River();
-        Show();
+        rez = DefineWinnerNumber();
+        return rez;
+    }
+
+    // Возвращает номер победителя в текущей игре. Когда победитель не задан - возвращает -1.
+    private int DefineWinnerNumber()
+    {
+        int rez = -1;
+        ArrayList<PokerPlayer> PokerPlayers;
+        ArrayList<Player> Players = this.getPlayers();
+        Hand Table1 = this.getTable();
+        PokerCombination MaxCombination = new PokerCombination();
+        PokerCombination CurrCombination;
+        for (Player CurrPlayer : Players)
+        {
+            CurrCombination= ((PokerPlayer)CurrPlayer).CombinationWithTable(Table1);
+            if (CurrCombination.compareTo(MaxCombination) > 0)
+            {
+                MaxCombination = CurrCombination;
+                rez = Players.indexOf(CurrPlayer);
+            }
+        }
         return rez;
     }
 
@@ -415,6 +433,7 @@ public class GamePoker extends MultiPlayerGame
         ArrayList<Card> CardMixed = new ArrayList<Card>();
         Hand HandCurrPlayer;
         PokerCombination CombinationCurrPlayer = new PokerCombination();
+        PokerPlayer curr_Player;
         // Вывод карт на столе.
         System.out.println("=======");
         System.out.println("(" + this.getCurrentBid()+ ") " + "На столе: ");
@@ -436,15 +455,22 @@ public class GamePoker extends MultiPlayerGame
             System.out.println(PlayerText);
             if (curr_Players instanceof PokerPlayer)
             {
-                HandCurrPlayer = ((PokerPlayer)curr_Players).getHand();
+                curr_Player = (PokerPlayer)curr_Players;
+                HandCurrPlayer = curr_Player.getHand();
                 System.out.print("   ");
                 HandCurrPlayer.Show();
-                CardMixed = Hand.MixTwoHand(this.table, HandCurrPlayer);
-                CombinationCurrPlayer = new PokerCombination(CardMixed);
+                CombinationCurrPlayer = curr_Player.CombinationWithTable(this.getTable());
                 System.out.print("   ");
                 CombinationCurrPlayer.Show();
             }
             c = c + 1;
         }
+    }
+
+    @Override
+    public int GetStandardNumberOfPlayers()
+    {
+        int rez = 6;       // 6 игроков.
+        return rez;
     }
 }

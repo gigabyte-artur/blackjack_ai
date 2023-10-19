@@ -9,9 +9,7 @@ import java.util.ArrayList;
 
 public class PokerPlayer extends Player
 {
-
     private Hand hand;          // Текущая рука игрока.
-
     private int amount;         // Сумма на счёте.
 
     public static final int Decision_None = 0;
@@ -33,6 +31,14 @@ public class PokerPlayer extends Player
         neuronet1.RandomWeights();
     }
 
+    public PokerPlayer(Player player_in)
+    {
+        this.hand = new Hand();
+        this.amount = 0;
+        this.SetNeuroNetCopyFrom(player_in.GetNeuroNet());
+        this.hand.Empty();
+    }
+
     public void setAmount(int amount)
     {
         this.amount = amount;
@@ -47,6 +53,12 @@ public class PokerPlayer extends Player
     {
         Hand rez = this.hand;
         return rez;
+    }
+
+    @Override
+    public PokerPlayer copy()
+    {
+        return new PokerPlayer(this);
     }
 
     // Переносит руку в сигналы входных нейронов.
@@ -249,6 +261,16 @@ public class PokerPlayer extends Player
                 rez = "BigRaise";
                 break;
         }
+        return rez;
+    }
+
+    // Возвращает комбинацию текущего игрока вместе с картами на столе table_in.
+    public PokerCombination CombinationWithTable(Hand table_in)
+    {
+        PokerCombination rez;
+        Hand HandCurrPlayer = this.getHand();
+        ArrayList<Card> CardMixed = Hand.MixTwoHand(table_in, HandCurrPlayer);
+        rez = new PokerCombination(CardMixed);
         return rez;
     }
 }

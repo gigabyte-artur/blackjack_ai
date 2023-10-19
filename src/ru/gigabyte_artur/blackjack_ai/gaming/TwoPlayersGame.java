@@ -36,4 +36,11 @@ public abstract class TwoPlayersGame extends MultiPlayerGame
     {
         return this.getPlayerById(1);
     }
+
+    @Override
+    public int GetStandardNumberOfPlayers()
+    {
+        int rez = 2;        // Всегда два игрока.
+        return rez;
+    }
 }
